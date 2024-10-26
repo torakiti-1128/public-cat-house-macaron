@@ -9,9 +9,10 @@ import { Contact } from '@/components/Contact';
 import { Concept2 } from '@/components/Concept2';
 import { Access } from '@/components/Access';
 import { Footer } from '@/components/Footer';
-import { Instagram } from '@/components/Instagram';
+import { KittenList } from '@/components/KittensList';
+import { TabCat } from '@/components/TabCat';
 
-export default function Home() {
+export default function KittenListPage() {
   const [kittens, setKittens] = useState<KittenSelectMediaType[] | null>(null);
 
   useEffect(() => {
@@ -31,11 +32,8 @@ export default function Home() {
   return (
     <>
     <Header />
-    <Concept2 />
-    <TopPageSlideShow />
-    <Contact />
-    <Access />
-    <Instagram />
+    <TabCat />
+    <KittenList kittens={[]} />
     <Footer />
     </>
   );
