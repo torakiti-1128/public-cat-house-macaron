@@ -1,11 +1,10 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { fetchAllRecruitingKittensWithMedia } from "@/api/kitten/select";
+// import React, { useEffect, useState } from 'react';
+// import { fetchAllRecruitingKittensWithMedia } from "@/api/kitten/select";
 import { KittenSelectMediaType } from '@/types/kitten';
 import { Header } from '@/components/Heder';
 import { Footer } from '@/components/Footer';
 import { KittenList } from '@/components/KittensList';
-import { TabCat } from '@/components/TabCat';
 
 const testKittens: KittenSelectMediaType[] = [
   { kittenId: 1, species: "スコティッシュフィールド", url: "/images/cats/cat1.jpg" },
@@ -20,21 +19,21 @@ const testKittens: KittenSelectMediaType[] = [
 ];
 
 export default function KittenListPage() {
-  const [kittens, setKittens] = useState<KittenSelectMediaType[]>([]);
+  // const [kittens, setKittens] = useState<KittenSelectMediaType[]>([]);
 
-  useEffect(() => {
-    const fetchKittens = async () => {
-      try {
-        const data = await fetchAllRecruitingKittensWithMedia();
-        setKittens(data);
-      } 
-      catch (err) {
-        console.log(err);
-      } 
-    };
+  // useEffect(() => {
+  //   const fetchKittens = async () => {
+  //     try {
+  //       const data = await fetchAllRecruitingKittensWithMedia();
+  //       setKittens(data);
+  //     } 
+  //     catch (err) {
+  //       console.log(err);
+  //     } 
+  //   };
 
-    fetchKittens();
-  }, []);
+  //   fetchKittens();
+  // }, []);
 
   return (
     <>
