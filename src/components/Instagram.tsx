@@ -18,7 +18,6 @@ export const Instagram = () => {
                             className="absolute inset-0 h-full w-full"
                             allow="autoplay; encrypted-media"
                             allowFullScreen
-                            frameBorder="0"
                         ></iframe>
                     </div>
 
@@ -32,7 +31,6 @@ export const Instagram = () => {
                             className="absolute inset-0 h-full w-full"
                             allow="autoplay; encrypted-media"
                             allowFullScreen
-                            frameBorder="0"
                         ></iframe>
                     </div>
 
@@ -46,7 +44,6 @@ export const Instagram = () => {
                             className="absolute inset-0 h-full w-full"
                             allow="autoplay; encrypted-media"
                             allowFullScreen
-                            frameBorder="0"
                         ></iframe>
                     </div>
 
@@ -60,7 +57,6 @@ export const Instagram = () => {
                             className="absolute inset-0 h-full w-full"
                             allow="autoplay; encrypted-media"
                             allowFullScreen
-                            frameBorder="0"
                         ></iframe>
                     </div>
                 </div>

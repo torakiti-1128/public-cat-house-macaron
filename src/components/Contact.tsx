@@ -1,154 +1,67 @@
-import React, { useState } from 'react';
-import "../styles/styles.css";
+import React from 'react';
 
 export const Contact = () => {
+    const cards = [
+        {
+            image: '/images/cats/cat13.JPG',
+            title: '5つのお約束',
+            subtitle: 'REQUIRED',
+            description: '子猫をお迎えいただく方にいくつかの大切なお約束をお願いしております。お約束を守れる方のみ、子猫を譲渡させていただきます。',
+            link: '/promise',
+        },
+        {
+            image: '/images/cats/cat14.JPG',
+            title: 'お取引方法',
+            subtitle: 'REQUIRED',
+            description: '子猫の幸せを第一に考えていますので、購入の意思がない方の見学はお断りしております。見学予約は公式LINEやお問い合わせフォームから可能です。ご確認後にご検討ください。',
+            link: '/reservation',
+        },
+        {
+            image: '/images/cats/cat12.JPG',
+            title: '生体保証について',
+            subtitle: 'REQUIRED',
+            description: '生体保証に関する詳細情報を確認いただけます。子猫のお迎えを検討されている方には、ぜひご確認いただきたい重要な内容です。',
+            link: '/guarantee',
+        },
+        {
+            image: '/images/house/cat-house4.JPG',
+            title: '猫舎紹介',
+            subtitle: 'ANY',
+            description: '子猫の幸せを第一に考えていますので、購入の意思がない方の見学はお断りしております。見学予約は公式LINEやお問い合わせフォームから可能です。ご確認後にご検討ください。',
+            link: '/house',
+        },
+    ];
+
     return (
-        <section style={{ 
-            fontFamily: 'Paratino, serif',
-            backgroundImage: `url('/images/top-bg.pn')`,  
-            backgroundSize: 'cover',                          
-            backgroundPosition: 'center',                     
-            backgroundRepeat: 'no-repeat',
-            }}>
-            <div className="px-8 py-30 mx-auto md:px-12 lg:px-24 max-w-8xl relative">
-                <dl
-                className="grid text-center mt-12 sm:grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16"
-                >
-                <div className="flex h-full flex-col text-sm justify-between bg-color-3 rounded-lg p-4 paper-texture">
-                    <div>
-                    <dt className="flex flex-col gap-2 tracking-tighter text-xs">
-                        <h3 className="tracking-tight text-xl font-medium text-base-900">
-                        5つのお約束
-                        </h3>
-                    </dt>
-                    <dd className="mt-2">
-                        <p className="text-base font-medium text-base-500">
-                        子猫をお迎えいただく方にいくつかの大切なお約束をお願いしております。お約束を守れる方のみ、子猫を譲渡させていただきます。
-                        </p>
-                    </dd>
-                    </div>
-                    <a
-                    className="text-sm font-medium text-accent-500 duration-300 hover:text-base-900 flex items-center gap-2 mx-auto mt-4"
-                    href="#_"
-                    >
-                    確認する
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right size-4"
-                    >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M9 6l6 6l-6 6"></path>
-                    </svg>
-                    </a>
+        <section className="text-gray-600 body-font">
+            <div className="container px-5 py-20 mx-auto">
+                <h1 className="text-xl text-center subpage-title mb-12">猫舎の重要な情報</h1>
+                <div className="flex flex-wrap -m-4">
+                    {cards.map((card, index) => (
+                        <div key={index} className="p-4 md:w-1/3">
+                            <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                                <img className="h-60 w-full object-cover object-center" src={card.image} alt="blog" />
+                                <div className="p-6">
+                                    <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">{card.subtitle}</h2>
+                                    <h1 className="title-font text-lg font-medium text-[#705C53] mb-3">{card.title}</h1>
+                                    <p className="leading-relaxed mb-3">{card.description}</p>
+                                    <div className="flex items-center flex-wrap">
+                                        <a href={card.link} className="text-[#705C53] bg-[#FDF7F2] px-3 py-1 rounded-full shadow-lg hover:bg-[#f4e9e3] inline-flex items-center transition duration-300 ease-in-out">
+                                            確認する
+                                            <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M5 12h14"></path>
+                                                <path d="M12 5l7 7-7 7"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div className="flex h-full flex-col text-sm justify-between bg-color-3 rounded-lg p-4 paper-texture">
-                    <div>
-                    <dt className="flex flex-col gap-2 tracking-tighter text-xs">
-                        <h3 className="tracking-tight text-xl font-medium text-base-900">
-                        お取引方法
-                        </h3>
-                    </dt>
-                    <dd className="mt-2">
-                        <p className="text-base font-medium text-base-500">
-                        子猫の幸せを第一に考えていますので、購入の意思がない方の見学はお断りしております。見学予約は公式LINEやお問い合わせフォームから可能です。ご確認後にご検討ください。
-                        </p>
-                    </dd>
-                    </div>
-                    <a
-                    className="text-sm font-medium text-accent-500 duration-300 hover:text-base-900 flex items-center gap-2 mx-auto mt-4"
-                    href="#_"
-                    >
-                    確認する
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right size-4"
-                    >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M9 6l6 6l-6 6"></path>
-                    </svg>
-                    </a>
-                </div>
-                <div className="flex h-full flex-col text-sm justify-between bg-color-3 rounded-lg p-4 paper-texture">
-                    <div>
-                    <dt className="flex flex-col gap-2 tracking-tighter text-xs">
-                        <h3 className="tracking-tight text-xl font-medium text-base-900">
-                        生体保証について
-                        </h3>
-                    </dt>
-                    <dd className="mt-2">
-                        <p className="text-base font-medium text-base-500">
-                        生体保証に関する詳細情報を確認いただけます。
-                        子猫のお迎えを検討されている方には、ぜひご確認いただきたい重要な内容です。
-                        </p>
-                    </dd>
-                    </div>
-                    <a
-                    className="text-sm font-medium text-accent-500 duration-300 hover:text-base-900 flex items-center gap-2 mx-auto mt-4"
-                    href="#_"
-                    >
-                    確認する
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right size-4"
-                    >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M9 6l6 6l-6 6"></path>
-                    </svg>
-                    </a>
-                </div>
-                <div className="flex h-full flex-col text-sm justify-between bg-color-3 rounded-lg p-4 paper-texture">
-                    <div>
-                    <dt className="flex flex-col gap-2 tracking-tighter text-xs">
-                        <h3 className="tracking-tight text-xl font-medium text-base-900">
-                        猫舎紹介
-                        </h3>
-                    </dt>
-                    <dd className="mt-2">
-                        <p className="text-base font-medium text-base-500">
-                        子猫の幸せを第一に考えていますので、購入の意思がない方の見学はお断りしております。見学予約は公式LINEやお問い合わせフォームから可能です。ご確認後にご検討ください。
-                        </p>
-                    </dd>
-                    </div>
-                    <a
-                    className="text-sm font-medium text-accent-500 duration-300 hover:text-base-900 flex items-center gap-2 mx-auto mt-4"
-                    href="#_"
-                    >
-                    確認する
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right size-4"
-                    >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M9 6l6 6l-6 6"></path>
-                    </svg>
-                    </a>
-                </div>
-                </dl>
             </div>
         </section>
     );
 };
+
+export default Contact;

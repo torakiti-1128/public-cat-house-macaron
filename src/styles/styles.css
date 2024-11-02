@@ -136,28 +136,22 @@
     padding: 20px;
 }
 
-.paper-texture {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
-                      linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-    background-blend-mode: overlay; /* テクスチャを重ねる */
-    background-size: 10px 10px; /* テクスチャのサイズを指定 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影 */
-    border-radius: 10px; /* 角を丸める */
-    padding: 20px; /* 内側の余白 */
-}
-
-.bg-color-1 {
-    background-color: #EDDFE0; /* 色1 */
-}
-
-.bg-color-2 {
-    background-color: #B7B7B7; /* 色2 */
-}
-
-.bg-color-3 {
-    background-color: #F5F5F7; /* 色3 */
-}
-
-.bg-color-4 {
-    background-color: #D6C0B3; /* 色4 */
-}
+.subpage-title {
+    position: relative;
+    background: #EDDFE0;
+    box-shadow: 0px 0px 0px 5px #EDDFE0;
+    border: dashed 2px white;
+    padding: 0.2em 0.5em;
+    color: #454545;
+  }
+  
+  .subpage-title:after {
+    position: absolute;
+    content: '';
+    left: -7px;
+    top: -7px;
+    border-width: 0 0 15px 15px;
+    border-style: solid;
+    border-color: #fff #fff #EDDFE0;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  }

@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { fetchAllRecruitingKittensWithMedia } from "@/api/kitten/select";
 import { KittenSelectMediaType } from '@/types/kitten';
 import { Header } from '@/components/Heder';
-import { Concept } from '@/components/Concept';
 import TopPageSlideShow from '@/components/TopPageSlideShow';
 import { Contact } from '@/components/Contact';
-import { Concept2 } from '@/components/Concept2';
 import { Access } from '@/components/Access';
 import { Footer } from '@/components/Footer';
 import { Instagram } from '@/components/Instagram';
+import { Concept } from '@/components/Concept';
 
 export default function Home() {
   const [kittens, setKittens] = useState<KittenSelectMediaType[] | null>(null);
@@ -31,11 +30,10 @@ export default function Home() {
   return (
     <>
     <Header />
-    <Concept2 />
+    <Concept />
     <TopPageSlideShow />
     <Contact />
     <Access />
-    <Instagram />
     <Footer />
     </>
   );
