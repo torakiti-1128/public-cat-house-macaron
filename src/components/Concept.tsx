@@ -1,36 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-
 export const Concept = () => {
-    const [bgImage, setBgImage] = useState('/images/concept/concept-bg-decktop.jpg');
-
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         const width = window.innerWidth;
-    //         if (width >= 1024) {
-    //             setBgImage('/images/concept/concept-bg-desktop.jpg');
-    //         } else if (width >= 768) {
-    //             setBgImage('/images/concept/concept-bg-tablet.jpg');
-    //         } else {
-    //             setBgImage('/images/concept/concept-bg-mobile.jpg');
-    //         }
-    //     };
-
-    //     window.addEventListener('resize', handleResize);
-    //     handleResize();
-
-    //     return () => window.removeEventListener('resize', handleResize);
-    // }, []);
-
     return (
         <section className="text-gray-600 body-font mt-10">
-            <div
-                className="w-full bg-cover bg-center"
-                style={{
-                    backgroundImage: `url(${bgImage})`,
-                }}
-            >
+            <div className="w-full bg-cover bg-center">
                 <div className="container px-5 py- mx-auto flex flex-col">
                     <div className="mx-auto">
                         <div className="rounded-lg h-100 overflow-hidden">
