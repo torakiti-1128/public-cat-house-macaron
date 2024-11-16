@@ -1,0 +1,19 @@
+{
+    "desktopLinks": [
+      { "label": "ホーム", "href": "/" },
+      { "label": "子猫紹介", "href": "/kittens" },
+      { "label": "Cat House Macaronについて", "href": "/about" },
+      { "label": "お取引方法と5つのお約束", "href": "/reservation" },
+      { "label": "お問い合わせ", "href": "/inquiry" }
+    ],
+    "mobileLinks": [
+      { "label": "ホーム", "href": "/" },
+      { "label": "子猫紹介", "href": "/kittens" },
+      { "label": "Cat House Macaronについて", "href": "/about" },
+      { "label": "生体保証", "href": "/guarantee" },
+      { "label": "お取引方法と5つのお約束", "href": "/reservation" },
+      { "label": "お問い合わせ", "href": "/inquiry" },
+      { "label": "子猫を迎える準備品の一覧", "href": "/preparation" },
+      { "label": "親猫一覧", "href": "/parent" }
+    ]
+}

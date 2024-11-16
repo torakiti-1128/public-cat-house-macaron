@@ -1,0 +1,27 @@
+[
+    {
+        "image": "/images/house/cat-house4.jpg",
+        "title": "ベビールーム1",
+        "description": "太陽が差し込むアウトドアにも優しいデザインで、子猫たちが自然光を楽しめる空間です。"
+    },
+    {
+        "image": "/images/house/cat-house5.jpg",
+        "title": "ベビールーム2",
+        "description": "暖かく広々としたインテリアが特徴で、子猫たちが安心して過ごせるお部屋です。"
+    },
+    {
+        "image": "/images/house/cat-house1.jpg",
+        "title": "男の子部屋",
+        "description": "男の子用に設計された、全ての猫が快適に過ごせる居心地の良いスペースです。"
+    },
+    {
+        "image": "/images/house/cat-house2.jpg",
+        "title": "女の子部屋",
+        "description": "多頭飼いにも最適な広さで、女の子たちがリラックスして遊べる空間です。"
+    },
+    {
+        "image": "/images/house/cat-house3.jpg",
+        "title": "お産室",
+        "description": "安心して出産できるようカーテンで囲われたプライバシーを保てるお部屋です。"
+    }
+]

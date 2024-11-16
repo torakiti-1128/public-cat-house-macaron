@@ -1,0 +1,21 @@
+{
+    "title": "Cat House Macaronについて",
+    "logo": "/images/concept/Logo.JPG",
+    "image": "/images/concept/concept.JPG",
+    "about": {
+      "title": "Cat House Macaronについて",
+      "description": "一般家庭でブリードしています。取り扱い猫種はマンチカン、ミヌエット、スコティッシュフォールド、ゴールデンブリティッシュです。"
+    },
+    "macaronMeaning": {
+      "title": "マカロンの意味",
+      "content": "［特別な存在］\n仔猫はあなたにとって特別な存在になります\n仔猫にとっても飼い主さんは特別な存在です"
+    },
+    "concept": {
+      "title": "Concept",
+      "content": "Cat House Macaronは、命の大切さを常に意識し、顔立ちの良さと性格の良さにこだわり、愛情を込めて大切に育ててます。\n\n『この子に出逢えて良かった』\n\nお迎えしてくださった方々にそう思って頂けるのが望みです。\n仔猫に生涯の幸せを。。\nそしてご家族にたくさんの喜びを。。"
+    },
+    "aboutButton": {
+      "text": "詳しく見る",
+      "link": "/about"
+    }
+}

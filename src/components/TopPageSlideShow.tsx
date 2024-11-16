@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../styles/styles.css"; 
+import Button from "./common/Button";
 
 const kittens = [
     {
@@ -48,9 +49,9 @@ const slideSettings = {
     },
 };
 
-export default function TopPageSlideShow() {
+export const TopPageSlideShow: React.FC = () => {
     return (
-        <div className="px-10 pt-5 bg-[#FDF7F2] mt-10">
+        <div className="container px-5 mx-auto mt-10">
             <div className="relative mt-10 mb-8 w-full flex justify-center items-center">
                 <h1 className="text-xl text-black subpage-title text-center w-full" style={{ fontFamily: 'Paratino, serif' }}>
                     ご家族募集中の子猫
@@ -105,16 +106,11 @@ export default function TopPageSlideShow() {
             </Swiper>
 
             <div className="text-center mt-10 flex justify-center items-center">
-                <button 
-                    type="button" 
-                    onClick={() => window.location.href = process.env.NEXT_PUBLIC_BASE_URL + '/kittens'}
-                    className="mb-5 text-[#FFFFFF] bg-[#705C53] hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-gray-400 dark:focus:ring-gray-300"
-                >
-                    全ての子猫を見る
-                    <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                    </svg>
-                </button>
+                <Button
+                    text={"すべての子猫を見る"}
+                    link={"/kittens"}
+                    icon={true}
+                />
             </div>
         </div>
     );

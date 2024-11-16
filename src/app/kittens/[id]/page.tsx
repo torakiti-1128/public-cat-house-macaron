@@ -1,49 +1,37 @@
-// 'use client';
-// import { fetchKittenDetail, fetchKittenMediaUrls } from "@/api/kitten/detail";
-// import { KittenDetailType, KittenMediaType } from "@/types/kitten";
-// import React, { useEffect, useState } from "react";
+'use client';
+import React  from "react";
+import { KittenDetail } from "@/components/pages/KittenDetail";
+import { KittenDetailType } from "@/types/kitten";
+import { Header } from "@/components/Layout/Heder";
+import { Footer } from "@/components/Layout/Footer";
+import { Access } from "@/components/Layout/Access";
+import { CheckPoints } from "@/components/Layout/CheckPoints";
 
-// interface Params {
-//     id: string; // ここでparamsの型を定義
-//   }
 
-// export default function KittenDetailPage({ params }: { params: Params }){
-//     const [kittens, setKittens] = useState<KittenDetailType | null>(null);
-//     const [kittensMedia, setKittensMedia] = useState<KittenMediaType[] | null>(null);
-//     const kittenId = parseInt(params.id, 10);
+// テストデータ (1件のみ)
+const testKittenDetail: KittenDetailType = {
+    kittenId: "001",
+    fatherCatId: 1,
+    motherCatId: 2,
+    description: `遊ぶの大好き！なでるとゴロゴロ喜ぶ甘えん坊さん♡綺麗なハチワレにベビーフェイス♡\n
+    ※Open記念!! 3種ワクチン2回分 マイクロチップ 血統書込みの価格になります!`,
+    breed: "スコティッシュフォールド",
+    color: "ブルータビー&ホワイト",
+    birthDate: "2024年05月11日",
+    price: 150000,
+};
 
-//     useEffect(() => {
-//         const fetchKittens = async () => {
-//             try {
-//                 const data: KittenDetailType | null = await fetchKittenDetail(kittenId);
-//                 setKittens(data);
-//             } 
-//             catch (err) {
-//                 console.log(err);
-//             } 
-//         };
-
-//         fetchKittens();
-//     }, [kittenId]);
-
-//     useEffect(() => {
-//         const fetchKittensMedia = async () => {
-//             try {
-//                 const data: KittenMediaType[] | null = await fetchKittenMediaUrls(kittenId);
-//                 setKittensMedia(data);
-//             } 
-//             catch (err) {
-//                 console.log(err);
-//             } 
-//         };
-
-//         fetchKittensMedia();
-//     }, [kittenId]);
-
-//     return(
-//         <></>
-//     )
-// }
+// テストデータ (1件のみ)
+const testKittenImages = ["/images/cats/cat1.jpg", "/images/cats/cat2.jpg", "/images/cats/cat3.jpg", "/images/cats/cat4.jpg"] 
 
 export default function KittenDetailPage(){
+    return(
+        <>
+        <Header />
+        <KittenDetail kittenDetail={testKittenDetail} imageUrls={testKittenImages}/>
+        <CheckPoints />
+        <Access />
+        <Footer />
+        </>
+    )
 }

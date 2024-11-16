@@ -1,4 +1,6 @@
-export const Footer = () => {
+import React from 'react';
+
+export const Footer: React.FC = () => {
     return(
         <footer className="text-gray-600 body-font">
             <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
