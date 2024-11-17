@@ -33,8 +33,30 @@ export interface KittenDetailVideoType {
 }
 
 //親猫
-export interface ParentCatDetailType {
+export interface ParentCatKittenDetailType {
     "parentCatId": number, //親猫番号
+    "name": string, //名前
+    "sex": string, //性別
+    "breed": string, //猫種
+    "description": string, //説明
+    "url": string, //画像URL
+}
+
+//親猫
+export interface ParentCatListType {
+    "parentCatId": number, //親猫番号
+    "name": string, //名前
+    "sex": string, //性別
+    "birthDate": number, //生年月日
+    "breed": string, //猫種
+    "color": string, //カラー
+    "description": string, //説明
+    "url": string, //画像URL
+}
+
+//里親募集中
+export interface AdoptionListType {
+    "adoptionCatId": number, //猫番号
     "name": string, //名前
     "sex": string, //性別
     "birthDate": number, //生年月日

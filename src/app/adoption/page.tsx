@@ -1,16 +1,13 @@
 'use client';
 import React from 'react';
-
 import { Header } from '@/components/Layout/Heder';
 import { Footer } from '@/components/Layout/Footer';
-import { ParentCatListType } from '@/types/kitten';
-import ParentCatList from '@/components/ParentCatList';
-import { CheckPoints } from '@/components/Layout/CheckPoints';
-import { Access } from '@/components/Layout/Access';
+import AdoptionList from '@/components/AdoptionList';
+import { AdoptionListType } from '@/types/kitten';
 
-const testParentCats: ParentCatListType[] = [
+const testAdoptionList: AdoptionListType[] = [
   {
-      parentCatId: 1,
+      adoptionCatId: 1,
       name: "キング",
       sex: "オス",
       birthDate: 20190515,
@@ -20,7 +17,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat1.jpg",
   },
   {
-      parentCatId: 2,
+      adoptionCatId: 2,
       name: "クイーン",
       sex: "メス",
       birthDate: 20200610,
@@ -30,7 +27,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat2.jpg",
   },
   {
-      parentCatId: 3,
+      adoptionCatId: 3,
       name: "シャルル",
       sex: "オス",
       birthDate: 20180401,
@@ -40,7 +37,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat3.jpg",
   },
   {
-      parentCatId: 4,
+      adoptionCatId: 4,
       name: "レディ",
       sex: "メス",
       birthDate: 20191120,
@@ -50,7 +47,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat4.jpg",
   },
   {
-      parentCatId: 5,
+      adoptionCatId: 5,
       name: "バロン",
       sex: "オス",
       birthDate: 20170312,
@@ -60,7 +57,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat5.jpg",
   },
   {
-      parentCatId: 6,
+      adoptionCatId: 6,
       name: "ベル",
       sex: "メス",
       birthDate: 20201030,
@@ -70,7 +67,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat6.jpg",
   },
   {
-      parentCatId: 7,
+      adoptionCatId: 7,
       name: "レオ",
       sex: "オス",
       birthDate: 20180115,
@@ -80,7 +77,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat7.jpg",
   },
   {
-      parentCatId: 8,
+      adoptionCatId: 8,
       name: "ミミ",
       sex: "メス",
       birthDate: 20191130,
@@ -90,7 +87,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat8.jpg",
   },
   {
-      parentCatId: 9,
+      adoptionCatId: 9,
       name: "タイガー",
       sex: "オス",
       birthDate: 20170125,
@@ -100,7 +97,7 @@ const testParentCats: ParentCatListType[] = [
       url: "/images/Cats/cat9.jpg",
   },
   {
-      parentCatId: 10,
+      adoptionCatId: 10,
       name: "サクラ",
       sex: "メス",
       birthDate: 20210510,
@@ -111,13 +108,11 @@ const testParentCats: ParentCatListType[] = [
   },
 ];
 
-export default function KittenListPage() {
+export default function AdoptionPages() {
   return (
     <>
     <Header />
-    <ParentCatList parentCats={testParentCats} />
-    <CheckPoints />
-    <Access />
+    <AdoptionList adoptionList={testAdoptionList}/>
     <Footer />
     </>
   );

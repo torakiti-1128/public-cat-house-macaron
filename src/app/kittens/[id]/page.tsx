@@ -1,37 +1,64 @@
 'use client';
-import React  from "react";
+import React from "react";
 import { KittenDetail } from "@/components/pages/KittenDetail";
-import { KittenDetailType } from "@/types/kitten";
+import { KittenDetailType, ParentCatKittenDetailType } from "@/types/kitten";
 import { Header } from "@/components/Layout/Heder";
 import { Footer } from "@/components/Layout/Footer";
 import { Access } from "@/components/Layout/Access";
 import { CheckPoints } from "@/components/Layout/CheckPoints";
 
-
-// テストデータ (1件のみ)
 const testKittenDetail: KittenDetailType = {
     kittenId: "001",
     fatherCatId: 1,
     motherCatId: 2,
-    description: `遊ぶの大好き！なでるとゴロゴロ喜ぶ甘えん坊さん♡綺麗なハチワレにベビーフェイス♡\n
-    ※Open記念!! 3種ワクチン2回分 マイクロチップ 血統書込みの価格になります!`,
+    description: "甘えん坊で遊ぶのが大好き！",
     breed: "スコティッシュフォールド",
     color: "ブルータビー&ホワイト",
     birthDate: "2024年05月11日",
     price: 150000,
 };
 
-// テストデータ (1件のみ)
-const testKittenImages = ["/images/cats/cat1.jpg", "/images/cats/cat2.jpg", "/images/cats/cat3.jpg", "/images/cats/cat4.jpg"] 
+const testKittenImages = [
+    "/images/cats/cat1.jpg",
+    "/images/cats/cat2.jpg",
+    "/images/cats/cat3.jpg",
+    "/images/cats/cat4.jpg"
+];
 
-export default function KittenDetailPage(){
-    return(
+const testParentCats: ParentCatKittenDetailType[] = [
+    {
+        parentCatId: 1,
+        name: "タイガー",
+        sex: "male",
+        breed: "スコティッシュフォールド",
+        description: "野性味あふれる見た目で、活発な性格が特徴の父猫です。",
+        url: "/images/cats/cat9.jpg",
+    },
+    {
+        parentCatId: 2,
+        name: "サクラ",
+        sex: "female",
+        breed: "メインクーン",
+        description: "元気いっぱいで遊び好きな、華やかな柄の母猫です。",
+        url: "/images/cats/cat8.jpg",
+    }
+];
+
+const videoUrl = "/images/cat-test.mov";
+
+export default function KittenDetailPage() {
+    return (
         <>
-        <Header />
-        <KittenDetail kittenDetail={testKittenDetail} imageUrls={testKittenImages}/>
-        <CheckPoints />
-        <Access />
-        <Footer />
+            <Header />
+            <KittenDetail
+                kittenDetail={testKittenDetail}
+                imageUrls={testKittenImages}
+                parentCats={testParentCats}
+                videoUrl={videoUrl}
+            />
+            <CheckPoints />
+            <Access />
+            <Footer />
         </>
-    )
+    );
 }

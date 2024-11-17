@@ -49,6 +49,7 @@ const slideSettings = {
     },
 };
 
+//ToDo_20241117: dataとロジックを分ける
 export const TopPageSlideShow: React.FC = () => {
     return (
         <div className="container px-5 mx-auto mt-10">

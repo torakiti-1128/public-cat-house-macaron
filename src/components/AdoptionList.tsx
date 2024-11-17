@@ -1,20 +1,20 @@
 import React from "react";
-import { ParentCatListType } from "@/types/kitten";
+import { AdoptionListType } from "@/types/kitten";
 import Title from "./common/Title";
 
-interface ParentCatListProps {
-  parentCats: ParentCatListType[];
+interface AdoptionListProps {
+  adoptionList: AdoptionListType[];
 }
 
-const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
+const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
   return (
     <section className="text-gray-600 body-font bg-[#FDF7F2]">
       <div className="container px-10 py-8 mx-auto">
-        <Title text="親猫の紹介" />
-        {/* 親猫カード */}
+        <Title text="里親募集中の猫紹介" />
+        {/* 里親募集中カード */}
         <div className="flex flex-wrap -m-4">
-          {parentCats.map((cat) => (
-            <div key={cat.parentCatId} className="xl:w-1/4 md:w-1/2 p-4">
+          {adoptionList.map((cat) => (
+            <div key={cat.adoptionCatId} className="xl:w-1/4 md:w-1/2 p-4">
               <div className="bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <img
                   className="h-40 rounded w-full object-cover object-center mb-6"
@@ -53,4 +53,4 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
   );
 };
 
-export default ParentCatList;
+export default AdoptionList;

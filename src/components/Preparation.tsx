@@ -2,6 +2,7 @@ import React from "react";
 import preparationData from "../data/preparation.json";
 import Title from "./common/Title";
 
+{/* 親猫一覧*/}
 export const Preparation: React.FC = () => {
   return (
     <section className="bg-[#FDF7F2] text-[#111111] p-8">

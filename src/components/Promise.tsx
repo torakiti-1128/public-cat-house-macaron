@@ -2,6 +2,7 @@ import React from "react";
 import promiseData from "../data/promise.json";
 import Title from "./common/Title";
 
+//ステップで約束を表示するコンポーネント
 const PromiseStep: React.FC<{ number: string; title: string; content: string; isLast?: boolean }> = ({ number, title, content, isLast }) => (
     <div className={`flex relative ${!isLast ? "pb-12" : ""}`}>
         <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
@@ -17,23 +18,24 @@ const PromiseStep: React.FC<{ number: string; title: string; content: string; is
     </div>
 );
 
+//5つのお約束コンポーネント
 export const Promise: React.FC = () => {
     return (
         <section className="text-gray-600 body-font bg-[#FDF7F2]">
             <div className="container px-10 py-12 mx-auto flex flex-wrap">
                 <div className="flex flex-wrap w-full">
                     <div className="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
-                        <Title text="5つのお約束" />
+                        <Title text={promiseData.title} />
                         <p>
-                            大切な命です。以下のお約束をお守り頂ける方のみ譲渡いたします。
+                            {promiseData.content}
                         </p>
-                        {promiseData.map((promise, index) => (
+                        {promiseData.step.map((promise, index) => (
                             <PromiseStep
                                 key={promise.number}
                                 number={promise.number}
                                 title={promise.title}
                                 content={promise.content}
-                                isLast={index === promiseData.length - 1}
+                                isLast={index === promiseData.step.length - 1}
                             />
                         ))}
                     </div>
