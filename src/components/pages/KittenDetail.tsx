@@ -5,9 +5,9 @@ import "@/styles/styles.css";
 import Title from "../common/Title";
 
 interface KittenDetailProps {
-  kittenDetail: KittenDetailType;
-  imageUrls: string[]; // 子猫画像URLの配列
-  parentCats: ParentCatKittenDetailType[]; // 親猫情報
+  kittenDetail: KittenDetailType; // 子猫の詳細情報
+  imageUrls: string[]; // 子猫画像URL：基本的には4枚
+  parentCats: ParentCatKittenDetailType[]; // 親猫の情報
   videoUrl: string; // 動画URL
 }
 

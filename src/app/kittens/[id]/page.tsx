@@ -19,10 +19,10 @@ const testKittenDetail: KittenDetailType = {
 };
 
 const testKittenImages = [
-    "/images/cats/cat1.jpg",
-    "/images/cats/cat2.jpg",
-    "/images/cats/cat3.jpg",
-    "/images/cats/cat4.jpg"
+    "/images/cats/cat1.JPG",
+    "/images/cats/cat2.JPG",
+    "/images/cats/cat3.JPG",
+    "/images/cats/cat4.JPG"
 ];
 
 const testParentCats: ParentCatKittenDetailType[] = [
@@ -32,7 +32,7 @@ const testParentCats: ParentCatKittenDetailType[] = [
         sex: "male",
         breed: "スコティッシュフォールド",
         description: "野性味あふれる見た目で、活発な性格が特徴の父猫です。",
-        url: "/images/cats/cat9.jpg",
+        url: "/images/cats/cat9.JPG",
     },
     {
         parentCatId: 2,
@@ -40,7 +40,7 @@ const testParentCats: ParentCatKittenDetailType[] = [
         sex: "female",
         breed: "メインクーン",
         description: "元気いっぱいで遊び好きな、華やかな柄の母猫です。",
-        url: "/images/cats/cat8.jpg",
+        url: "/images/cats/cat8.JPG",
     }
 ];
 
