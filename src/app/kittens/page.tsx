@@ -6,6 +6,7 @@ import { Footer } from '@/components/Layout/Footer';
 import KittenList from '@/components/KittensList';
 
 import { KittenListType } from '@/types/kitten';
+// import CatTabNavigation from '@/components/CatTabNavigation';
 
 const testKittens: KittenListType[] = [
   { kittenId: 1, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat1.jpg" },
@@ -23,6 +24,7 @@ export default function KittenListPage() {
   return (
     <>
     <Header />
+    {/* <CatTabNavigation /> */}
     <KittenList kittens={testKittens} />
     <Footer />
     </>

@@ -45,7 +45,7 @@ const slideSettings = {
     },
     1024: {
         slidesPerView: 3,
-        spaceBetween: 20,
+        spaceBetween: 40,
     },
 };
 
@@ -80,27 +80,38 @@ export const TopPageSlideShow: React.FC = () => {
             >
                 {kittens.map((kitten, index) => (
                     <SwiperSlide key={index}>
-                        <div className="bg-[#FFFFFF] rounded-2xl shadow" style={{ height: '500px' }}>
+                    <div
+                        className="bg-gray-100 rounded-2xl shadow overflow-hidden" 
+                        style={{ height: "300px" }}
+                    >
+                        <a href="kittens/1">
+                            <img
+                                className="w-full"
+                                src={kitten.image}
+                                alt={kitten.title}
+                                style={{
+                                    height: "180px",
+                                    objectFit: "cover",
+                                    borderTopLeftRadius: "16px",
+                                    borderTopRightRadius: "16px",
+                                }}
+                            />
+                        </a>
+                        <div className="p-5">
                             <a href="#">
-                                <img 
-                                    className="rounded-t-2xl w-full" 
-                                    src={kitten.image} 
-                                    alt={kitten.title} 
-                                    style={{ height: '300px', objectFit: 'cover' }} 
-                                />
+                                <h5
+                                    className="text-[#705C53] mb-2 text-2xl"
+                                    style={{ fontFamily: "Paratino, serif" }}
+                                >
+                                    {kitten.title}
+                                </h5>
                             </a>
-                            <div className="p-5">
-                                <a href="#">
-                                    <h5 className="text-[#705C53] mb-2 text-2xl" style={{ fontFamily: 'Paratino, serif' }}>
-                                        {kitten.title}
-                                    </h5>
-                                </a>
-                                <p className="mb-3" style={{ fontFamily: 'Paratino, serif' }}>
-                                    {kitten.description}
-                                </p>
-                            </div>
+                            <p className="mb-3" style={{ fontFamily: "Paratino, serif" }}>
+                                {kitten.description}
+                            </p>
                         </div>
-                    </SwiperSlide>
+                    </div>
+                </SwiperSlide>
                 ))}
                 <div className="custom-prev">←</div>
                 <div className="custom-next">→</div>

@@ -7,16 +7,6 @@ export const Guarantee: React.FC = () => {
     <section className="bg-[#FDF7F2] text-[#111111] p-8">
       <div className="container mx-auto">
         <Title text={guaranteeData.title} />
-        <div className="lg:w-2/3 mx-auto">
-          <div className="flex flex-wrap w-full bg-[#EDDFE0] py-32 px-10 relative mb-8 rounded-2xl shadow-lg overflow-hidden">
-            <img
-              alt="gallery"
-              className="w-full object-cover h-full object-center block absolute inset-0 opacity-70"
-              src={guaranteeData.image}
-            />
-          </div>
-        </div>
-
         {guaranteeData.sections.map((section, index) => (
           <div
             key={index}
