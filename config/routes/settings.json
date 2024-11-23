@@ -129,6 +129,16 @@
             "endPoint": "/colors/{colorId}",
             "command": "CommandDeleteColor",
             "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/login",
+            "command": "CommandLoginUser",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/create",
+            "command": "CommandCreateUser",
+            "httpMethod": "POST"
         }
     ]
 }

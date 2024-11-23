@@ -19,7 +19,6 @@ func RegisterCommand(name string, factory func() Command) {
 	registryMutex.Lock()
 	defer registryMutex.Unlock()
 	commandRegistry[name] = factory
-	// fmt.Printf("Command registered: %s\n", name) // デバッグ用ログ
 }
 
 // コマンドを取得する関数
@@ -29,6 +28,5 @@ func GetCommand(name string) Command {
 	if factory, exists := commandRegistry[name]; exists {
 		return factory()
 	}
-	// fmt.Printf("Invalid command requested: %s\n", name) // デバッグ用ログ
 	return nil
 }

@@ -28,7 +28,7 @@ func NewCommandGetKittenDetail(service KittenService) *CommandGetKittenDetail {
 	return &CommandGetKittenDetail{Service: service}
 }
 
-// Execute 子猫リスト取得コマンドの実行
+// 子猫リスト取得コマンドの実行
 func (c *CommandGetKittens) Execute(w http.ResponseWriter, r *http.Request) {
 	kittens, err := c.Service.GetKittens()
 	if err != nil {
@@ -43,9 +43,9 @@ func (c *CommandGetKittens) Execute(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Execute 子猫詳細取得コマンドの実行
+// 子猫詳細取得コマンドの実行
 func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request) {
-	// パスパラメータから kittenID を取得
+	// パラメータからkittenIDを取得
 	vars := mux.Vars(r)
 	kittenIdStr, ok := vars["kittenId"]
 	if !ok {
@@ -53,7 +53,7 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// kittenID を整数に変換
+	// kittenIDを整数に変換
 	kittenId, err := strconv.Atoi(kittenIdStr)
 	if err != nil {
 		http.Error(w, "kittenId must be a valid number", http.StatusBadRequest)
@@ -67,7 +67,7 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// JSON レスポンスを返す
+	// JSONレスポンスを返す
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(kittenDetail); err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)

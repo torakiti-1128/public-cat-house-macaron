@@ -5,23 +5,23 @@ import (
 	"fmt"
 )
 
-// KittenRepository インターフェース
+// インターフェース
 type KittenRepository interface {
 	GetKittens() ([]KittensDTO, error)
 	GetKittenDetail(kittenID int) (KittenDetailDTO, error)
 }
 
-// KittenRepositoryImpl 実装
+// 実装
 type KittenRepositoryImpl struct {
 	DB *sql.DB
 }
 
-// NewKittenRepository コンストラクタ
+// コンストラクタ
 func NewKittenRepository(db *sql.DB) KittenRepository {
 	return &KittenRepositoryImpl{DB: db}
 }
 
-// GetKittens 募集中の子猫一覧を取得
+// 募集中の子猫一覧を取得
 func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 	query := `
 		SELECT 
@@ -49,7 +49,6 @@ func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 			k.kitten_id = ki.kitten_id
 	`
 
-	// クエリ実行
 	rows, err := repo.DB.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute query: %w", err)
@@ -72,7 +71,7 @@ func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 	return kittens, nil
 }
 
-// GetKittenDetail 子猫の詳細情報を取得
+// 子猫の詳細情報を取得
 func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO, error) {
 	queryDetail := `
 		SELECT 

@@ -33,7 +33,6 @@ cat-house-macaron-apiは、猫の詳細情報、子猫リスト、および関�
 - **データベース**: PostgreSQL
 - **ルーティング**: Gorilla/Mux
 - **依存性注入**: コンストラクタによる注入
-- **JSON ハンドリング**: 標準ライブラリ `encoding/json`
 
 ---
 
