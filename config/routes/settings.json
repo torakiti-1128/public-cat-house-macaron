@@ -1,0 +1,134 @@
+{
+    "routes": [
+        {
+            "endPoint": "/kittens",
+            "command": "CommandGetKittens",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/kittens/{kittenId}",
+            "command": "CommandGetKittenDetail",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/kittens",
+            "command": "CommandPostKitten",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/kittens/{kittenId}",
+            "command": "CommandUpdateKitten",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/kittens/{kittenId}",
+            "command": "CommandDeleteKitten",
+            "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/parent",
+            "command": "CommandGetParentCats",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/parent/{parentCatId}",
+            "command": "CommandGetParentCatDetail",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/parent",
+            "command": "CommandPostParentCat",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/parent/{parentCatId}",
+            "command": "CommandUpdateParentCat",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/parent/{parentCatId}",
+            "command": "CommandDeleteParentCat",
+            "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/adoption",
+            "command": "CommandGetAdoptionCats",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/adoption",
+            "command": "CommandPostAdoptionCat",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/adoption/{adoptionCatId}",
+            "command": "CommandUpdateAdoptionCat",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/adoption/{adoptionCatId}",
+            "command": "CommandDeleteAdoptionCat",
+            "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/news",
+            "command": "CommandGetNews",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/news",
+            "command": "CommandPostNews",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/news/{newsId}",
+            "command": "CommandUpdateNews",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/news/{newsId}",
+            "command": "CommandDeleteNews",
+            "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/breeds",
+            "command": "CommandGetBreeds",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/breeds",
+            "command": "CommandPostBreed",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/breeds/{breedId}",
+            "command": "CommandUpdateBreed",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/breeds/{breedId}",
+            "command": "CommandDeleteBreed",
+            "httpMethod": "DELETE"
+        },
+        {
+            "endPoint": "/colors",
+            "command": "CommandGetColors",
+            "httpMethod": "GET"
+        },
+        {
+            "endPoint": "/colors",
+            "command": "CommandPostColor",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/colors/{colorId}",
+            "command": "CommandUpdateColor",
+            "httpMethod": "PUT"
+        },
+        {
+            "endPoint": "/colors/{colorId}",
+            "command": "CommandDeleteColor",
+            "httpMethod": "DELETE"
+        }
+    ]
+}
