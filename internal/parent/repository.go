@@ -28,7 +28,7 @@ func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 			pc.parent_cat_id,
 			pc.name,
 			pc.sex,
-			pc.breed_id,
+			b.breed_name,
 			pc.age,
 			pc.url
 		FROM 
@@ -62,12 +62,12 @@ func (repo *ParentRepositoryImpl) GetParentCatDetail(parentCatId int) (ParentCat
 			pc.parent_cat_id,
 			pc.name,
 			pc.sex,
-			b.breed_id,
+			b.breed_name,
+			c.color_name,
 			pc.age,
 			pc.birth_date,
 			pc.description,
-			pc.url,
-			c.color_id
+			pc.url
 		FROM 
 			parent_cats pc
 		JOIN 
@@ -87,12 +87,12 @@ func (repo *ParentRepositoryImpl) GetParentCatDetail(parentCatId int) (ParentCat
 		&parentCatDetail.ParentCatID,
 		&parentCatDetail.Name,
 		&parentCatDetail.Sex,
-		&parentCatDetail.BreedID,
+		&parentCatDetail.Breed,
+		&parentCatDetail.Color,
 		&parentCatDetail.Age,
 		&parentCatDetail.BirthDate,
 		&parentCatDetail.Description,
 		&parentCatDetail.ImageUrl,
-		&parentCatDetail.ColorID,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {

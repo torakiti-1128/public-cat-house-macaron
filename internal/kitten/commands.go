@@ -1,6 +1,7 @@
 package kitten
 
 import (
+	"chm-api/internal/storage"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -18,6 +19,12 @@ type CommandGetKittenDetail struct {
 	Service KittenService
 }
 
+// 子猫追加コマンド
+type CommandPostKitten struct {
+	KittenService  KittenService
+	StorageService storage.StorageService
+}
+
 // コンストラクタ
 func NewCommandGetKittens(service KittenService) *CommandGetKittens {
 	return &CommandGetKittens{Service: service}
@@ -26,6 +33,11 @@ func NewCommandGetKittens(service KittenService) *CommandGetKittens {
 // コンストラクタ
 func NewCommandGetKittenDetail(service KittenService) *CommandGetKittenDetail {
 	return &CommandGetKittenDetail{Service: service}
+}
+
+// コンストラクタ
+func NewCommandPostKitten(kittenService KittenService, storageService storage.StorageService) *CommandPostKitten {
+	return &CommandPostKitten{KittenService: kittenService, StorageService: storageService}
 }
 
 // 子猫リスト取得コマンドの実行
@@ -73,4 +85,9 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
 	}
+}
+
+// 子猫追加のコマンド実行
+func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
+
 }

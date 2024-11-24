@@ -5,7 +5,7 @@ type Config struct {
 	SupabaseAPIKey string
 }
 
-func NewClient() Config {
+func NewConfig() Config {
 	return Config{
 		SupabaseURL:    "https://your-project.supabase.co",
 		SupabaseAPIKey: "your-api-key",
