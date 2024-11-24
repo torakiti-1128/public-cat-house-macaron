@@ -6,7 +6,7 @@ import (
 	"chm-api/internal/parent"
 )
 
-// サービスを注入してコマンドを登録
+// ビジネスロジックを注入してコマンドを登録
 func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentServise parent.ParentService) {
 	RegisterCommand("CommandGetKittens", func() Command {
 		return kitten.NewCommandGetKittens(kittenService)

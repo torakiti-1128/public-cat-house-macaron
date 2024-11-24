@@ -32,12 +32,13 @@ func main() {
 	}
 	defer db.Close()
 
-	// 依存関係の合成基点
+	// ビジネスロジックの依存関係をインスタンス化
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db))
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db))
+	// storageService := storage.NewStorageService(storage.NewSupabaseRepository(supabase.NewClient()))
 
-	// 依存関係をコマンドに登録
+	// ビジネスロジックを各コマンドへ実装
 	commands.RegisterCommands(kittenService, authService, parentService)
 
 	// ルーターを初期化
