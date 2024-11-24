@@ -2,21 +2,23 @@ package kitten
 
 import "fmt"
 
-// KittenService インターフェース
+// インターフェース
 type KittenService interface {
 	GetKittens() ([]KittensDTO, error)
-	GetKittenDetail(kittenID int) (KittenDetailDTO, error)
+	GetKittenDetail(kittenId int) (KittenDetailDTO, error)
 }
 
-// KittenServiceImpl 実装
+// 実装
 type KittenServiceImpl struct {
 	Repo KittenRepository
 }
 
+// コンストラクタ
 func NewKittenService(repo KittenRepository) KittenService {
 	return &KittenServiceImpl{Repo: repo}
 }
 
+// DBから子猫一覧を取得
 func (s *KittenServiceImpl) GetKittens() ([]KittensDTO, error) {
 	kittens, err := s.Repo.GetKittens()
 	if err != nil {
@@ -26,6 +28,7 @@ func (s *KittenServiceImpl) GetKittens() ([]KittensDTO, error) {
 	return kittens, nil
 }
 
+// DBから子猫詳細を取得
 func (s *KittenServiceImpl) GetKittenDetail(kittenId int) (KittenDetailDTO, error) {
 	kittenDetail, err := s.Repo.GetKittenDetail(kittenId)
 	if err != nil {

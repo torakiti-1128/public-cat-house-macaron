@@ -3,10 +3,11 @@ package commands
 import (
 	"chm-api/internal/auth"
 	"chm-api/internal/kitten"
+	"chm-api/internal/parent"
 )
 
 // サービスを注入してコマンドを登録
-func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService) {
+func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentServise parent.ParentService) {
 	RegisterCommand("CommandGetKittens", func() Command {
 		return kitten.NewCommandGetKittens(kittenService)
 	})
@@ -18,5 +19,11 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 	})
 	RegisterCommand("CommandCreateUser", func() Command {
 		return auth.NewCommandCreateUser(authService)
+	})
+	RegisterCommand("CommandGetParentCats", func() Command {
+		return parent.NewCommandGetParentCats(parentServise)
+	})
+	RegisterCommand("CommandGetParentCatDetail", func() Command {
+		return parent.NewCommandGetParentCatDetail(parentServise)
 	})
 }

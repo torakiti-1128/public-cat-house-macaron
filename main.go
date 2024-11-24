@@ -6,6 +6,7 @@ import (
 	apiConfig "chm-api/config/routes"
 	"chm-api/internal/auth"
 	"chm-api/internal/kitten"
+	"chm-api/internal/parent"
 	"chm-api/routes"
 	"log"
 	"net/http"
@@ -38,8 +39,11 @@ func main() {
 	authRepo := auth.NewAuthRepository(db)
 	authService := auth.NewAuthService(authRepo)
 
+	parentRepo := parent.NewParentRepository(db)
+	parentService := parent.NewParenttService(parentRepo)
+
 	// コマンドを登録
-	commands.RegisterCommands(kittenService, authService)
+	commands.RegisterCommands(kittenService, authService, parentService)
 
 	// ルーターを初期化
 	router := routes.InitializeRouter(apiConfig)
