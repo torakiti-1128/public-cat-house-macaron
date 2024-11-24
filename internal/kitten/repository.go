@@ -3,12 +3,16 @@ package kitten
 import (
 	"database/sql"
 	"fmt"
+	"log"
 )
 
 // インターフェース
 type KittenRepository interface {
 	GetKittens() ([]KittensDTO, error)
 	GetKittenDetail(kittenID int) (KittenDetailDTO, error)
+	PostKitten(dto PostKittenDTO) (int, error)
+	PostKittenImage(kittenID int, imageUrl string) error
+	PostKittenVideo(kittenID int, videoUrl string) error
 }
 
 // 実装
@@ -165,4 +169,45 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 	}
 
 	return detail, nil
+}
+
+// 子猫を追加
+func (r *KittenRepositoryImpl) PostKitten(dto PostKittenDTO) (int, error) {
+	query := `
+		INSERT INTO kittens (father_cat_id, mother_cat_id, breed_id, color_id, sex, birth_date, description, price, tran_state)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+		RETURNING kitten_id;
+	`
+	var kittenID int
+	err := r.DB.QueryRow(query, dto.FatherCatID, dto.MotherCatID, dto.BreedID, dto.ColorID, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenID)
+	if err != nil {
+		return 0, fmt.Errorf("failed to insert kitten: %w", err)
+	}
+	return kittenID, nil
+}
+
+// 子猫写真を追加
+func (r *KittenRepositoryImpl) PostKittenImage(kittenID int, imageUrl string) error {
+	query := `
+		INSERT INTO kitten_images (kitten_id, url)
+		VALUES ($1, $2)
+	`
+	_, err := r.DB.Exec(query, kittenID, imageUrl)
+	if err != nil {
+		log.Printf("Error inserting kitten image: %v (kitten_id: %d, url: %s)", err, kittenID, imageUrl)
+	}
+	return err
+}
+
+// 子猫動画を追加
+func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) error {
+	query := `
+		INSERT INTO kitten_videos (kitten_id, url)
+		VALUES ($1, $2)
+	`
+	_, err := r.DB.Exec(query, kittenID, videoUrl)
+	if err != nil {
+		log.Printf("Error inserting kitten video: %v (kitten_id: %d, url: %s)", err, kittenID, videoUrl)
+	}
+	return err
 }
