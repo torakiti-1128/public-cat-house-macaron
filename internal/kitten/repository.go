@@ -27,8 +27,9 @@ func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 		SELECT 
 			k.kitten_id, 
 			b.breed_name AS breed, 
-			k.created_at, 
-			ki.url
+			ki.url,
+			k.tran_state,
+			k.created_at
 		FROM 
 			kittens k
 		JOIN 
@@ -58,7 +59,7 @@ func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 	var kittens []KittensDTO
 	for rows.Next() {
 		var kitten KittensDTO
-		if err := rows.Scan(&kitten.KittenID, &kitten.Breed, &kitten.CreatedAt, &kitten.ImageUrl); err != nil {
+		if err := rows.Scan(&kitten.KittenID, &kitten.Breed, &kitten.ImageUrl, &kitten.TranState, &kitten.CreatedAt); err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
 		kittens = append(kittens, kitten)
@@ -83,7 +84,8 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 			c.color_name AS color,
 			k.sex,
 			k.birth_date,
-			k.price
+			k.price,
+			k.tran_state
 		FROM 
 			kittens k
 		JOIN 
@@ -110,6 +112,7 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 		&detail.Sex,
 		&detail.BirthDate,
 		&detail.Price,
+		&detail.TranState,
 	)
 	if err != nil {
 		return KittenDetailDTO{}, fmt.Errorf("failed to fetch kitten detail: %w", err)
