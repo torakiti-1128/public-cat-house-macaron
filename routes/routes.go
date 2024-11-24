@@ -4,6 +4,7 @@ import (
 	"chm-api/commands"
 	config "chm-api/config/routes"
 	"chm-api/middlewares"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -17,9 +18,10 @@ func InitializeRouter(apiConfig config.APIConfig) *mux.Router {
 	router.Use(middlewares.CORS)
 
 	for _, route := range apiConfig.Routes {
-		command := commands.GetCommand(route.Command)
+		command, err := commands.GetCommand(route.Command)
 		if command == nil {
-			continue // コマンドが見つからない場合はスキップ
+			fmt.Printf("Failed to get command '%s': %v\n", route.Command, err)
+			continue
 		}
 		// ハンドラを設定
 		router.HandleFunc(route.EndPoint, func(w http.ResponseWriter, r *http.Request) {

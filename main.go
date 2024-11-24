@@ -32,17 +32,12 @@ func main() {
 	}
 	defer db.Close()
 
-	// Kittenリポジトリとサービスを初期化
-	kittenRepo := kitten.NewKittenRepository(db)
-	kittenService := kitten.NewKittenService(kittenRepo)
+	// 依存関係の合成基点
+	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db))
+	authService := auth.NewAuthService(auth.NewAuthRepository(db))
+	parentService := parent.NewParenttService(parent.NewParentRepository(db))
 
-	authRepo := auth.NewAuthRepository(db)
-	authService := auth.NewAuthService(authRepo)
-
-	parentRepo := parent.NewParentRepository(db)
-	parentService := parent.NewParenttService(parentRepo)
-
-	// コマンドを登録
+	// 依存関係をコマンドに登録
 	commands.RegisterCommands(kittenService, authService, parentService)
 
 	// ルーターを初期化

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"net/http"
 	"sync"
 )
@@ -22,11 +23,11 @@ func RegisterCommand(name string, factory func() Command) {
 }
 
 // コマンドを取得する関数
-func GetCommand(name string) Command {
+func GetCommand(name string) (Command, error) {
 	registryMutex.Lock()
 	defer registryMutex.Unlock()
 	if factory, exists := commandRegistry[name]; exists {
-		return factory()
+		return factory(), nil
 	}
-	return nil
+	return nil, fmt.Errorf("command not found: %s", name)
 }
