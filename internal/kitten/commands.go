@@ -75,12 +75,14 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	// サービスを呼び出して詳細情報を取得
 	kittenDetail, err := c.Service.GetKittenDetail(kittenId)
 	if err != nil {
 		http.Error(w, "Failed to fetch kitten detail", http.StatusInternalServerError)
 		return
 	}
 
+	// JSONレスポンスを返す
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(kittenDetail); err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
@@ -109,24 +111,33 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		TranState:   r.FormValue("tranState"),
 	}
 
-	// 画像と動画をアップロード
+	// 子猫情報を保存し KittenID を取得
+	kittenID, err := c.KittenService.PostKitten(dto)
+	if err != nil {
+		http.Error(w, "Failed to save kitten data", http.StatusInternalServerError)
+		log.Printf("Error saving kitten data: %v", err)
+		return
+	}
+
+	// 画像のアップロードと保存
 	imageURLs := []string{}
 	for i := 1; i <= 4; i++ {
 		file, _, err := r.FormFile(fmt.Sprintf("image%d", i))
 		if err != nil {
-			log.Printf("Image%d not found: %v", i, err)
+			log.Printf("Info: Image%d not found or not included in the request", i)
 			continue
 		}
 		defer file.Close()
 
 		tempPath, err := utils.SaveTemporaryFile(file)
 		if err != nil {
-			http.Error(w, "Failed to save temporary file", http.StatusInternalServerError)
+			http.Error(w, "Failed to save temporary file for image", http.StatusInternalServerError)
+			log.Printf("Error saving temporary file for image%d: %v", i, err)
 			return
 		}
 		defer utils.DeleteTemporaryFile(tempPath)
 
-		imagePath := fmt.Sprintf("kittens/kitten%d/image%d.JPG", dto.FatherCatID, i)
+		imagePath := fmt.Sprintf("kittens/kitten%d/image%d.IPG", kittenID, i)
 		uploadedFile, err := c.StorageService.UploadFile(storage.UploadFileDTO{
 			Bucket:   "images",
 			Path:     imagePath,
@@ -134,25 +145,36 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		})
 		if err != nil {
 			http.Error(w, "Failed to upload photo to Supabase", http.StatusInternalServerError)
+			log.Printf("Error uploading file to Supabase: %v\n", err)
 			return
 		}
+
 		imageURLs = append(imageURLs, uploadedFile.PublicURL)
+
+		// データベースに画像を保存
+		err = c.KittenService.PostKittenImage(kittenID, uploadedFile.PublicURL)
+		if err != nil {
+			http.Error(w, "Failed to save kitten image to database", http.StatusInternalServerError)
+			log.Printf("Error saving kitten image to database: %v", err)
+			return
+		}
 	}
 
-	// 動画アップロード
-	videoFile, _, err := r.FormFile("video")
+	// 動画のアップロードと保存
 	var videoURL string
+	videoFile, _, err := r.FormFile("video")
 	if err == nil {
 		defer videoFile.Close()
 
 		videoTempPath, err := utils.SaveTemporaryFile(videoFile)
 		if err != nil {
-			http.Error(w, "Failed to save temporary file", http.StatusInternalServerError)
+			http.Error(w, "Failed to save temporary file for video", http.StatusInternalServerError)
+			log.Printf("Error saving temporary file for video: %v", err)
 			return
 		}
 		defer utils.DeleteTemporaryFile(videoTempPath)
 
-		videoPath := fmt.Sprintf("kittens/kitten%d/video.MP4", dto.FatherCatID)
+		videoPath := fmt.Sprintf("kittens/Cat%d.MP4", kittenID)
 		uploadedVideo, err := c.StorageService.UploadFile(storage.UploadFileDTO{
 			Bucket:   "videos",
 			Path:     videoPath,
@@ -160,20 +182,20 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		})
 		if err != nil {
 			http.Error(w, "Failed to upload video to Supabase", http.StatusInternalServerError)
+			log.Printf("Error uploading video to Supabase: %v", err)
 			return
 		}
 		videoURL = uploadedVideo.PublicURL
-	}
 
-	// DTOにアップロード結果を追加
-	dto.ImageUrls = imageURLs
-	dto.VideoURL = videoURL
-
-	// サービス層を呼び出してデータを保存
-	kittenID, err := c.KittenService.PostKitten(dto)
-	if err != nil {
-		http.Error(w, "Failed to save kitten data", http.StatusInternalServerError)
-		return
+		// データベースに動画を保存
+		err = c.KittenService.PostKittenVideo(kittenID, videoURL)
+		if err != nil {
+			http.Error(w, "Failed to save kitten video to database", http.StatusInternalServerError)
+			log.Printf("Error saving kitten video to database: %v", err)
+			return
+		}
+	} else {
+		log.Printf("Video file not found or failed to read: %v", err)
 	}
 
 	// 成功レスポンス
