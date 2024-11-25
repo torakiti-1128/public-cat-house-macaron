@@ -18,12 +18,12 @@ type CommandGetParentCatDetail struct {
 	Service ParentService
 }
 
-// コンストラクタ
+// 親猫一覧取得コンストラクタ
 func NewCommandGetParentCats(service ParentService) *CommandGetParentCats {
 	return &CommandGetParentCats{Service: service}
 }
 
-// コンストラクタ
+// 親猫詳細取得コンストラクタ
 func NewCommandGetParentCatDetail(service ParentService) *CommandGetParentCatDetail {
 	return &CommandGetParentCatDetail{Service: service}
 }

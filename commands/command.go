@@ -6,23 +6,22 @@ import (
 	"sync"
 )
 
-// Commandインターフェース
+// コマンドインターフェース
 type Command interface {
 	Execute(w http.ResponseWriter, r *http.Request)
 }
 
-// コマンドのレジストリ
 var commandRegistry = make(map[string]func() Command)
 var registryMutex = &sync.Mutex{}
 
-// コマンドを登録する関数
+// コマンドを登録
 func RegisterCommand(name string, factory func() Command) {
 	registryMutex.Lock()
 	defer registryMutex.Unlock()
 	commandRegistry[name] = factory
 }
 
-// コマンドを取得する関数
+// コマンドを取得
 func GetCommand(name string) (Command, error) {
 	registryMutex.Lock()
 	defer registryMutex.Unlock()

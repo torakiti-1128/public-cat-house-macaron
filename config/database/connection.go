@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/lib/pq" // PostgreSQL
+	_ "github.com/lib/pq"
 )
 
-// Config データベース設定を保持する構造体
+// DBの設定データ
 type Config struct {
 	Host     string `json:"host"`
 	Port     int    `json:"port"`
@@ -19,7 +19,7 @@ type Config struct {
 	SSLMode  string `json:"sslmode"`
 }
 
-// データベースの設定ファイルを読み込む
+// DBの設定ファイルを取得
 func LoadConfig(path string) (Config, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -36,7 +36,7 @@ func LoadConfig(path string) (Config, error) {
 	return config, nil
 }
 
-// データベース接続を作成
+// DBの接続を作成
 func NewDB(config Config) (*sql.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",

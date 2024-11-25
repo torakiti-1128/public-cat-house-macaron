@@ -6,34 +6,35 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// インターフェース
+// 認証機能のビジネスロジックインターフェース
 type AuthService interface {
+	// ログイン
 	LoginUser(userName, password string) (AuthDTO, error)
+	// ユーザー作成
 	CreateUser(userName, password string) (AuthDTO, error)
 }
 
-// 実装
+// 認証機能の実装
 type AuthServiceImpl struct {
 	Repo AuthRepository
 }
 
-// コンストラクタ
+// 認証機能のコンストラクタ
 func NewAuthService(repo AuthRepository) AuthService {
 	return &AuthServiceImpl{Repo: repo}
 }
 
-// ユーザーログイン
+// ログイン
 func (s *AuthServiceImpl) LoginUser(userName, password string) (AuthDTO, error) {
-	// ユーザー取得
 	user, err := s.Repo.FindUserByName(userName)
 	if err != nil {
 		return AuthDTO{}, err
 	}
 
-	// パスワード検証
+	// パスワードを検証
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return AuthDTO{}, errors.New("invalid credentials")
+		return AuthDTO{}, errors.New("パスワードが無効です")
 	}
 
 	return user, nil
@@ -41,13 +42,12 @@ func (s *AuthServiceImpl) LoginUser(userName, password string) (AuthDTO, error) 
 
 // ユーザー作成
 func (s *AuthServiceImpl) CreateUser(userName, password string) (AuthDTO, error) {
-	// ユーザーが既に存在するかチェック
 	existingUser, err := s.Repo.FindUserByName(userName)
 	if err != nil {
 		return AuthDTO{}, err
 	}
 	if existingUser.UserName != "" {
-		return AuthDTO{}, errors.New("user already exists")
+		return AuthDTO{}, errors.New("ユーザーがすでに存在します")
 	}
 
 	// パスワードをハッシュ化
@@ -56,7 +56,6 @@ func (s *AuthServiceImpl) CreateUser(userName, password string) (AuthDTO, error)
 		return AuthDTO{}, err
 	}
 
-	// ユーザーを作成
 	newUser, err := s.Repo.CreateUser(userName, string(hashedPassword))
 	if err != nil {
 		return AuthDTO{}, err

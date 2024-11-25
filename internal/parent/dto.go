@@ -1,5 +1,6 @@
 package parent
 
+// 親猫一覧データ
 type ParentCatsDTO struct {
 	ParentCatID int    `json:"parentCatId"`
 	Name        string `json:"name"`
@@ -9,6 +10,7 @@ type ParentCatsDTO struct {
 	ImageUrl    string `json:"imageUrl"`
 }
 
+// 親猫詳細データ
 type ParentCatDetailDTO struct {
 	ParentCatID int    `json:"parentCatId"`
 	Name        string `json:"name"`

@@ -2,23 +2,23 @@ package parent
 
 import "fmt"
 
-// インターフェース
+// 親猫関連のビジネスロジックインターフェース
 type ParentService interface {
 	GetParentCats() ([]ParentCatsDTO, error)
 	GetParentCatDetail(parentCatId int) (ParentCatDetailDTO, error)
 }
 
-// 実装
+// 親猫関連のビジネスロジック実装
 type ParentServiceImpl struct {
 	Repo ParentRepository
 }
 
-// コンストラクタ
+// 親猫関連のビジネスロジックコンストラクタ
 func NewParenttService(repo ParentRepository) ParentService {
 	return &ParentServiceImpl{Repo: repo}
 }
 
-// DBから親猫詳細を取得
+// 親猫詳細を取得
 func (s *ParentServiceImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	parentCats, err := s.Repo.GetParentCats()
 	if err != nil {
@@ -28,7 +28,7 @@ func (s *ParentServiceImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	return parentCats, nil
 }
 
-// DBから親猫一覧を取得
+// 親猫一覧を取得
 func (s *ParentServiceImpl) GetParentCatDetail(parentCatId int) (ParentCatDetailDTO, error) {
 	parentCatDetail, err := s.Repo.GetParentCatDetail(parentCatId)
 	if err != nil {

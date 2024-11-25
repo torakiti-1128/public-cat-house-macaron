@@ -10,17 +10,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// ルーターを初期化
+// ルーターを設定
 func InitializeRouter(apiConfig config.APIConfig) *mux.Router {
 	router := mux.NewRouter()
 
-	// CORSミドルウェアを適用
+	// CORSを適用
 	router.Use(middlewares.CORS)
 
 	for _, route := range apiConfig.Routes {
 		command, err := commands.GetCommand(route.Command)
 		if command == nil {
-			fmt.Printf("Failed to get command '%s': %v\n", route.Command, err)
+			fmt.Printf("コマンドの取得に失敗しました '%s': %v\n", route.Command, err)
 			continue
 		}
 		// ハンドラを設定

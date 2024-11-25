@@ -5,29 +5,27 @@ import (
 	"errors"
 )
 
-// インターフェース
+// 認証機能のDBインターフェース
 type AuthRepository interface {
-	// ユーザーを検索
+	// ユーザー名とパスワードに基づいてユーザーを検索
 	FindUserByCredentials(userName, password string) (AuthDTO, error)
-
-	// ユーザー名でユーザーを検索
+	// ユーザー名に基づいてユーザーを検索
 	FindUserByName(userName string) (AuthDTO, error)
-
-	// ユーザー作成
+	// 新しいユーザーを作成
 	CreateUser(userName, password string) (AuthDTO, error)
 }
 
-// 実装
+// 認証機能のDB実装
 type AuthRepositoryImpl struct {
 	DB *sql.DB
 }
 
-// コンストラクタ
+// 認証機能のDBコンストラクタ
 func NewAuthRepository(db *sql.DB) AuthRepository {
 	return &AuthRepositoryImpl{DB: db}
 }
 
-// FindUserByCredentials 資格情報に基づいてユーザーを検索
+// ユーザー名とパスワードに基づいてユーザーを検索
 func (repo *AuthRepositoryImpl) FindUserByCredentials(userName, password string) (AuthDTO, error) {
 	query := "SELECT user_name, password FROM users WHERE user_name = $1 AND password = $2"
 	row := repo.DB.QueryRow(query, userName, password)
@@ -35,7 +33,7 @@ func (repo *AuthRepositoryImpl) FindUserByCredentials(userName, password string)
 	var user AuthDTO
 	err := row.Scan(&user.UserName, &user.Password)
 	if err == sql.ErrNoRows {
-		return AuthDTO{}, errors.New("user not found")
+		return AuthDTO{}, errors.New("ユーザーが見つかりません")
 	}
 	if err != nil {
 		return AuthDTO{}, err
@@ -44,7 +42,7 @@ func (repo *AuthRepositoryImpl) FindUserByCredentials(userName, password string)
 	return user, nil
 }
 
-// FindUserByName ユーザー名に基づいてユーザーを検索
+// ユーザー名に基づいてユーザーを検索
 func (repo *AuthRepositoryImpl) FindUserByName(userName string) (AuthDTO, error) {
 	query := "SELECT user_name, password FROM users WHERE user_name = $1"
 	row := repo.DB.QueryRow(query, userName)
@@ -52,7 +50,7 @@ func (repo *AuthRepositoryImpl) FindUserByName(userName string) (AuthDTO, error)
 	var user AuthDTO
 	err := row.Scan(&user.UserName, &user.Password)
 	if err == sql.ErrNoRows {
-		return AuthDTO{}, nil // ユーザーが存在しない場合はエラーではない
+		return AuthDTO{}, nil
 	}
 	if err != nil {
 		return AuthDTO{}, err

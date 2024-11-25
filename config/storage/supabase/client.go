@@ -5,6 +5,7 @@ type Config struct {
 	SupabaseAPIKey string
 }
 
+// Supabaseの設定
 func NewConfig() Config {
 	return Config{
 		SupabaseURL:    "https://stmiseskirombbqtwacm.supabase.co",

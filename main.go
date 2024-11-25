@@ -4,7 +4,7 @@ import (
 	"chm-api/commands"
 	dbConfig "chm-api/config/database"
 	apiConfig "chm-api/config/routes"
-	"chm-api/config/supabase"
+	"chm-api/config/storage/supabase"
 	"chm-api/internal/auth"
 	"chm-api/internal/kitten"
 	"chm-api/internal/parent"
@@ -14,23 +14,24 @@ import (
 	"net/http"
 )
 
+// アプリケーションのエントリーポイント
 func main() {
-	// API設定を読み込む
+	// APIの設定を取得
 	apiConfig, err := apiConfig.LoadConfig("config/routes/settings.json")
 	if err != nil {
-		log.Fatalf("API設定を読み込めません: %v", err)
+		log.Fatalf("APIの設定を読み込めません: %v", err)
 	}
 
-	// データベース設定を読み込む
+	// データベースの設定を取得
 	databaseConfig, err := dbConfig.LoadConfig("config/database/settings.json")
 	if err != nil {
-		log.Fatalf("データベース設定を読み込めません: %v", err)
+		log.Fatalf("データベースの設定を読み込めません: %v", err)
 	}
 
-	// データベース接続を初期化
+	// データベースぼ接続を設定
 	db, err := dbConfig.NewDB(databaseConfig)
 	if err != nil {
-		log.Fatalf("データベース接続に失敗しました: %v", err)
+		log.Fatalf("データベースの接続に失敗しました: %v", err)
 	}
 	defer db.Close()
 

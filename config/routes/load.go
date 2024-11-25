@@ -1,11 +1,10 @@
-package config
+package routes
 
 import (
 	"encoding/json"
 	"os"
 )
 
-// ルート設定を格納する構造体
 type Route struct {
 	EndPoint   string `json:"endPoint"`
 	Command    string `json:"command"`
@@ -16,7 +15,7 @@ type APIConfig struct {
 	Routes []Route `json:"routes"`
 }
 
-// APIの設定ファイルをロードする
+// APIの設定ファイルを取得
 func LoadConfig(filename string) (APIConfig, error) {
 	var config APIConfig
 	file, err := os.Open(filename)

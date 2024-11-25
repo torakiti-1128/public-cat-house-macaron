@@ -1,23 +1,28 @@
 package storage
 
-import "fmt"
+import (
+	"chm-api/internal/utils"
+	"fmt"
+	"mime/multipart"
+)
 
-// StorageService - ストレージサービスのインターフェース
+// ストレージのビジネスロジックインターフェース
 type StorageService interface {
 	UploadFile(dto UploadFileDTO) (UploadedFileDTO, error)
+	SaveFileWithTemp(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
 }
 
-// StorageServiceImpl - ストレージサービスの実装
+// ストレージのビジネスロジック実装
 type StorageServiceImpl struct {
 	Repo StorageRepository
 }
 
-// NewStorageService - ストレージサービスのコンストラクタ
+// ストレージのビジネスロジックコンストラクタ
 func NewStorageService(repo StorageRepository) StorageService {
 	return &StorageServiceImpl{Repo: repo}
 }
 
-// UploadFile - ファイルアップロードの実装
+// ファイルをストレージにアップロード
 func (s *StorageServiceImpl) UploadFile(dto UploadFileDTO) (UploadedFileDTO, error) {
 	publicURL, err := s.Repo.UploadFile(dto.Bucket, dto.Path, dto.FilePath)
 	if err != nil {
@@ -25,8 +30,27 @@ func (s *StorageServiceImpl) UploadFile(dto UploadFileDTO) (UploadedFileDTO, err
 	}
 
 	return UploadedFileDTO{
-		PublicURL: publicURL,
+		PublicUrl: publicURL,
 		Bucket:    dto.Bucket,
 		Path:      dto.Path,
 	}, nil
+}
+
+func (s *StorageServiceImpl) SaveFileWithTemp(file multipart.File, bucket, destPath string) (UploadedFileDTO, error) {
+	tempPath, err := utils.SaveTemporaryFile(file)
+	if err != nil {
+		return UploadedFileDTO{}, fmt.Errorf("failed to save temporary file: %w", err)
+	}
+	defer utils.DeleteTemporaryFile(tempPath)
+
+	uploadedFile, err := s.UploadFile(UploadFileDTO{
+		Bucket:   bucket,
+		Path:     destPath,
+		FilePath: tempPath,
+	})
+	if err != nil {
+		return UploadedFileDTO{}, fmt.Errorf("failed to upload file: %w", err)
+	}
+
+	return uploadedFile, nil
 }

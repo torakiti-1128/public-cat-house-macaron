@@ -6,21 +6,26 @@ import (
 	"log"
 )
 
-// インターフェース
+// 子猫関連のDBインターフェース
 type KittenRepository interface {
+	// 子猫一覧をDBから取得
 	GetKittens() ([]KittensDTO, error)
-	GetKittenDetail(kittenID int) (KittenDetailDTO, error)
+	// 子猫の詳細情報をDBから取得
+	GetKittenDetail(kittenId int) (KittenDetailDTO, error)
+	// 子猫をDBに追加
 	PostKitten(dto PostKittenDTO) (int, error)
-	PostKittenImage(kittenID int, imageUrl string) error
-	PostKittenVideo(kittenID int, videoUrl string) error
+	// 子猫の写真をDBに追加
+	PostKittenImage(kittenId int, imageUrl string) error
+	// 子猫の動画をDBに追加
+	PostKittenVideo(kittenId int, videoUrl string) error
 }
 
-// 実装
+// 子猫関連のDB実装
 type KittenRepositoryImpl struct {
 	DB *sql.DB
 }
 
-// コンストラクタ
+// 子猫関連のDBコンストラクタ
 func NewKittenRepository(db *sql.DB) KittenRepository {
 	return &KittenRepositoryImpl{DB: db}
 }
@@ -56,27 +61,27 @@ func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 
 	rows, err := repo.DB.Query(query)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute query: %w", err)
+		return nil, fmt.Errorf("子猫一覧の取得に失敗しました: %w", err)
 	}
 	defer rows.Close()
 
 	var kittens []KittensDTO
 	for rows.Next() {
 		var kitten KittensDTO
-		if err := rows.Scan(&kitten.KittenID, &kitten.Breed, &kitten.ImageUrl, &kitten.TranState, &kitten.CreatedAt); err != nil {
-			return nil, fmt.Errorf("failed to scan row: %w", err)
+		if err := rows.Scan(&kitten.KittenId, &kitten.Breed, &kitten.ImageUrl, &kitten.TranState, &kitten.CreatedAt); err != nil {
+			return nil, fmt.Errorf("子猫一覧の読み込みに失敗しました: %w", err)
 		}
 		kittens = append(kittens, kitten)
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("rows iteration error: %w", err)
+		return nil, fmt.Errorf("子猫一覧の処理中にエラーが発生しました: %w", err)
 	}
 
 	return kittens, nil
 }
 
-// 子猫の詳細情報を取得
+// 子猫の詳細情報をDBから取得
 func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO, error) {
 	queryDetail := `
 		SELECT 
@@ -104,12 +109,11 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 			k.kitten_id = $1
 	`
 
-	// 子猫の詳細を取得
 	var detail KittenDetailDTO
 	err := repo.DB.QueryRow(queryDetail, kittenID).Scan(
-		&detail.KittenID,
-		&detail.FatherCatID,
-		&detail.MotherCatID,
+		&detail.KittenId,
+		&detail.FatherCatId,
+		&detail.MotherCatId,
 		&detail.Description,
 		&detail.Breed,
 		&detail.Color,
@@ -119,10 +123,9 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 		&detail.TranState,
 	)
 	if err != nil {
-		return KittenDetailDTO{}, fmt.Errorf("failed to fetch kitten detail: %w", err)
+		return KittenDetailDTO{}, fmt.Errorf("子猫詳細の取得に失敗しました: %w", err)
 	}
 
-	// 子猫の画像URLを取得
 	queryImages := `
 		SELECT 
 			url
@@ -136,7 +139,7 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 
 	rows, err := repo.DB.Query(queryImages, kittenID)
 	if err != nil {
-		return KittenDetailDTO{}, fmt.Errorf("failed to fetch kitten images: %w", err)
+		return KittenDetailDTO{}, fmt.Errorf("子猫画像の取得に失敗しました: %w", err)
 	}
 	defer rows.Close()
 
@@ -144,13 +147,12 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 	for rows.Next() {
 		var url string
 		if err := rows.Scan(&url); err != nil {
-			return KittenDetailDTO{}, fmt.Errorf("failed to scan image URL: %w", err)
+			return KittenDetailDTO{}, fmt.Errorf("子猫画像の読み込みに失敗しました: %w", err)
 		}
 		imageUrls = append(imageUrls, url)
 	}
 	detail.ImageUrls = imageUrls
 
-	// 子猫の動画URLを取得
 	queryVideo := `
 		SELECT 
 			url
@@ -163,15 +165,15 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 		LIMIT 1
 	`
 
-	err = repo.DB.QueryRow(queryVideo, kittenID).Scan(&detail.VideoURL)
+	err = repo.DB.QueryRow(queryVideo, kittenID).Scan(&detail.VideoUrl)
 	if err != nil && err != sql.ErrNoRows {
-		return KittenDetailDTO{}, fmt.Errorf("failed to fetch kitten video: %w", err)
+		return KittenDetailDTO{}, fmt.Errorf("子猫動画の取得に失敗しました: %w", err)
 	}
 
 	return detail, nil
 }
 
-// 子猫を追加
+// 子猫をDBに追加
 func (r *KittenRepositoryImpl) PostKitten(dto PostKittenDTO) (int, error) {
 	query := `
 		INSERT INTO kittens (father_cat_id, mother_cat_id, breed_id, color_id, sex, birth_date, description, price, tran_state)
@@ -179,14 +181,14 @@ func (r *KittenRepositoryImpl) PostKitten(dto PostKittenDTO) (int, error) {
 		RETURNING kitten_id;
 	`
 	var kittenID int
-	err := r.DB.QueryRow(query, dto.FatherCatID, dto.MotherCatID, dto.BreedID, dto.ColorID, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenID)
+	err := r.DB.QueryRow(query, dto.FatherCatId, dto.MotherCatId, dto.BreedId, dto.ColorId, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenID)
 	if err != nil {
-		return 0, fmt.Errorf("failed to insert kitten: %w", err)
+		return 0, fmt.Errorf("子猫情報の追加に失敗しました: %w", err)
 	}
 	return kittenID, nil
 }
 
-// 子猫写真を追加
+// 子猫の写真をDBに追加
 func (r *KittenRepositoryImpl) PostKittenImage(kittenID int, imageUrl string) error {
 	query := `
 		INSERT INTO kitten_images (kitten_id, url)
@@ -194,12 +196,12 @@ func (r *KittenRepositoryImpl) PostKittenImage(kittenID int, imageUrl string) er
 	`
 	_, err := r.DB.Exec(query, kittenID, imageUrl)
 	if err != nil {
-		log.Printf("Error inserting kitten image: %v (kitten_id: %d, url: %s)", err, kittenID, imageUrl)
+		log.Printf("子猫の写真追加エラー: %v (kitten_id: %d, url: %s)", err, kittenID, imageUrl)
 	}
 	return err
 }
 
-// 子猫動画を追加
+// 子猫の動画をDBに追加
 func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) error {
 	query := `
 		INSERT INTO kitten_videos (kitten_id, url)
@@ -207,7 +209,7 @@ func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) er
 	`
 	_, err := r.DB.Exec(query, kittenID, videoUrl)
 	if err != nil {
-		log.Printf("Error inserting kitten video: %v (kitten_id: %d, url: %s)", err, kittenID, videoUrl)
+		log.Printf("子猫の動画追加エラー: %v (kitten_id: %d, url: %s)", err, kittenID, videoUrl)
 	}
 	return err
 }

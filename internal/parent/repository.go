@@ -5,23 +5,23 @@ import (
 	"fmt"
 )
 
-// インターフェース
+// 親猫関連のDBインターフェース
 type ParentRepository interface {
 	GetParentCats() ([]ParentCatsDTO, error)
 	GetParentCatDetail(ParentID int) (ParentCatDetailDTO, error)
 }
 
-// 実装
+// 親猫関連のDB実装
 type ParentRepositoryImpl struct {
 	DB *sql.DB
 }
 
-// コンストラクタ
+// 親猫関連のDBコンストラクタ
 func NewParentRepository(db *sql.DB) ParentRepository {
 	return &ParentRepositoryImpl{DB: db}
 }
 
-// 親猫一覧を取得
+// 親猫一覧をDBから取得
 func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	query := `
 		SELECT 
@@ -55,7 +55,7 @@ func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	return parentCats, nil
 }
 
-// 親猫詳細を取得
+// 親猫詳細をDBから取得
 func (repo *ParentRepositoryImpl) GetParentCatDetail(parentCatId int) (ParentCatDetailDTO, error) {
 	query := `
 		SELECT 

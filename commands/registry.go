@@ -7,7 +7,7 @@ import (
 	"chm-api/internal/storage"
 )
 
-// ビジネスロジックを注入してコマンドを登録
+// ビジネスロジックをコマンドに登録
 func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentServise parent.ParentService, storageService storage.StorageService) {
 	RegisterCommand("CommandGetKittens", func() Command {
 		return kitten.NewCommandGetKittens(kittenService)

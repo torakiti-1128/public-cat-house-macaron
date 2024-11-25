@@ -2,61 +2,74 @@ package kitten
 
 import "fmt"
 
-// インターフェース
+// 子猫関連のビジネスロジックインターフェース
 type KittenService interface {
+	// 子猫一覧を取得
 	GetKittens() ([]KittensDTO, error)
+	// 子猫詳細を取得
 	GetKittenDetail(kittenId int) (KittenDetailDTO, error)
+	// 子猫を追加
 	PostKitten(dto PostKittenDTO) (int, error)
-	PostKittenImage(kittenID int, imageUrl string) error
-	PostKittenVideo(kittenID int, videoUrl string) error
+	// 子猫の写真を追加
+	PostKittenImage(kittenId int, imageUrl string) error
+	// 子猫の動画を追加
+	PostKittenVideo(kittenId int, videoUrl string) error
 }
 
-// 実装
+// 子猫関連のビジネスロジック実装
 type KittenServiceImpl struct {
 	Repo KittenRepository
 }
 
-// コンストラクタ
+// 子猫関連のビジネスロジックコンストラクタ
 func NewKittenService(repo KittenRepository) KittenService {
 	return &KittenServiceImpl{Repo: repo}
 }
 
-// DBから子猫一覧を取得
+// 子猫詳細を取得
 func (s *KittenServiceImpl) GetKittens() ([]KittensDTO, error) {
 	kittens, err := s.Repo.GetKittens()
 	if err != nil {
-		fmt.Printf("Error fetching kittens from repository: %v\n", err)
-		return nil, err
+		fmt.Printf("子猫の一覧取得に失敗しました: %v\n", err)
+		return nil, fmt.Errorf("子猫の一覧取得に失敗しました: %w", err)
 	}
 	return kittens, nil
 }
 
-// DBから子猫詳細を取得
+// 子猫詳細を取得
 func (s *KittenServiceImpl) GetKittenDetail(kittenId int) (KittenDetailDTO, error) {
 	kittenDetail, err := s.Repo.GetKittenDetail(kittenId)
 	if err != nil {
-		fmt.Printf("Error fetching kitten detail from repository: %v\n", err)
-		return KittenDetailDTO{}, err
+		fmt.Printf("子猫詳細の取得に失敗しました (KittenId: %d): %v\n", kittenId, err)
+		return KittenDetailDTO{}, fmt.Errorf("子猫詳細の取得に失敗しました: %w", err)
 	}
 	return kittenDetail, nil
 }
 
-// 子猫情報を保存
+// 子猫を追加
 func (s *KittenServiceImpl) PostKitten(dto PostKittenDTO) (int, error) {
-	// 子猫情報をリポジトリ経由で保存し、新しい KittenID を取得
-	kittenID, err := s.Repo.PostKitten(dto)
+	kittenId, err := s.Repo.PostKitten(dto)
 	if err != nil {
-		return 0, fmt.Errorf("failed to save kitten data: %w", err)
+		fmt.Printf("子猫の追加に失敗しました: %v\n", err)
+		return 0, fmt.Errorf("子猫の追加に失敗しました: %w", err)
 	}
-	return kittenID, nil
+	return kittenId, nil
 }
 
-// 子猫の画像を保存
-func (s *KittenServiceImpl) PostKittenImage(kittenID int, imageUrl string) error {
-	return s.Repo.PostKittenImage(kittenID, imageUrl)
+// 子猫の写真を追加
+func (s *KittenServiceImpl) PostKittenImage(kittenId int, imageUrl string) error {
+	if err := s.Repo.PostKittenImage(kittenId, imageUrl); err != nil {
+		fmt.Printf("子猫の写真の保存に失敗しました (KittenId: %d, ImageUrl: %s): %v\n", kittenId, imageUrl, err)
+		return fmt.Errorf("子猫の写真の保存に失敗しました: %w", err)
+	}
+	return nil
 }
 
-// 子猫の動画を保存
-func (s *KittenServiceImpl) PostKittenVideo(kittenID int, videoUrl string) error {
-	return s.Repo.PostKittenVideo(kittenID, videoUrl)
+// 子猫の動画を追加
+func (s *KittenServiceImpl) PostKittenVideo(kittenId int, videoUrl string) error {
+	if err := s.Repo.PostKittenVideo(kittenId, videoUrl); err != nil {
+		fmt.Printf("子猫の動画の保存に失敗しました (KittenId: %d, VideoUrl: %s): %v\n", kittenId, videoUrl, err)
+		return fmt.Errorf("子猫の動画の保存に失敗しました: %w", err)
+	}
+	return nil
 }
