@@ -118,7 +118,7 @@ func (c *CommandPostParentCat) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	imagePath := fmt.Sprintf("parent-cats/image%d.jpg", parentCatId)
+	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", parentCatId)
 	uploadedFile, err := c.StorageService.UploadFileToStorage(file, "images", imagePath)
 	if err != nil {
 		log.Printf("画像のアップロードエラー: %v", err)

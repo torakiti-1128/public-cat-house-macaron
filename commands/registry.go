@@ -30,4 +30,7 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 	RegisterCommand("CommandGetParentCatDetail", func() Command {
 		return parent.NewCommandGetParentCatDetail(parentServise)
 	})
+	RegisterCommand("CommandPostParentCat", func() Command {
+		return parent.NewCommandPostParentCat(parentServise, storageService)
+	})
 }

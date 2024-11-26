@@ -113,7 +113,7 @@ func (repo *ParentRepositoryImpl) GetParentCatDetail(parentCatId int) (ParentCat
 // 親猫をDBに追加
 func (repo *ParentRepositoryImpl) PostParentCat(dto PostParentCatDTO) (int, error) {
 	query := `
-		INSERT INTO parent_cats (breed_id, color_id, name, sex, age, birth_date, description, image_url)
+		INSERT INTO parent_cats (breed_id, color_id, name, sex, age, birth_date, description, url)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING parent_cat_id;
 	`
@@ -141,7 +141,7 @@ func (repo *ParentRepositoryImpl) PostParentCat(dto PostParentCatDTO) (int, erro
 func (repo *ParentRepositoryImpl) UpdateParentCatImage(parentCatId int, imageUrl string) error {
 	query := `
 		UPDATE parent_cats
-		SET image_url = $1
+		SET url = $1
 		WHERE parent_cat_id = $2;
 	`
 
