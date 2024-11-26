@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
+	"sync"
 
 	"github.com/gorilla/mux"
 )
@@ -89,7 +90,6 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-// 子猫追加コマンドの実行
 func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
@@ -117,7 +117,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 並列処理
+	// 並列処理で写真データと動画データをアップロード
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	imageUrls := []string{}
@@ -135,7 +135,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			imagePath := fmt.Sprintf("kittens/kitten%d/image%d.jpg", kittenId, i)
-			uploadedFile, err := c.StorageService.SaveFileWithTemp(file, "images", imagePath)
+			uploadedFile, err := c.StorageService.UploadFileToStorage(file, "images", imagePath)
 			if err != nil {
 				log.Printf("画像のアップロードエラー: %v", err)
 				mu.Lock()
@@ -168,7 +168,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		videoPath := fmt.Sprintf("kittens/kitten%d/video.mp4", kittenId)
-		uploadedVideo, err := c.StorageService.SaveFileWithTemp(videoFile, "videos", videoPath)
+		uploadedVideo, err := c.StorageService.UploadFileToStorage(videoFile, "videos", videoPath)
 		if err != nil {
 			log.Printf("動画のアップロードエラー: %v", err)
 			mu.Lock()
@@ -198,6 +198,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 成功レスポンス
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":   "success",

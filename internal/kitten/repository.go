@@ -30,7 +30,7 @@ func NewKittenRepository(db *sql.DB) KittenRepository {
 	return &KittenRepositoryImpl{DB: db}
 }
 
-// 募集中の子猫一覧を取得
+// 募集中の子猫一覧をDBから取得
 func (repo *KittenRepositoryImpl) GetKittens() ([]KittensDTO, error) {
 	query := `
 		SELECT 
@@ -180,12 +180,12 @@ func (r *KittenRepositoryImpl) PostKitten(dto PostKittenDTO) (int, error) {
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 		RETURNING kitten_id;
 	`
-	var kittenID int
-	err := r.DB.QueryRow(query, dto.FatherCatId, dto.MotherCatId, dto.BreedId, dto.ColorId, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenID)
+	var kittenId int
+	err := r.DB.QueryRow(query, dto.FatherCatId, dto.MotherCatId, dto.BreedId, dto.ColorId, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenId)
 	if err != nil {
 		return 0, fmt.Errorf("子猫情報の追加に失敗しました: %w", err)
 	}
-	return kittenID, nil
+	return kittenId, nil
 }
 
 // 子猫の写真をDBに追加
