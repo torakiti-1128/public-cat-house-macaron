@@ -8,8 +8,8 @@ import (
 
 // ストレージのビジネスロジックインターフェース
 type StorageService interface {
-	UploadFile(dto UploadFileDTO) (UploadedFileDTO, error)
-	SaveFileWithTemp(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
+	// ファイルをストレージにアップロード
+	UploadFileToStorage(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
 }
 
 // ストレージのビジネスロジック実装
@@ -23,34 +23,21 @@ func NewStorageService(repo StorageRepository) StorageService {
 }
 
 // ファイルをストレージにアップロード
-func (s *StorageServiceImpl) UploadFile(dto UploadFileDTO) (UploadedFileDTO, error) {
-	publicURL, err := s.Repo.UploadFile(dto.Bucket, dto.Path, dto.FilePath)
+func (s *StorageServiceImpl) UploadFileToStorage(file multipart.File, bucket, destPath string) (UploadedFileDTO, error) {
+	tempPath, err := utils.SaveTemporaryFile(file)
 	if err != nil {
-		return UploadedFileDTO{}, fmt.Errorf("failed to upload file: %w", err)
+		return UploadedFileDTO{}, fmt.Errorf("一時ファイルの保存に失敗しました: %w", err)
+	}
+	defer utils.DeleteTemporaryFile(tempPath)
+
+	publicURL, err := s.Repo.UploadFile(bucket, destPath, tempPath)
+	if err != nil {
+		return UploadedFileDTO{}, fmt.Errorf("ファイルのアップロードに失敗しました: %w", err)
 	}
 
 	return UploadedFileDTO{
 		PublicUrl: publicURL,
-		Bucket:    dto.Bucket,
-		Path:      dto.Path,
+		Bucket:    bucket,
+		Path:      destPath,
 	}, nil
-}
-
-func (s *StorageServiceImpl) SaveFileWithTemp(file multipart.File, bucket, destPath string) (UploadedFileDTO, error) {
-	tempPath, err := utils.SaveTemporaryFile(file)
-	if err != nil {
-		return UploadedFileDTO{}, fmt.Errorf("failed to save temporary file: %w", err)
-	}
-	defer utils.DeleteTemporaryFile(tempPath)
-
-	uploadedFile, err := s.UploadFile(UploadFileDTO{
-		Bucket:   bucket,
-		Path:     destPath,
-		FilePath: tempPath,
-	})
-	if err != nil {
-		return UploadedFileDTO{}, fmt.Errorf("failed to upload file: %w", err)
-	}
-
-	return uploadedFile, nil
 }
