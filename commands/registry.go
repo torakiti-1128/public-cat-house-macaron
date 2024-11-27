@@ -8,7 +8,7 @@ import (
 )
 
 // ビジネスロジックをコマンドに登録
-func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentServise parent.ParentService, storageService storage.StorageService) {
+func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentService parent.ParentService, storageService storage.StorageService) {
 	RegisterCommand("CommandGetKittens", func() Command {
 		return kitten.NewCommandGetKittens(kittenService)
 	})
@@ -31,12 +31,18 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 		return auth.NewCommandCreateUser(authService)
 	})
 	RegisterCommand("CommandGetParentCats", func() Command {
-		return parent.NewCommandGetParentCats(parentServise)
+		return parent.NewCommandGetParentCats(parentService)
 	})
 	RegisterCommand("CommandGetParentCatDetail", func() Command {
-		return parent.NewCommandGetParentCatDetail(parentServise)
+		return parent.NewCommandGetParentCatDetail(parentService)
 	})
 	RegisterCommand("CommandPostParentCat", func() Command {
-		return parent.NewCommandPostParentCat(parentServise, storageService)
+		return parent.NewCommandPostParentCat(parentService, storageService)
+	})
+	RegisterCommand("CommandUpadateParentCat", func() Command {
+		return parent.NewCommandUpdateParentCat(parentService)
+	})
+	RegisterCommand("CommandDeleteparentCat", func() Command {
+		return parent.NewCommandDeleteParentCat(parentService)
 	})
 }
