@@ -25,12 +25,24 @@ type ParentCatDetailDTO struct {
 
 // 親猫追加データ
 type PostParentCatDTO struct {
-	BreedId     int    `json:"breed"`
-	ColorId     int    `json:"color"`
+	BreedId     int    `json:"breedId"`
+	ColorId     int    `json:"colorId"`
 	Name        string `json:"name"`
 	Sex         int    `json:"sex"`
 	Age         int    `json:"age"`
 	BirthDate   string `json:"birthDate"`
 	Description string `json:"description"`
 	ImageUrl    string `json:"imageUrl"`
+}
+
+// 親猫追加データ
+type UpdateParentCatDTO struct {
+	ParentCatId int    `json:"parentCatId"`
+	BreedId     int    `json:"breedId"`
+	ColorId     int    `json:"color"`
+	Name        string `json:"name"`
+	Sex         int    `json:"sex"`
+	Age         int    `json:"age"`
+	BirthDate   string `json:"birthDate"`
+	Description string `json:"description"`
 }
