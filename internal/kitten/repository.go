@@ -18,6 +18,8 @@ type KittenRepository interface {
 	PostKittenImage(kittenId int, imageUrl string) error
 	// 子猫の動画をDBに追加
 	PostKittenVideo(kittenId int, videoUrl string) error
+	// 子猫の更新をDBに反映
+	UpdateKittenDetail(dto UpdateKittenDTO) error
 }
 
 // 子猫関連のDB実装
@@ -183,7 +185,7 @@ func (r *KittenRepositoryImpl) PostKitten(dto PostKittenDTO) (int, error) {
 	var kittenId int
 	err := r.DB.QueryRow(query, dto.FatherCatId, dto.MotherCatId, dto.BreedId, dto.ColorId, dto.Sex, dto.BirthDate, dto.Description, dto.Price, dto.TranState).Scan(&kittenId)
 	if err != nil {
-		return 0, fmt.Errorf("子猫情報の追加に失敗しました: %w", err)
+		return 0, fmt.Errorf("子猫の追加に失敗しました: %w", err)
 	}
 	return kittenId, nil
 }
@@ -212,4 +214,9 @@ func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) er
 		log.Printf("子猫の動画追加エラー: %v (kitten_id: %d, url: %s)", err, kittenID, videoUrl)
 	}
 	return err
+}
+
+// 子猫の情報をDBに更新
+func (r *KittenRepositoryImpl) UpdateKittenDetail(dto UpdateKittenDTO) error {
+	return nil
 }

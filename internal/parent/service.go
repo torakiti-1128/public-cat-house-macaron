@@ -29,7 +29,7 @@ func (s *ParentServiceImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	parentCats, err := s.Repo.GetParentCats()
 	if err != nil {
 		fmt.Printf("親猫一覧の取得に失敗しました: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf("親猫の一覧取得に失敗しました: %w", err)
 	}
 	return parentCats, nil
 }
@@ -39,7 +39,7 @@ func (s *ParentServiceImpl) GetParentCatDetail(parentCatId int) (ParentCatDetail
 	parentCatDetail, err := s.Repo.GetParentCatDetail(parentCatId)
 	if err != nil {
 		fmt.Printf("親猫詳細の取得に失敗しました: %v\n", err)
-		return ParentCatDetailDTO{}, err
+		return ParentCatDetailDTO{}, fmt.Errorf("親猫詳細の取得に失敗しました: %w", err)
 	}
 	return parentCatDetail, nil
 }

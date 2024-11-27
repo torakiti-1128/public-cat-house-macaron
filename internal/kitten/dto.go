@@ -39,3 +39,16 @@ type PostKittenDTO struct {
 	ImageUrls   []string
 	VideoUrl    string
 }
+
+// 　子猫更新データ
+type UpdateKittenDTO struct {
+	FatherCatId int    `json:"fatherCatId"`
+	MotherCatId int    `json:"motherCatId"`
+	BreedId     int    `json:"breedId"`
+	ColorId     int    `json:"colorId"`
+	Sex         int    `json:"sex"`
+	BirthDate   string `json:"birthDate"`
+	Description string `json:"description"`
+	Price       int    `json:"price"`
+	TranState   string `json:"tranState"`
+}
