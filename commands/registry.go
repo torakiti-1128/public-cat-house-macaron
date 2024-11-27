@@ -7,11 +7,10 @@ import (
 	"chm-api/internal/kitten"
 	"chm-api/internal/news"
 	"chm-api/internal/parent"
-	"chm-api/internal/storage"
 )
 
 // ビジネスロジックをコマンドに登録
-func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentService parent.ParentService, storageService storage.StorageService, breedService breed.BreedService, colorServise color.ColorService, newsService news.NewsService) {
+func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentService parent.ParentService, breedService breed.BreedService, colorServise color.ColorService, newsService news.NewsService) {
 	RegisterCommand("CommandLoginUser", func() Command {
 		return auth.NewCommandLoginUser(authService)
 	})
@@ -25,7 +24,7 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 		return kitten.NewCommandGetKittenDetail(kittenService)
 	})
 	RegisterCommand("CommandPostKitten", func() Command {
-		return kitten.NewCommandPostKitten(kittenService, storageService)
+		return kitten.NewCommandPostKitten(kittenService)
 	})
 	RegisterCommand("CommandUpdateKitten", func() Command {
 		return kitten.NewCommandGetKittenDetail(kittenService)
@@ -40,7 +39,7 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 		return parent.NewCommandGetParentCatDetail(parentService)
 	})
 	RegisterCommand("CommandPostParentCat", func() Command {
-		return parent.NewCommandPostParentCat(parentService, storageService)
+		return parent.NewCommandPostParentCat(parentService)
 	})
 	RegisterCommand("CommandUpdateParentCat", func() Command {
 		return parent.NewCommandUpdateParentCat(parentService)

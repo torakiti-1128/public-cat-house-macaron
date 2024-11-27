@@ -1,13 +1,11 @@
 package kitten
 
 import (
-	"chm-api/internal/storage"
 	"chm-api/internal/utils"
 	"encoding/json"
-	"fmt"
 	"log"
+	"mime/multipart"
 	"net/http"
-	"sync"
 
 	"github.com/gorilla/mux"
 )
@@ -24,8 +22,7 @@ type CommandGetKittenDetail struct {
 
 // 子猫追加コマンド
 type CommandPostKitten struct {
-	KittenService  KittenService
-	StorageService storage.StorageService
+	KittenService KittenService
 }
 
 // 子猫更新コマンド
@@ -49,8 +46,8 @@ func NewCommandGetKittenDetail(kittenService KittenService) *CommandGetKittenDet
 }
 
 // 子猫追加コンストラクタ
-func NewCommandPostKitten(kittenService KittenService, storageService storage.StorageService) *CommandPostKitten {
-	return &CommandPostKitten{KittenService: kittenService, StorageService: storageService}
+func NewCommandPostKitten(kittenService KittenService) *CommandPostKitten {
+	return &CommandPostKitten{KittenService: kittenService}
 }
 
 // 子猫更新コンストラクタ
@@ -130,93 +127,55 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 並列処理で写真データと動画データをアップロード
-	var wg sync.WaitGroup
-	var mu sync.Mutex
-	imageUrls := []string{}
-	var videoUrl string
-	uploadErrors := []error{}
-
-	// 画像アップロード
-	for i := 1; i <= 4; i++ {
-		wg.Add(1)
-		go func(i int) {
-			defer wg.Done()
-			file, _, err := r.FormFile(fmt.Sprintf("image%d", i))
-			if err != nil {
-				log.Printf("画像%dがリクエストに含まれていないためスキップしました: %v", i, err)
-				return
+	// アップロードされた画像を収集
+	var imageFiles []multipart.File
+	for {
+		file, _, err := r.FormFile("image")
+		if err != nil {
+			if err == http.ErrMissingFile {
+				break // すべての画像を取得済み
 			}
-			imagePath := fmt.Sprintf("kittens/kitten%d/image%d.jpg", kittenId, i)
-			uploadedFile, err := c.StorageService.UploadFileToStorage(file, "images", imagePath)
-			if err != nil {
-				log.Printf("画像のアップロードエラー: %v", err)
-				mu.Lock()
-				uploadErrors = append(uploadErrors, err)
-				mu.Unlock()
-				return
-			}
-			mu.Lock()
-			imageUrls = append(imageUrls, uploadedFile.PublicUrl)
-			mu.Unlock()
-
-			// データベースに画像を保存
-			err = c.KittenService.PostKittenImage(kittenId, uploadedFile.PublicUrl)
-			if err != nil {
-				log.Printf("子猫画像のデータベース保存エラー: %v", err)
-				mu.Lock()
-				uploadErrors = append(uploadErrors, err)
-				mu.Unlock()
-			}
-		}(i)
+			log.Printf("画像取得エラー: %v", err)
+			continue
+		}
+		imageFiles = append(imageFiles, file)
 	}
 
-	// 動画アップロード
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		videoFile, _, err := r.FormFile("video")
-		if err != nil {
-			log.Printf("動画ファイルが見つからない、または読み取れません: %v", err)
-			return
-		}
-		videoPath := fmt.Sprintf("kittens/kitten%d/video.mp4", kittenId)
-		uploadedVideo, err := c.StorageService.UploadFileToStorage(videoFile, "videos", videoPath)
-		if err != nil {
-			log.Printf("動画のアップロードエラー: %v", err)
-			mu.Lock()
-			uploadErrors = append(uploadErrors, err)
-			mu.Unlock()
-			return
-		}
-		mu.Lock()
-		videoUrl = uploadedVideo.PublicUrl
-		mu.Unlock()
-
-		// データベースに動画を保存
-		err = c.KittenService.PostKittenVideo(kittenId, videoUrl)
-		if err != nil {
-			log.Printf("子猫動画のデータベース保存エラー: %v", err)
-			mu.Lock()
-			uploadErrors = append(uploadErrors, err)
-			mu.Unlock()
-		}
-	}()
-
-	// 全ての処理が完了するのを待機
-	wg.Wait()
-
-	if len(uploadErrors) > 0 {
-		http.Error(w, "アップロード中にエラーが発生しました", http.StatusInternalServerError)
+	// 画像アップロード処理
+	imageUrls, err := c.KittenService.PostKittenImages(kittenId, imageFiles)
+	if err != nil {
+		http.Error(w, "画像のアップロードに失敗しました", http.StatusInternalServerError)
+		log.Printf("画像アップロードエラー: %v", err)
 		return
 	}
 
+	// 動画ファイルを取得
+	videoFile, _, err := r.FormFile("video")
+	if err != nil {
+		if err != http.ErrMissingFile {
+			log.Printf("動画ファイル取得エラー: %v", err)
+			http.Error(w, "動画ファイルの取得に失敗しました", http.StatusBadRequest)
+			return
+		}
+		videoFile = nil // 動画はオプション
+	}
+
+	// 動画アップロード処理
+	if videoFile != nil {
+		err = c.KittenService.PostKittenVideo(kittenId, videoFile)
+		if err != nil {
+			http.Error(w, "動画のアップロードに失敗しました", http.StatusInternalServerError)
+			log.Printf("動画アップロードエラー: %v", err)
+			return
+		}
+	}
+
+	// レスポンス
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":   "success",
 		"kittenId": kittenId,
 		"images":   imageUrls,
-		"video":    videoUrl,
 	})
 }
 

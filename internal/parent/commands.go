@@ -1,10 +1,8 @@
 package parent
 
 import (
-	"chm-api/internal/storage"
 	"chm-api/internal/utils"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -24,8 +22,7 @@ type CommandGetParentCatDetail struct {
 
 // 親猫追加コマンド
 type CommandPostParentCat struct {
-	ParentService  ParentService
-	StorageService storage.StorageService
+	ParentService ParentService
 }
 
 // 親猫一覧取得コマンド
@@ -49,8 +46,8 @@ func NewCommandGetParentCatDetail(parentService ParentService) *CommandGetParent
 }
 
 // 親猫追加コンストラクタ
-func NewCommandPostParentCat(parentService ParentService, storageService storage.StorageService) *CommandPostParentCat {
-	return &CommandPostParentCat{ParentService: parentService, StorageService: storageService}
+func NewCommandPostParentCat(parentService ParentService) *CommandPostParentCat {
+	return &CommandPostParentCat{ParentService: parentService}
 }
 
 // 親猫更新コンストラクタ
@@ -138,14 +135,7 @@ func (c *CommandPostParentCat) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", parentCatId)
-	uploadedFile, err := c.StorageService.UploadFileToStorage(file, "images", imagePath)
-	if err != nil {
-		log.Printf("画像のアップロードエラー: %v", err)
-		return
-	}
-
-	err = c.ParentService.UpdateParentCatImage(parentCatId, uploadedFile.PublicUrl)
+	err = c.ParentService.UpdateParentCatImage(parentCatId, file)
 	if err != nil {
 		log.Printf("親猫画像の更新エラー: %v", err)
 	}

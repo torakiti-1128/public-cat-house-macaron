@@ -1,6 +1,11 @@
 package parent
 
-import "fmt"
+import (
+	"chm-api/internal/storage"
+	"fmt"
+	"log"
+	"mime/multipart"
+)
 
 // 親猫関連のビジネスロジックインターフェース
 type ParentService interface {
@@ -11,7 +16,7 @@ type ParentService interface {
 	// 親猫を追加
 	PostParentCat(dto PostParentCatDTO) (int, error)
 	// 親猫の写真を更新
-	UpdateParentCatImage(parentCatId int, imageUrl string) error
+	UpdateParentCatImage(parentCatId int, file multipart.File) error
 	// 親猫を更新
 	UpdateParentCat(dto UpdateParentCatDTO) error
 	// 親猫を削除
@@ -20,12 +25,13 @@ type ParentService interface {
 
 // 親猫関連のビジネスロジック実装
 type ParentServiceImpl struct {
-	Repo ParentRepository
+	Repo           ParentRepository
+	StorageService storage.StorageService
 }
 
 // 親猫関連のビジネスロジックコンストラクタ
-func NewParenttService(repo ParentRepository) ParentService {
-	return &ParentServiceImpl{Repo: repo}
+func NewParenttService(repo ParentRepository, storageService storage.StorageService) ParentService {
+	return &ParentServiceImpl{Repo: repo, StorageService: storageService}
 }
 
 // 親猫一覧を取得
@@ -59,9 +65,15 @@ func (s *ParentServiceImpl) PostParentCat(dto PostParentCatDTO) (int, error) {
 }
 
 // 親猫の写真を更新
-func (s *ParentServiceImpl) UpdateParentCatImage(parentCatId int, imageUrl string) error {
-	if err := s.Repo.UpdateParentCatImage(parentCatId, imageUrl); err != nil {
-		fmt.Printf("親猫の写真の更新に失敗しました (parentCatid: %d, ImageUrl: %s): %v\n", parentCatId, imageUrl, err)
+func (s *ParentServiceImpl) UpdateParentCatImage(parentCatId int, file multipart.File) error {
+	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", parentCatId)
+	uploadedFile, err := s.StorageService.UploadFileToStorage(file, "images", imagePath)
+	if err != nil {
+		log.Printf("画像のアップロードエラー: %v", err)
+		return err
+	}
+	if err := s.Repo.UpdateParentCatImage(parentCatId, uploadedFile.PublicUrl); err != nil {
+		fmt.Printf("親猫の写真の更新に失敗しました (parentCatid: %d, ImageUrl: %s): %v\n", parentCatId, uploadedFile.PublicUrl, err)
 		return fmt.Errorf("親猫の写真の更新に失敗しました: %w", err)
 	}
 	return nil
