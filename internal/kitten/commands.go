@@ -229,6 +229,7 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 
 	// リクエストをDTOにマッピング
 	dto := UpdateKittenDTO{
+		KittenId:    utils.ToInt(r.FormValue("kittenId")),
 		FatherCatId: utils.ToInt(r.FormValue("fatherCatId")),
 		MotherCatId: utils.ToInt(r.FormValue("motherCatId")),
 		BreedId:     utils.ToInt(r.FormValue("breedId")),
@@ -262,14 +263,13 @@ func (c *CommandDeleteKitten) Execute(w http.ResponseWriter, r *http.Request) {
 	}
 	kittenId := utils.ToInt(kittenIdStr)
 
-	// 子猫情報を保存
 	err := c.KittenService.DeleteKitten(kittenId)
 	if err != nil {
-		http.Error(w, "子猫情報の消去に失敗しました", http.StatusInternalServerError)
-		log.Printf("子猫情報の消去エラー: %v", err)
+		http.Error(w, "子猫の消去に失敗しました", http.StatusInternalServerError)
+		log.Printf("子猫の消去エラー: %v", err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("子猫情報を消去しました"))
+	w.Write([]byte("子猫を消去しました"))
 }
