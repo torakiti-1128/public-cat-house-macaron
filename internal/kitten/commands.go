@@ -265,11 +265,11 @@ func (c *CommandDeleteKitten) Execute(w http.ResponseWriter, r *http.Request) {
 
 	err := c.KittenService.DeleteKitten(kittenId)
 	if err != nil {
-		http.Error(w, "子猫の消去に失敗しました", http.StatusInternalServerError)
-		log.Printf("子猫の消去エラー: %v", err)
+		http.Error(w, "子猫情報の消去に失敗しました", http.StatusInternalServerError)
+		log.Printf("子猫情報の消去エラー: %v", err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("子猫を消去しました"))
+	w.Write([]byte("子猫情報を消去しました"))
 }
