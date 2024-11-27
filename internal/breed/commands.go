@@ -4,6 +4,7 @@ import (
 	"chm-api/internal/utils"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -29,19 +30,22 @@ type CommandDeleteBreed struct {
 	BreedService BreedService
 }
 
-// コンストラクタ
+// 猫種一覧取得コマンドコンストラクタ
 func NewCommandGetBreeds(breedService BreedService) *CommandGetBreeds {
 	return &CommandGetBreeds{BreedService: breedService}
 }
 
+// 猫種追加コマンドコンストラクタ
 func NewCommandPostBreed(breedService BreedService) *CommandPostBreed {
 	return &CommandPostBreed{BreedService: breedService}
 }
 
+// 猫種更新コマンドコンストラクタ
 func NewCommandUpdateBreed(breedService BreedService) *CommandUpdateBreed {
 	return &CommandUpdateBreed{BreedService: breedService}
 }
 
+// 猫種削除コマンドコンストラクタ
 func NewCommandDeleteBreed(breedService BreedService) *CommandDeleteBreed {
 	return &CommandDeleteBreed{BreedService: breedService}
 }
@@ -93,6 +97,8 @@ func (c *CommandUpdateBreed) Execute(w http.ResponseWriter, r *http.Request) {
 		BreedId:   utils.ToInt(r.FormValue("breedId")),
 		BreedName: r.FormValue("breedName"),
 	}
+
+	log.Printf("breedId: %s, breedName: %s", r.FormValue("breedId"), r.FormValue("breedName"))
 
 	err := c.BreedService.UpdateBreed(dto)
 	if err != nil {

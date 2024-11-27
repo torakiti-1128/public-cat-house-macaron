@@ -42,10 +42,7 @@ type PostKittenDTO struct {
 
 // 　子猫更新データ
 type UpdateKittenDTO struct {
-<<<<<<< HEAD
-=======
 	KittenId    int    `json:"kittenId"`
->>>>>>> origin/devlop-codespace-windows
 	FatherCatId int    `json:"fatherCatId"`
 	MotherCatId int    `json:"motherCatId"`
 	BreedId     int    `json:"breedId"`

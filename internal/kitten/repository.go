@@ -18,15 +18,10 @@ type KittenRepository interface {
 	PostKittenImage(kittenId int, imageUrl string) error
 	// 子猫の動画をDBに追加
 	PostKittenVideo(kittenId int, videoUrl string) error
-<<<<<<< HEAD
-	// 子猫の更新をDBに反映
-	UpdateKittenDetail(dto UpdateKittenDTO) error
-=======
 	// 子猫の更新をDBヘ反映
 	UpdateKitten(dto UpdateKittenDTO) error
 	// 子猫の消去をDBへ反映
 	DeleteKitten(kittenId int) error
->>>>>>> origin/devlop-codespace-windows
 }
 
 // 子猫関連のDB実装
@@ -223,11 +218,6 @@ func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) er
 	return err
 }
 
-<<<<<<< HEAD
-// 子猫の情報をDBに更新
-func (r *KittenRepositoryImpl) UpdateKittenDetail(dto UpdateKittenDTO) error {
-	return nil
-=======
 // 子猫の更新をDBヘ反映
 func (r *KittenRepositoryImpl) UpdateKitten(dto UpdateKittenDTO) error {
 	query := `
@@ -275,5 +265,4 @@ func (r *KittenRepositoryImpl) DeleteKitten(kittenId int) error {
 		log.Printf("子猫の消去エラー: %v (kitten_id: %d)", err, kittenId)
 	}
 	return err
->>>>>>> origin/devlop-codespace-windows
 }

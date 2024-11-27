@@ -30,7 +30,7 @@ func NewKittenService(repo KittenRepository) KittenService {
 	return &KittenServiceImpl{Repo: repo}
 }
 
-// 子猫詳細を取得
+// 子猫一覧を取得
 func (s *KittenServiceImpl) GetKittens() ([]KittensDTO, error) {
 	kittens, err := s.Repo.GetKittens()
 	if err != nil {

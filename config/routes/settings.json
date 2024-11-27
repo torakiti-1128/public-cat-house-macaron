@@ -16,7 +16,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/kittens/{kittenId}",
+            "endPoint": "/kittens",
             "command": "CommandUpdateKitten",
             "httpMethod": "PUT"
         },
@@ -41,7 +41,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/parent/{parentCatId}",
+            "endPoint": "/parent",
             "command": "CommandUpdateParentCat",
             "httpMethod": "PUT"
         },
@@ -61,7 +61,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/adoption/{adoptionCatId}",
+            "endPoint": "/adoption/",
             "command": "CommandUpdateAdoptionCat",
             "httpMethod": "PUT"
         },
@@ -81,7 +81,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/news/{newsId}",
+            "endPoint": "/news",
             "command": "CommandUpdateNews",
             "httpMethod": "PUT"
         },
@@ -101,7 +101,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/breeds/{breedId}",
+            "endPoint": "/breeds",
             "command": "CommandUpdateBreed",
             "httpMethod": "PUT"
         },
@@ -121,7 +121,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/colors/{colorId}",
+            "endPoint": "/colors",
             "command": "CommandUpdateColor",
             "httpMethod": "PUT"
         },

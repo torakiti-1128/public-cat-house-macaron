@@ -5,23 +5,29 @@ import (
 	"fmt"
 )
 
-// ニュースリポジトリインターフェース
+// ニュース関連のDBインターフェース
 type NewsRepository interface {
+	// ニュース一覧をDBから取得
 	GetNews() ([]NewsDTO, error)
+	// ニュースをDBに追加
 	PostNews(dto PostNewsDTO) (int, error)
+	// ニュースの更新をDBへ反映
 	UpdateNews(dto UpdateNewsDTO) error
+	// ニュースの消去をDBへ反映
 	DeleteNews(newsId int) error
 }
 
-// ニュースリポジトリ実装
+// ニュース関連のDB実装
 type NewsRepositoryImpl struct {
 	DB *sql.DB
 }
 
+// ニュース関連のDBコンストラクタ
 func NewNewsRepository(db *sql.DB) NewsRepository {
 	return &NewsRepositoryImpl{DB: db}
 }
 
+// ニュース一覧をDBから取得
 func (repo *NewsRepositoryImpl) GetNews() ([]NewsDTO, error) {
 	query := `SELECT news_id, title, content FROM news`
 	rows, err := repo.DB.Query(query)
@@ -41,6 +47,7 @@ func (repo *NewsRepositoryImpl) GetNews() ([]NewsDTO, error) {
 	return newsList, nil
 }
 
+// ニュースをDBに追加
 func (repo *NewsRepositoryImpl) PostNews(dto PostNewsDTO) (int, error) {
 	query := `INSERT INTO news (title, content) VALUES ($1, $2) RETURNING news_id`
 	var newsId int
@@ -51,6 +58,7 @@ func (repo *NewsRepositoryImpl) PostNews(dto PostNewsDTO) (int, error) {
 	return newsId, nil
 }
 
+// ニュースの更新をDBへ反映
 func (repo *NewsRepositoryImpl) UpdateNews(dto UpdateNewsDTO) error {
 	query := `UPDATE news SET title = $1, content = $2 WHERE news_id = $3`
 	_, err := repo.DB.Exec(query, dto.Title, dto.Content, dto.NewsId)
@@ -60,6 +68,7 @@ func (repo *NewsRepositoryImpl) UpdateNews(dto UpdateNewsDTO) error {
 	return nil
 }
 
+// ニュースの消去をDBへ反映
 func (repo *NewsRepositoryImpl) DeleteNews(newsId int) error {
 	query := `DELETE FROM news WHERE news_id = $1`
 	_, err := repo.DB.Exec(query, newsId)

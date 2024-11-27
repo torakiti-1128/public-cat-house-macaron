@@ -6,7 +6,10 @@ import (
 	apiConfig "chm-api/config/routes"
 	"chm-api/config/storage/supabase"
 	"chm-api/internal/auth"
+	"chm-api/internal/breed"
+	"chm-api/internal/color"
 	"chm-api/internal/kitten"
+	"chm-api/internal/news"
 	"chm-api/internal/parent"
 	"chm-api/internal/storage"
 	"chm-api/routes"
@@ -40,9 +43,12 @@ func main() {
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db))
 	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.Config(supabase.NewConfig())))
+	breedService := breed.NewBreedService(breed.NewBreedRepository(db))
+	colorService := color.NewColorService(color.NewColorRepository(db))
+	newsService := news.NewNewsService(news.NewNewsRepository(db))
 
 	// ビジネスロジックを各コマンドへ実装
-	commands.RegisterCommands(kittenService, authService, parentService, storageService)
+	commands.RegisterCommands(kittenService, authService, parentService, storageService, breedService, colorService, newsService)
 
 	// ルーターを初期化
 	router := routes.InitializeRouter(apiConfig)

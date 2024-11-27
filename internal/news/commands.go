@@ -29,24 +29,27 @@ type CommandDeleteNews struct {
 	NewsService NewsService
 }
 
-// コンストラクタ
+// ニュース一覧取得コマンドコンストラクタ
 func NewCommandGetNews(newsService NewsService) *CommandGetNews {
 	return &CommandGetNews{NewsService: newsService}
 }
 
+// ニュース追加コマンドコンストラクタ
 func NewCommandPostNews(newsService NewsService) *CommandPostNews {
 	return &CommandPostNews{NewsService: newsService}
 }
 
+// ニュース更新コマンドコンストラクタ
 func NewCommandUpdateNews(newsService NewsService) *CommandUpdateNews {
 	return &CommandUpdateNews{NewsService: newsService}
 }
 
+// ニュース削除コマンドコンストラクタ
 func NewCommandDeleteNews(newsService NewsService) *CommandDeleteNews {
 	return &CommandDeleteNews{NewsService: newsService}
 }
 
-// ニュース一覧取得
+// ニュース一覧取得コマンドの実行
 func (c *CommandGetNews) Execute(w http.ResponseWriter, r *http.Request) {
 	news, err := c.NewsService.GetNews()
 	if err != nil {
@@ -61,7 +64,7 @@ func (c *CommandGetNews) Execute(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ニュース追加
+// ニュース追加コマンドの実行
 func (c *CommandPostNews) Execute(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
@@ -83,7 +86,7 @@ func (c *CommandPostNews) Execute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("ニュースが正常に追加されました。ID: %d", newsId)))
 }
 
-// ニュース更新
+// ニュース更新コマンドの実行
 func (c *CommandUpdateNews) Execute(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
@@ -106,7 +109,7 @@ func (c *CommandUpdateNews) Execute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ニュースが正常に更新されました"))
 }
 
-// ニュース削除
+// ニュース削除コマンドの実行
 func (c *CommandDeleteNews) Execute(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	newsIdStr, ok := vars["newsId"]

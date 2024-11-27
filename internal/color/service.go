@@ -2,23 +2,29 @@ package color
 
 import "fmt"
 
-// カラーサービスインターフェース
+// カラービジネスロジックインターフェース
 type ColorService interface {
+	// カラー一覧を取得
 	GetColors() ([]ColorDTO, error)
+	// カラーを追加
 	PostColor(dto PostColorDTO) (int, error)
+	// カラーの更新
 	UpdateColor(dto UpdateColorDTO) error
+	// カラーの消去
 	DeleteColor(colorId int) error
 }
 
-// カラーサービス実装
+// カラービジネスロジック実装
 type ColorServiceImpl struct {
 	Repo ColorRepository
 }
 
+// カラービジネスロジックコンストラクタ
 func NewColorService(repo ColorRepository) ColorService {
 	return &ColorServiceImpl{Repo: repo}
 }
 
+// カラー一覧を取得
 func (s *ColorServiceImpl) GetColors() ([]ColorDTO, error) {
 	colors, err := s.Repo.GetColors()
 	if err != nil {
@@ -28,6 +34,7 @@ func (s *ColorServiceImpl) GetColors() ([]ColorDTO, error) {
 	return colors, nil
 }
 
+// カラーを追加
 func (s *ColorServiceImpl) PostColor(dto PostColorDTO) (int, error) {
 	colorId, err := s.Repo.PostColor(dto)
 	if err != nil {
@@ -37,6 +44,7 @@ func (s *ColorServiceImpl) PostColor(dto PostColorDTO) (int, error) {
 	return colorId, nil
 }
 
+// カラーの更新
 func (s *ColorServiceImpl) UpdateColor(dto UpdateColorDTO) error {
 	err := s.Repo.UpdateColor(dto)
 	if err != nil {
@@ -46,6 +54,7 @@ func (s *ColorServiceImpl) UpdateColor(dto UpdateColorDTO) error {
 	return nil
 }
 
+// カラーの消去
 func (s *ColorServiceImpl) DeleteColor(colorId int) error {
 	err := s.Repo.DeleteColor(colorId)
 	if err != nil {

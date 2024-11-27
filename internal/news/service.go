@@ -2,23 +2,29 @@ package news
 
 import "fmt"
 
-// ニュースサービスインターフェース
+// ニュースビジネスロジックインターフェース
 type NewsService interface {
+	// ニュース一覧を取得
 	GetNews() ([]NewsDTO, error)
+	// ニュースを追加
 	PostNews(dto PostNewsDTO) (int, error)
+	// ニュースの更新
 	UpdateNews(dto UpdateNewsDTO) error
+	// ニュースの消去
 	DeleteNews(newsId int) error
 }
 
-// ニュースサービス実装
+// ニュースビジネスロジック実装
 type NewsServiceImpl struct {
 	Repo NewsRepository
 }
 
+// ニュースビジネスロジックコンストラクタ
 func NewNewsService(repo NewsRepository) NewsService {
 	return &NewsServiceImpl{Repo: repo}
 }
 
+// ニュース一覧を取得
 func (s *NewsServiceImpl) GetNews() ([]NewsDTO, error) {
 	news, err := s.Repo.GetNews()
 	if err != nil {
@@ -28,6 +34,7 @@ func (s *NewsServiceImpl) GetNews() ([]NewsDTO, error) {
 	return news, nil
 }
 
+// ニュースを追加
 func (s *NewsServiceImpl) PostNews(dto PostNewsDTO) (int, error) {
 	newsId, err := s.Repo.PostNews(dto)
 	if err != nil {
@@ -37,6 +44,7 @@ func (s *NewsServiceImpl) PostNews(dto PostNewsDTO) (int, error) {
 	return newsId, nil
 }
 
+// ニュースの更新
 func (s *NewsServiceImpl) UpdateNews(dto UpdateNewsDTO) error {
 	err := s.Repo.UpdateNews(dto)
 	if err != nil {
@@ -46,6 +54,7 @@ func (s *NewsServiceImpl) UpdateNews(dto UpdateNewsDTO) error {
 	return nil
 }
 
+// ニュースの消去
 func (s *NewsServiceImpl) DeleteNews(newsId int) error {
 	err := s.Repo.DeleteNews(newsId)
 	if err != nil {
