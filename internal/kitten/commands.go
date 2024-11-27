@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
-	"sync"
 	"sync"
 
 	"github.com/gorilla/mux"
@@ -16,12 +14,12 @@ import (
 
 // 子猫一覧取得コマンド
 type CommandGetKittens struct {
-	Service KittenService
+	KittenService KittenService
 }
 
 // 子猫詳細取得コマンド
 type CommandGetKittenDetail struct {
-	Service KittenService
+	KittenService KittenService
 }
 
 // 子猫追加コマンド
@@ -30,14 +28,24 @@ type CommandPostKitten struct {
 	StorageService storage.StorageService
 }
 
+// 子猫更新コマンド
+type CommandUpdateKitten struct {
+	KittenService KittenService
+}
+
+// 子猫消去コマンド
+type CommandDeleteKitten struct {
+	KittenService KittenService
+}
+
 // 子猫一覧取得コンストラクタ
-func NewCommandGetKittens(service KittenService) *CommandGetKittens {
-	return &CommandGetKittens{Service: service}
+func NewCommandGetKittens(kittenService KittenService) *CommandGetKittens {
+	return &CommandGetKittens{KittenService: kittenService}
 }
 
 // 子猫詳細取得コンストラクタ
-func NewCommandGetKittenDetail(service KittenService) *CommandGetKittenDetail {
-	return &CommandGetKittenDetail{Service: service}
+func NewCommandGetKittenDetail(kittenService KittenService) *CommandGetKittenDetail {
+	return &CommandGetKittenDetail{KittenService: kittenService}
 }
 
 // 子猫追加コンストラクタ
@@ -45,9 +53,19 @@ func NewCommandPostKitten(kittenService KittenService, storageService storage.St
 	return &CommandPostKitten{KittenService: kittenService, StorageService: storageService}
 }
 
+// 子猫更新コンストラクタ
+func NewCommandUpdateKitten(kittenService KittenService) *CommandUpdateKitten {
+	return &CommandUpdateKitten{KittenService: kittenService}
+}
+
+// 子猫消去コンストラクタ
+func NewCommandDeleteKitten(kittenService KittenService) *CommandDeleteKitten {
+	return &CommandDeleteKitten{KittenService: kittenService}
+}
+
 // 子猫一覧取得コマンドの実行
 func (c *CommandGetKittens) Execute(w http.ResponseWriter, r *http.Request) {
-	kittens, err := c.Service.GetKittens()
+	kittens, err := c.KittenService.GetKittens()
 	if err != nil {
 		http.Error(w, "子猫一覧取得に失敗", http.StatusInternalServerError)
 		return
@@ -69,15 +87,9 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 		http.Error(w, "KittenIdが必要です", http.StatusBadRequest)
 		return
 	}
+	kittenId := utils.ToInt(kittenIdStr)
 
-	// kittenIDを整数に変換
-	kittenId, err := strconv.Atoi(kittenIdStr)
-	if err != nil {
-		http.Error(w, "kittenIdが有効ではありません", http.StatusBadRequest)
-		return
-	}
-
-	kittenDetail, err := c.Service.GetKittenDetail(kittenId)
+	kittenDetail, err := c.KittenService.GetKittenDetail(kittenId)
 	if err != nil {
 		http.Error(w, "子猫の詳細取得ができませんでした", http.StatusInternalServerError)
 		return
@@ -90,8 +102,9 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 	}
 }
 
+// 子猫追加コマンドの実行
 func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseMultipartForm(10 << 20); err != nil {
+	if err := r.ParseForm(); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
 		return
 	}
@@ -198,7 +211,6 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 成功レスポンス
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":   "success",
@@ -206,4 +218,58 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		"images":   imageUrls,
 		"video":    videoUrl,
 	})
+}
+
+// 子猫更新コマンドの実行
+func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
+		return
+	}
+
+	// リクエストをDTOにマッピング
+	dto := UpdateKittenDTO{
+		FatherCatId: utils.ToInt(r.FormValue("fatherCatId")),
+		MotherCatId: utils.ToInt(r.FormValue("motherCatId")),
+		BreedId:     utils.ToInt(r.FormValue("breedId")),
+		ColorId:     utils.ToInt(r.FormValue("colorId")),
+		Sex:         utils.ToInt(r.FormValue("sex")),
+		BirthDate:   r.FormValue("birthDate"),
+		Description: r.FormValue("description"),
+		Price:       utils.ToInt(r.FormValue("price")),
+		TranState:   r.FormValue("tranState"),
+	}
+
+	// 子猫情報を保存
+	err := c.KittenService.UpdateKitten(dto)
+	if err != nil {
+		http.Error(w, "子猫情報の更新に失敗しました", http.StatusInternalServerError)
+		log.Printf("子猫情報の更新エラー: %v", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("子猫情報を更新しました"))
+}
+
+// 子猫消去コマンドの実行
+func (c *CommandDeleteKitten) Execute(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	kittenIdStr, ok := vars["kittenId"]
+	if !ok {
+		http.Error(w, "KittenIdが必要です", http.StatusBadRequest)
+		return
+	}
+	kittenId := utils.ToInt(kittenIdStr)
+
+	// 子猫情報を保存
+	err := c.KittenService.DeleteKitten(kittenId)
+	if err != nil {
+		http.Error(w, "子猫情報の消去に失敗しました", http.StatusInternalServerError)
+		log.Printf("子猫情報の消去エラー: %v", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("子猫情報を消去しました"))
 }

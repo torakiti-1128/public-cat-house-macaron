@@ -18,6 +18,10 @@ type KittenRepository interface {
 	PostKittenImage(kittenId int, imageUrl string) error
 	// 子猫の動画をDBに追加
 	PostKittenVideo(kittenId int, videoUrl string) error
+	// 子猫の更新をDBヘ反映
+	UpdateKitten(dto UpdateKittenDTO) error
+	// 子猫の消去をDBへ反映
+	DeleteKitten(kittenId int) error
 }
 
 // 子猫関連のDB実装
@@ -210,6 +214,55 @@ func (r *KittenRepositoryImpl) PostKittenVideo(kittenID int, videoUrl string) er
 	_, err := r.DB.Exec(query, kittenID, videoUrl)
 	if err != nil {
 		log.Printf("子猫の動画追加エラー: %v (kitten_id: %d, url: %s)", err, kittenID, videoUrl)
+	}
+	return err
+}
+
+// 子猫の更新をDBヘ反映
+func (r *KittenRepositoryImpl) UpdateKitten(dto UpdateKittenDTO) error {
+	query := `
+		UPDATE 
+			kittens
+		SET 
+			father_cat_id = $1, 
+			mother_cat_id = $2,
+			breed_id = $3,
+			color_id =  $4,
+			sex = $5,
+			birth_date = $6,
+			description = $7,
+			price = $8,
+			tran_state = &9
+		WHERE
+			kitten_id = &10
+	`
+	_, err := r.DB.Exec(query,
+		dto.FatherCatId,
+		dto.MotherCatId,
+		dto.BreedId,
+		dto.ColorId,
+		dto.Sex,
+		dto.BirthDate,
+		dto.Description,
+		dto.Price,
+		dto.TranState,
+		dto.KittenId,
+	)
+	if err != nil {
+		log.Printf("子猫の更新エラー: %v", err)
+	}
+	return err
+}
+
+// 子猫の消去をDBへ反映
+func (r *KittenRepositoryImpl) DeleteKitten(kittenId int) error {
+	query := `
+		DELETE FROM kittens
+		WHERE kitten_id = $1;
+	`
+	_, err := r.DB.Exec(query, kittenId)
+	if err != nil {
+		log.Printf("子猫の消去エラー: %v (kitten_id: %d)", err, kittenId)
 	}
 	return err
 }

@@ -18,6 +18,12 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 	RegisterCommand("CommandPostKitten", func() Command {
 		return kitten.NewCommandPostKitten(kittenService, storageService)
 	})
+	RegisterCommand("CommandUpadateKitten", func() Command {
+		return kitten.NewCommandGetKittenDetail(kittenService)
+	})
+	RegisterCommand("CommandDeleteKitten", func() Command {
+		return kitten.NewCommandGetKittenDetail(kittenService)
+	})
 	RegisterCommand("CommandLoginUser", func() Command {
 		return auth.NewCommandLoginUser(authService)
 	})
