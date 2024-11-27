@@ -14,12 +14,12 @@ import (
 
 // 親猫一覧取得コマンド
 type CommandGetParentCats struct {
-	Service ParentService
+	ParentService ParentService
 }
 
 // 親猫詳細取得コマンド
 type CommandGetParentCatDetail struct {
-	Service ParentService
+	ParentService ParentService
 }
 
 // 親猫追加コマンド
@@ -28,14 +28,24 @@ type CommandPostParentCat struct {
 	StorageService storage.StorageService
 }
 
+// 親猫一覧取得コマンド
+type CommandUpdateParentCat struct {
+	ParentService ParentService
+}
+
+// 親猫一覧取得コマンド
+type CommandDeleteParentCat struct {
+	ParentService ParentService
+}
+
 // 親猫一覧取得コンストラクタ
-func NewCommandGetParentCats(service ParentService) *CommandGetParentCats {
-	return &CommandGetParentCats{Service: service}
+func NewCommandGetParentCats(parentService ParentService) *CommandGetParentCats {
+	return &CommandGetParentCats{ParentService: parentService}
 }
 
 // 親猫詳細取得コンストラクタ
-func NewCommandGetParentCatDetail(service ParentService) *CommandGetParentCatDetail {
-	return &CommandGetParentCatDetail{Service: service}
+func NewCommandGetParentCatDetail(parentService ParentService) *CommandGetParentCatDetail {
+	return &CommandGetParentCatDetail{ParentService: parentService}
 }
 
 // 親猫追加コンストラクタ
@@ -43,9 +53,19 @@ func NewCommandPostParentCat(parentService ParentService, storageService storage
 	return &CommandPostParentCat{ParentService: parentService, StorageService: storageService}
 }
 
+// 親猫更新コンストラクタ
+func NewCommandUpdateParentCat(parentService ParentService) *CommandUpdateParentCat {
+	return &CommandUpdateParentCat{ParentService: parentService}
+}
+
+// 親猫消去コンストラクタ
+func NewCommandDeleteParentCat(parentService ParentService) *CommandDeleteParentCat {
+	return &CommandDeleteParentCat{ParentService: parentService}
+}
+
 // 親猫一覧取得コマンドの実行
 func (c *CommandGetParentCats) Execute(w http.ResponseWriter, r *http.Request) {
-	parentCats, err := c.Service.GetParentCats()
+	parentCats, err := c.ParentService.GetParentCats()
 	if err != nil {
 		http.Error(w, "親猫一覧の取得に失敗しました", http.StatusInternalServerError)
 		return
@@ -73,7 +93,7 @@ func (c *CommandGetParentCatDetail) Execute(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	parentCatDetail, err := c.Service.GetParentCatDetail(parentCatId)
+	parentCatDetail, err := c.ParentService.GetParentCatDetail(parentCatId)
 	if err != nil {
 		http.Error(w, "親猫詳細の取得に失敗しました", http.StatusInternalServerError)
 		return
@@ -129,4 +149,55 @@ func (c *CommandPostParentCat) Execute(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("親猫画像の更新エラー: %v", err)
 	}
+}
+
+// 親猫更新コマンドの実行
+func (c *CommandUpdateParentCat) Execute(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
+		return
+	}
+
+	// リクエストをデータにマッピング
+	dto := UpdateParentCatDTO{
+		ParentCatId: utils.ToInt(r.FormValue("parentCatId")),
+		BreedId:     utils.ToInt(r.FormValue("breedId")),
+		ColorId:     utils.ToInt(r.FormValue("colorId")),
+		Name:        r.FormValue("name"),
+		Sex:         utils.ToInt(r.FormValue("sex")),
+		Age:         utils.ToInt(r.FormValue("age")),
+		BirthDate:   r.FormValue("birthDate"),
+		Description: r.FormValue("description"),
+	}
+
+	err := c.ParentService.UpdateParentCat(dto)
+	if err != nil {
+		http.Error(w, "親猫情報の更新に失敗しました", http.StatusInternalServerError)
+		log.Printf("親猫情報の更新エラー: %v", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("親猫情報を正常に更新しました"))
+}
+
+// 親猫削除コマンドの実行
+func (c *CommandDeleteParentCat) Execute(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	parentCatIdStr, ok := vars["parentCatId"]
+	if !ok {
+		http.Error(w, "parentCatIdが必要です", http.StatusBadRequest)
+		return
+	}
+	parentCatId := utils.ToInt(parentCatIdStr)
+
+	err := c.ParentService.DeleteParentCat(parentCatId)
+	if err != nil {
+		http.Error(w, "親猫情報の削除に失敗しました", http.StatusInternalServerError)
+		log.Printf("親猫情報の削除エラー: %v", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("親猫情報を正常に削除しました"))
 }

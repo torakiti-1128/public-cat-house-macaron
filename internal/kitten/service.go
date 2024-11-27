@@ -14,6 +14,10 @@ type KittenService interface {
 	PostKittenImage(kittenId int, imageUrl string) error
 	// 子猫の動画を追加
 	PostKittenVideo(kittenId int, videoUrl string) error
+	// 子猫の更新
+	UpdateKitten(dto UpdateKittenDTO) error
+	// 子猫の消去
+	DeleteKitten(kittenId int) error
 }
 
 // 子猫関連のビジネスロジック実装
@@ -70,6 +74,24 @@ func (s *KittenServiceImpl) PostKittenVideo(kittenId int, videoUrl string) error
 	if err := s.Repo.PostKittenVideo(kittenId, videoUrl); err != nil {
 		fmt.Printf("子猫の動画の保存に失敗しました (KittenId: %d, VideoUrl: %s): %v\n", kittenId, videoUrl, err)
 		return fmt.Errorf("子猫の動画の保存に失敗しました: %w", err)
+	}
+	return nil
+}
+
+// 子猫の更新
+func (s *KittenServiceImpl) UpdateKitten(dto UpdateKittenDTO) error {
+	if err := s.Repo.UpdateKitten(dto); err != nil {
+		fmt.Printf("子猫の更新に失敗しました: %v\n", err)
+		return fmt.Errorf("子猫の更新に失敗しました: %w", err)
+	}
+	return nil
+}
+
+// 子猫の消去
+func (s *KittenServiceImpl) DeleteKitten(kittenId int) error {
+	if err := s.Repo.DeleteKitten(kittenId); err != nil {
+		fmt.Printf("子猫の消去にお失敗しました (KittenId: %d): %v\n", kittenId, err)
+		return fmt.Errorf("子猫の消去に失敗しました: %w", err)
 	}
 	return nil
 }

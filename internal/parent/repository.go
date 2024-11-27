@@ -15,6 +15,10 @@ type ParentRepository interface {
 	PostParentCat(dto PostParentCatDTO) (int, error)
 	// 親猫の画像をDBに更新
 	UpdateParentCatImage(parentCatId int, imageUrl string) error
+	// 親猫の更新をDBへ反映
+	UpdateParentCat(dto UpdateParentCatDTO) error
+	// 親猫の消去をDBへ反映
+	DeleteParentCat(parentCatId int) error
 }
 
 // 親猫関連のDB実装
@@ -113,9 +117,21 @@ func (repo *ParentRepositoryImpl) GetParentCatDetail(parentCatId int) (ParentCat
 // 親猫をDBに追加
 func (repo *ParentRepositoryImpl) PostParentCat(dto PostParentCatDTO) (int, error) {
 	query := `
-		INSERT INTO parent_cats (breed_id, color_id, name, sex, age, birth_date, description, url)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-		RETURNING parent_cat_id;
+		INSERT INTO 
+			parent_cats (
+				breed_id, 
+				color_id, 
+				name, 
+				sex, 
+				age, 
+				birth_date, 
+				description, 
+				url
+			)
+		VALUES 
+			($1, $2, $3, $4, $5, $6, $7, $8)
+		RETURNING 
+			parent_cat_id;
 	`
 
 	var parentCatId int
@@ -150,5 +166,52 @@ func (repo *ParentRepositoryImpl) UpdateParentCatImage(parentCatId int, imageUrl
 		return fmt.Errorf("親猫の画像更新に失敗しました (parentCatId: %d): %w", parentCatId, err)
 	}
 
+	return nil
+}
+
+// 親猫の更新をDBへ反映
+func (repo *ParentRepositoryImpl) UpdateParentCat(dto UpdateParentCatDTO) error {
+	query := `
+		UPDATE 
+			parent_cats
+		SET 
+			breed_id = $1, 
+			color_id = $2, 
+			name = $3, 
+			sex = $4, 
+			age = $5, 
+			birth_date = $6, 
+			description = $7
+		WHERE 
+			parent_cat_id = $8;
+	`
+
+	_, err := repo.DB.Exec(query,
+		dto.BreedId,
+		dto.ColorId,
+		dto.Name,
+		dto.Sex,
+		dto.Age,
+		dto.BirthDate,
+		dto.Description,
+		dto.ParentCatId,
+	)
+	if err != nil {
+		return fmt.Errorf("親猫の更新に失敗しました: %w", err)
+	}
+	return nil
+}
+
+// 親猫の消去をDBへ反映
+func (repo *ParentRepositoryImpl) DeleteParentCat(parentCatId int) error {
+	query := `
+		DELETE FROM parent_cats
+		WHERE parent_cat_id = $1;
+	`
+
+	_, err := repo.DB.Exec(query, parentCatId)
+	if err != nil {
+		return fmt.Errorf("親猫の削除に失敗しました: %w", err)
+	}
 	return nil
 }
