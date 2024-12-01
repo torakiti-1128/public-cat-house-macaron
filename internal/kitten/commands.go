@@ -101,10 +101,12 @@ func (c *CommandGetKittenDetail) Execute(w http.ResponseWriter, r *http.Request)
 
 // 子猫追加コマンドの実行
 func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
+	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
 		return
 	}
+
+	log.Printf("Received Form Data: %+v\n", r.Form)
 
 	// リクエストをDTOにマッピング
 	dto := PostKittenDTO{
@@ -127,15 +129,13 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// アップロードされた画像を収集
+	// "image"に関連するすべてのファイルを取得
+	imageHeaders := r.MultipartForm.File["image"]
 	var imageFiles []multipart.File
-	for {
-		file, _, err := r.FormFile("image")
+	for _, header := range imageHeaders {
+		file, err := header.Open()
 		if err != nil {
-			if err == http.ErrMissingFile {
-				break // すべての画像を取得済み
-			}
-			log.Printf("画像取得エラー: %v", err)
+			log.Printf("画像ファイルのオープンに失敗しました: %v", err)
 			continue
 		}
 		imageFiles = append(imageFiles, file)

@@ -71,6 +71,7 @@ func (s *KittenServiceImpl) PostKitten(dto PostKittenDTO) (int, error) {
 func (s *KittenServiceImpl) PostKittenImages(kittenId int, files []multipart.File) ([]string, error) {
 	var wg sync.WaitGroup
 	var mu sync.Mutex
+	sem := make(chan struct{}, 4)
 	imageUrls := []string{}
 	uploadErrors := []error{}
 
@@ -79,6 +80,8 @@ func (s *KittenServiceImpl) PostKittenImages(kittenId int, files []multipart.Fil
 		wg.Add(1)
 		go func(i int, file multipart.File) {
 			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
 
 			imagePath := fmt.Sprintf("kittens/kitten%d/image%d.jpg", kittenId, i+1)
 			uploadedFile, err := s.StorageService.UploadFileToStorage(file, "images", imagePath)

@@ -23,10 +23,11 @@ func InitializeRouter(apiConfig config.APIConfig) *mux.Router {
 			fmt.Printf("コマンドの取得に失敗しました '%s': %v\n", route.Command, err)
 			continue
 		}
+
 		// ハンドラを設定
 		router.HandleFunc(route.EndPoint, func(w http.ResponseWriter, r *http.Request) {
 			command.Execute(w, r)
-		}).Methods(route.HttpMethod)
+		}).Methods(route.HttpMethod, http.MethodOptions) // OPTIONSを許可
 	}
 
 	return router

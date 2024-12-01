@@ -143,7 +143,7 @@ func (c *CommandPostParentCat) Execute(w http.ResponseWriter, r *http.Request) {
 
 // 親猫更新コマンドの実行
 func (c *CommandUpdateParentCat) Execute(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
+	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
 		return
 	}

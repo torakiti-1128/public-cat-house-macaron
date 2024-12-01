@@ -50,7 +50,7 @@ func NewCommandDeleteBreed(breedService BreedService) *CommandDeleteBreed {
 	return &CommandDeleteBreed{BreedService: breedService}
 }
 
-// 猫種一覧取得
+// 猫種一覧取得コマンドの実行
 func (c *CommandGetBreeds) Execute(w http.ResponseWriter, r *http.Request) {
 	breeds, err := c.BreedService.GetBreeds()
 	if err != nil {
@@ -65,7 +65,7 @@ func (c *CommandGetBreeds) Execute(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// 猫種追加
+// 猫種追加コマンドの実行
 func (c *CommandPostBreed) Execute(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
@@ -86,7 +86,7 @@ func (c *CommandPostBreed) Execute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("猫種が正常に追加されました。ID: %d", breedId)))
 }
 
-// 猫種更新
+// 猫種更新コマンドの実行
 func (c *CommandUpdateBreed) Execute(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
@@ -110,7 +110,7 @@ func (c *CommandUpdateBreed) Execute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("猫種が正常に更新されました"))
 }
 
-// 猫種削除
+// 猫種削除コマンドの実行
 func (c *CommandDeleteBreed) Execute(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	breedIdStr, ok := vars["breedId"]
