@@ -1,34 +1,28 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import ParentCats from "@/components/parent/ParentCats";
-import { ParentCatsType } from "@/types/types";
-import apiClient from "@/lib/axios";
+import React, { useState, useEffect } from 'react';
+import ParentCats from '@/components/parent/ParentCats';
+import { ParentCatsType } from '@/types/getTypes';
+import { fetchParentCats } from '@/api/parentCatsApi';
 
-const ParentCatsPage = () => {
-  const [parentCats, setParentCats] = useState<ParentCatsType[]>([]);
-  const [loading, setLoading] = useState(true);
+const ParentCatsPage: React.FC = () => {
+    const [parentCats, setParentCats] = useState<ParentCatsType[]>([]);
 
-  useEffect(() => {
-    const fetchParentCats = async () => {
-      try {
-        const response = await apiClient.get<ParentCatsType[]>("/parent");
-        setParentCats(response.data);
-      } catch (error) {
-        console.error("親猫データの取得に失敗しました:", error);
-      } finally {
-        setLoading(false);
-      }
+    // データ取得関数
+    const getParentCats = async () => {
+        try {
+            const response = await fetchParentCats(); // APIから親猫データを取得
+            setParentCats(response);
+        } catch (error) {
+            console.error('親猫データの取得に失敗しました', error);
+        }
     };
 
-    fetchParentCats();
-  }, []);
+    useEffect(() => {
+        getParentCats();
+    }, []);
 
-  if (loading) {
-    return <p>読み込み中...</p>;
-  }
-
-  return <ParentCats parentCats={parentCats} />;
+    return <ParentCats parentCats={parentCats} getParentCats={getParentCats}/>;
 };
 
 export default ParentCatsPage;
