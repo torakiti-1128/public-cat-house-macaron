@@ -1,10 +1,14 @@
 package main
 
 import (
-	"chm-api/commands"
+	"log"
+	"net/http"
+
 	dbConfig "chm-api/config/database"
 	apiConfig "chm-api/config/routes"
-	"chm-api/config/storage/supabase"
+	storageConfig "chm-api/config/storage/supabase"
+
+	"chm-api/commands"
 	"chm-api/internal/auth"
 	"chm-api/internal/breed"
 	"chm-api/internal/color"
@@ -13,8 +17,6 @@ import (
 	"chm-api/internal/parent"
 	"chm-api/internal/storage"
 	"chm-api/routes"
-	"log"
-	"net/http"
 )
 
 // アプリケーションのエントリーポイント
@@ -31,7 +33,7 @@ func main() {
 		log.Fatalf("データベースの設定を読み込めません: %v", err)
 	}
 
-	// データベースぼ接続を設定
+	// データベースの接続を設定
 	db, err := dbConfig.NewDB(databaseConfig)
 	if err != nil {
 		log.Fatalf("データベースの接続に失敗しました: %v", err)
@@ -39,7 +41,7 @@ func main() {
 	defer db.Close()
 
 	// ビジネスロジックの依存関係をインスタンス化
-	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.Config(supabase.NewConfig())))
+	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.Config(storageConfig.NewConfig())))
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db), storageService)

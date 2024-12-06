@@ -101,7 +101,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/breeds",
+            "endPoint": "/breeds/{breedId}",
             "command": "CommandUpdateBreed",
             "httpMethod": "PUT"
         },
@@ -121,7 +121,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/colors",
+            "endPoint": "/colors/{colorId}",
             "command": "CommandUpdateColor",
             "httpMethod": "PUT"
         },

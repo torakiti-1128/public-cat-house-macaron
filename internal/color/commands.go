@@ -4,6 +4,7 @@ import (
 	"chm-api/internal/utils"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -74,6 +75,9 @@ func (c *CommandPostColor) Execute(w http.ResponseWriter, r *http.Request) {
 	dto := PostColorDTO{
 		ColorName: r.FormValue("colorName"),
 	}
+
+	  // デバッグログで受信データを確認
+	  log.Printf("Received ColorName: %s", dto.ColorName)
 
 	colorId, err := c.ColorService.PostColor(dto)
 	if err != nil {
