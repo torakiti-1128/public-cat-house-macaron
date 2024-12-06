@@ -1,5 +1,5 @@
 import apiClient from '@/lib/axios';
-import { ParentCatDetailType, ParentCatsType } from '@/types/getTypes';
+import { ParentCatsType } from '@/types/getTypes';
 
 export const fetchParentCats = async (): Promise<ParentCatsType[]> => {
     try {
@@ -11,30 +11,16 @@ export const fetchParentCats = async (): Promise<ParentCatsType[]> => {
     }
 };
 
-export const fetchParentCatDetail = async (
-    parentCatId: number
-): Promise<ParentCatDetailType> => {
+export const postKitten = async (formData: FormData) => {
     try {
-        const response = await apiClient.get<ParentCatDetailType>(
-            `/parent/${parentCatId}`
-        );
-        return response.data;
-    } catch (error) {
-        console.error('親猫詳細の取得に失敗しました:', error);
-        throw error;
-    }
-};
-
-export const postParentCat = async (formData: FormData) => {
-    try {
-        const response = await apiClient.post('/parent', formData, {
+        const response = await apiClient.post('/kittens', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
         return response.data;
     } catch (error) {
-        console.error('親猫情報の追加に失敗しました:', error);
+        console.error('子猫情報の追加に失敗しました:', error);
         throw error;
     }
 };

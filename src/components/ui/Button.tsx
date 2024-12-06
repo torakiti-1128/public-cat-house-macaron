@@ -40,7 +40,10 @@ export const FileUploadButton: React.FC<FileUploadButtonProps> = ({
             {buttonName}
             <VisuallyHiddenInput
                 type="file"
-                onChange={(event) => onChange(event.target.files)}
+                onChange={(event) => {
+                    console.log('Selected files:', event.target.files);
+                    onChange(event.target.files);
+                }}
                 multiple={multiple}
             />
         </Button>

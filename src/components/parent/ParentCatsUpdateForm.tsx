@@ -3,29 +3,34 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { AgeSelect, CustomSelect } from '../ui/Select';
 import { FileUploadButton } from '../ui/Button';
-import { BreedsType, ColorsType } from '@/types/getTypes';
-import { PostParentCatType } from '@/types/postType';
+import { BreedsType, ColorsType, ParentCatDetailType } from '@/types/getTypes';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Button } from '@mui/material';
 
-interface ParentCatsAddFormProps {
-    handleAddParentCat: (formData: FormData) => void;
+interface ParentCatsUpdateFormProps {
+    handleUpdateParentCat: (formData: FormData) => void; // 更新用関数
+    initialData?: ParentCatDetailType; // 初期データ
 }
 
-const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
-    handleAddParentCat,
+const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({
+    handleUpdateParentCat,
+    initialData,
 }) => {
-    const [name, setName] = useState('');
-    const [breedId, setBreedId] = useState<number>(0);
-    const [colorId, setColorId] = useState<number>(0);
-    const [age, setAge] = useState<number>(0);
-    const [sex, setSex] = useState<number>(0);
-    const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
+    const [name, setName] = useState(initialData?.name || '');
+    const [breedId, setBreedId] = useState<number>(initialData?.breedId || 0);
+    const [colorId, setColorId] = useState<number>(initialData?.colorId || 0);
+    const [age, setAge] = useState<number>(initialData?.age || 0);
+    const [sex, setSex] = useState<number>(initialData?.sex || 0);
+    const [birthDate, setBirthDate] = useState<Dayjs | null>(
+        initialData?.birthDate ? dayjs(initialData.birthDate) : null
+    );
     const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState(
+        initialData?.description || ''
+    );
     const [breeds, setBreeds] = useState<BreedsType[]>([]);
     const [colors, setColors] = useState<ColorsType[]>([]);
     const [errors, setErrors] = useState({
@@ -96,31 +101,23 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
             return;
         }
 
-        const postParentCatData: PostParentCatType = {
-            name,
-            sex: Number(sex),
-            breedId: Number(breedId),
-            colorId: Number(colorId),
-            age: Number(age),
-            birthDate: birthDate ? birthDate.format('YYYY-MM-DD') : '',
-            description,
-            imageUrl: '',
-        };
-
         const formData = new FormData();
-        formData.append('name', postParentCatData.name);
-        formData.append('sex', postParentCatData.sex.toString());
-        formData.append('breedId', postParentCatData.breedId.toString());
-        formData.append('colorId', postParentCatData.colorId.toString());
-        formData.append('age', postParentCatData.age.toString());
-        formData.append('birthDate', postParentCatData.birthDate);
-        formData.append('description', postParentCatData.description);
+        formData.append('name', name);
+        formData.append('sex', sex.toString());
+        formData.append('breedId', breedId.toString());
+        formData.append('colorId', colorId.toString());
+        formData.append('age', age.toString());
+        formData.append(
+            'birthDate',
+            birthDate ? birthDate.format('YYYY-MM-DD') : ''
+        );
+        formData.append('description', description);
 
         if (uploadedFiles) {
             formData.append('image', uploadedFiles[0]);
         }
 
-        handleAddParentCat(formData);
+        handleUpdateParentCat(formData);
     };
 
     return (
@@ -184,10 +181,10 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
                         slotProps={{
                             textField: {
                                 fullWidth: true,
-                                error: errors.birthDate, // エラー状態を渡す
+                                error: errors.birthDate,
                                 helperText: errors.birthDate
                                     ? '生年月日を選択してください'
-                                    : '', // 補助テキスト
+                                    : '',
                             },
                         }}
                     />
@@ -237,11 +234,11 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
                     }}
                     onClick={() => handleFormSubmit()}
                 >
-                    親猫を追加
+                    親猫を更新
                 </Button>
             </div>
         </form>
     );
 };
 
-export default ParentCatsAddForm;
+export default ParentCatsUpdateForm;

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import ParentCats from '@/components/parent/ParentCats';
@@ -22,7 +22,7 @@ const ParentCatsPage: React.FC = () => {
         getParentCats();
     }, []);
 
-    return <ParentCats parentCats={parentCats} getParentCats={getParentCats}/>;
+    return <ParentCats parentCats={parentCats} getParentCats={getParentCats} />;
 };
 
 export default ParentCatsPage;

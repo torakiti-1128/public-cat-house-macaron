@@ -22,6 +22,15 @@ interface ConfirmDialogProps {
     onConfirm: () => void;
 }
 
+interface FormDialogProps {
+    open: boolean;
+    title: string;
+    children: React.ReactNode;
+    buttonName: string;
+    onClose: () => void;
+    onConfirm: () => void;
+}
+
 interface FullScreenDialogProps {
     open: boolean;
     onClose: () => void;
@@ -58,6 +67,25 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
                     {buttonName}
                 </Button>
             </DialogActions>
+        </Dialog>
+    );
+};
+
+export const FormDialog: React.FC<FormDialogProps> = ({
+    open,
+    title,
+    children,
+    onClose,
+}) => {
+    return (
+        <Dialog
+            open={open}
+            onClose={onClose}
+            aria-labelledby="confirm-dialog-title"
+            aria-describedby="confirm-dialog-description"
+        >
+            <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+            <DialogContent>{children}</DialogContent>
         </Dialog>
     );
 };
