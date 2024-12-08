@@ -179,7 +179,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 
 // 子猫更新コマンドの実行
 func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
+	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		http.Error(w, "リクエストの処理に失敗しました", http.StatusBadRequest)
 		return
 	}
@@ -198,6 +198,7 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		TranState:   r.FormValue("tranState"),
 	}
 
+	log.Printf("更新データ確認: %v", dto)
 	// 子猫情報を保存
 	err := c.KittenService.UpdateKitten(dto)
 	if err != nil {
