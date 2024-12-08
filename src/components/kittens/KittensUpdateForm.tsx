@@ -140,6 +140,7 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({ handleUpdateKitte
         }
 
         const formData = new FormData();
+        formData.append('kittenId', kittenId.toString());
         formData.append('fatherCatId', fatherCatId.toString());
         formData.append('motherCatId', motherCatId.toString());
         formData.append('breedId', breedId.toString());

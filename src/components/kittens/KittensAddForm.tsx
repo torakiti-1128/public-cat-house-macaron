@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { AgeSelect, CustomSelect, CustomSelectString } from '../ui/Select';
+import { CustomSelect, CustomSelectString } from '../ui/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { BreedsType, ColorsType, ParentCatsType } from '@/types/types';
 import { FileUploadButton } from '../ui/Button';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface KittensAddFormProps {
     handleAddKitten: (formData: FormData) => void;
@@ -24,12 +25,23 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number | ''>('');
     const [tranState, setTranState] = useState<string>('');
-    const [uploadedImages, setUploadedImages] = useState<FileList | null>(null);
+    const [uploadedImages, setUploadedImages] = useState<File[]>([]);
     const [uploadedVideo, setUploadedVideo] = useState<FileList | null>(null);
     const [breeds, setBreeds] = useState<BreedsType[]>([]);
     const [colors, setColors] = useState<ColorsType[]>([]);
     const [maleCats, setMaleCats] = useState<ParentCatsType[]>([]);
     const [femaleCats, setFemaleCats] = useState<ParentCatsType[]>([]);
+    const [errors, setErrors] = useState({
+        fatherCatId: false,
+        motherCatId: false,
+        breedId: false,
+        colorId: false,
+        sex: false,
+        birthDate: false,
+        description: false,
+        price: false,
+        tranState: false,
+    });
 
     useEffect(() => {
         const fetchBreeds = async () => {
@@ -78,7 +90,6 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                 }
                 const data: ParentCatsType[] = await response.json();
 
-                // オスとメスに分ける
                 const males = data.filter((cat) => cat.sex === 0);
                 const females = data.filter((cat) => cat.sex === 1);
 
@@ -91,37 +102,63 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
         fetchParentCats();
     }, []);
 
+    const validateForm = () => {
+        const newErrors = {
+            fatherCatId: fatherCatId === '',
+            motherCatId: motherCatId === '',
+            breedId: breedId === '',
+            colorId: colorId === '',
+            sex: sex === '',
+            birthDate: birthDate === null,
+            description: description.trim() === '',
+            price: price === '' || price <= 0,
+            tranState: tranState.trim() === '',
+        };
+        setErrors(newErrors);
+        return !Object.values(newErrors).some((error) => error);
+    };
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (!validateForm()) {
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('fatherCatId', fatherCatId); // 父猫ID
-        formData.append('motherCatId', motherCatId); // 母猫ID
-        formData.append('breedId', breedId); // 猫種ID
-        formData.append('colorId', colorId); // カラーID
-        formData.append('sex', sex); // 性別
+        formData.append('fatherCatId', fatherCatId);
+        formData.append('motherCatId', motherCatId);
+        formData.append('breedId', breedId);
+        formData.append('colorId', colorId);
+        formData.append('sex', sex);
         formData.append(
             'birthDate',
-            birthDate ? birthDate.format('YYYY-MM-DD') : '' // 生年月日
+            birthDate ? birthDate.format('YYYY-MM-DD') : ''
         );
-        formData.append('description', description); // 説明
-        formData.append('price', price.toString()); // 価格
-        formData.append('tranState', tranState); // 取引状態
+        formData.append('description', description);
+        formData.append('price', price.toString());
+        formData.append('tranState', tranState);
 
-        // 画像ファイルを追加
-        if (uploadedImages) {
-            Array.from(uploadedImages).forEach((file) => {
-                formData.append('image', file); // キー名を"image"に設定
-            });
-        }
+        uploadedImages.forEach((file) => {
+            console.log(file)
+            formData.append('image', file);
+        });
 
-        // 動画ファイルを追加
         if (uploadedVideo) {
-            formData.append('video', uploadedVideo[0]); // キー名を"video"に設定
+            formData.append('video', uploadedVideo[0]);
         }
 
-        // フォームデータを送信
         handleAddKitten(formData);
+    };
+
+    const handleAddImages = (files: FileList | null) => {
+        if (files) { // null チェックを追加
+            setUploadedImages((prev) => [...prev, ...Array.from(files)]);
+        }
+    };
+
+    const handleRemoveImage = (index: number) => {
+        setUploadedImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     return (
@@ -135,6 +172,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         label: cat.name,
                     }))}
                     onChange={(value) => setFatherCatId(value.toString())}
+                    error={errors.fatherCatId}
+                    helperText={errors.fatherCatId ? 'パパ猫を選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -146,6 +185,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         label: cat.name,
                     }))}
                     onChange={(value) => setMotherCatId(value.toString())}
+                    error={errors.motherCatId}
+                    helperText={errors.motherCatId ? 'ママ猫を選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -157,6 +198,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         label: breed.breedName,
                     }))}
                     onChange={(value) => setBreedId(value.toString())}
+                    error={errors.breedId}
+                    helperText={errors.breedId ? '猫種を選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -168,6 +211,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         label: color.colorName,
                     }))}
                     onChange={(value) => setColorId(value.toString())}
+                    error={errors.colorId}
+                    helperText={errors.colorId ? 'カラーを選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -179,6 +224,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         { value: 1, label: 'メス' },
                     ]}
                     onChange={(value) => setSex(value.toString())}
+                    error={errors.sex}
+                    helperText={errors.sex ? '性別を選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -191,6 +238,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         { value: '譲渡済', label: '譲渡済' },
                     ]}
                     onChange={(value) => setTranState(value)}
+                    error={errors.tranState}
+                    helperText={errors.tranState ? '取引状態を選択してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -200,7 +249,11 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         value={birthDate}
                         onChange={(newDate) => setBirthDate(newDate)}
                         slotProps={{
-                            textField: { fullWidth: true },
+                            textField: {
+                                fullWidth: true,
+                                error: errors.birthDate,
+                                helperText: errors.birthDate ? '生年月日を選択してください' : '',
+                            },
                         }}
                     />
                 </LocalizationProvider>
@@ -212,6 +265,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     onChange={(e) => setDescription(e.target.value)}
                     label="説明"
                     variant="outlined"
+                    error={errors.description}
+                    helperText={errors.description ? '説明を入力してください' : ''}
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -222,27 +277,35 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     onChange={(e) => setPrice(Number(e.target.value) || '')}
                     label="価格"
                     variant="outlined"
+                    error={errors.price}
+                    helperText={errors.price ? '価格を入力してください' : ''}
                 />
             </Box>
             <div className="mt-3">
                 <FileUploadButton
-                    onChange={(files) => setUploadedImages(files)}
+                    onChange={(files) => handleAddImages(files)}
                     buttonName="画像をアップロード"
                     multiple
                 />
-                {uploadedImages && (
-                    <ul>
-                        {Array.from(uploadedImages).map((file, index) => (
-                            <li key={index}>{file.name}</li>
-                        ))}
-                    </ul>
-                )}
+                <ul>
+                    {uploadedImages.map((file, index) => (
+                        <li key={index} className="flex items-center">
+                            {file.name}
+                            <IconButton
+                                onClick={() => handleRemoveImage(index)}
+                                aria-label="delete"
+                                size="small"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </li>
+                    ))}
+                </ul>
             </div>
             <div className="mt-3">
                 <FileUploadButton
                     onChange={(files) => setUploadedVideo(files)}
                     buttonName="動画をアップロード"
-                    multiple
                 />
                 {uploadedVideo && (
                     <ul>

@@ -41,6 +41,10 @@ export const postKitten = async (formData: FormData) => {
 
 
 export const updateKitten = async (kittenId: number, formData: FormData) => {
+    for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+    }
+
     try {
         const response = await apiClient.put(`/kittens/${kittenId}`, formData, {
             headers: {
