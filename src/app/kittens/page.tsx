@@ -1,34 +1,35 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import KittensList from '@/components/Kittens';
+import React, { useState, useEffect } from 'react';
 import { KittensType } from '@/types/getTypes';
-import apiClient from '@/lib/axios';
+import { fetchKittens } from '@/api/kittensApi';
+import Kittens from '@/components/kittens/Kittens'
+import Header from '@/components/common/header';
 
-const KittensPage = () => {
+const KittensPage: React.FC = () => {
     const [kittens, setKittens] = useState<KittensType[]>([]);
-    const [loading, setLoading] = useState(true);
+
+    // データ取得関数
+    const getKittens = async () => {
+        try {
+            const response = await fetchKittens(); // APIから親猫データを取得
+            setKittens(response);
+        } catch (error) {
+            console.error('親猫データの取得に失敗しました', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchKittens = async () => {
-            try {
-                const response = await apiClient.get<KittensType[]>('/kittens');
-                setKittens(response.data);
-            } catch (error) {
-                console.error('子猫データの取得に失敗しました:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchKittens();
+        getKittens();
     }, []);
 
-    if (loading) {
-        return <p>読み込み中...</p>;
-    }
+    return (
+        <>
+        <Header />
+        <Kittens kittens={kittens} getKittens={getKittens} />
 
-    return <KittensList kittens={kittens} />;
+    </>
+    )
 };
 
 export default KittensPage;

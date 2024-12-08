@@ -1,12 +1,26 @@
 import apiClient from '@/lib/axios';
-import { ParentCatsType } from '@/types/getTypes';
+import { KittenDetailType, KittensType } from '@/types/getTypes';
 
-export const fetchParentCats = async (): Promise<ParentCatsType[]> => {
+export const fetchKittens = async (): Promise<KittensType[]> => {
     try {
-        const response = await apiClient.get<ParentCatsType[]>('/parent');
+        const response = await apiClient.get<KittensType[]>('/kittens');
         return response.data;
     } catch (error) {
-        console.error('親猫一覧の取得に失敗しました:', error);
+        console.error('子猫一覧の取得に失敗しました:', error);
+        throw error;
+    }
+};
+
+export const fetchKittenDetail = async (
+    kittenId: number
+): Promise<KittenDetailType> => {
+    try {
+        const response = await apiClient.get<KittenDetailType>(
+            `/kittens/${kittenId}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('子猫詳細の取得に失敗しました:', error);
         throw error;
     }
 };
@@ -25,12 +39,27 @@ export const postKitten = async (formData: FormData) => {
     }
 };
 
-export const deleteParentCat = async (parentCatId: number) => {
+
+export const updateKitten = async (kittenId: number, formData: FormData) => {
     try {
-        const response = await apiClient.delete(`/parent/${parentCatId}`);
+        const response = await apiClient.put(`/kittens/${kittenId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('親猫情報の削除に失敗しました:', error);
+        console.error('子猫情報の更新に失敗しました:', error);
+        throw error;
+    }
+};
+
+export const deleteKitten = async (kittenId: number) => {
+    try {
+        const response = await apiClient.delete(`/kittens/${kittenId}`);
+        return response.data;
+    } catch (error) {
+        console.error('子猫情報の削除に失敗しました:', error);
         throw error;
     }
 };

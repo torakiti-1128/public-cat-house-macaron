@@ -39,6 +39,20 @@ export const postParentCat = async (formData: FormData) => {
     }
 };
 
+export const updateParentCat = async (parentCatId: number, formData: FormData) => {
+    try {
+        const response = await apiClient.put(`/parent/${parentCatId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('親猫情報の更新に失敗しました:', error);
+        throw error;
+    }
+};
+
 export const deleteParentCat = async (parentCatId: number) => {
     try {
         const response = await apiClient.delete(`/parent/${parentCatId}`);

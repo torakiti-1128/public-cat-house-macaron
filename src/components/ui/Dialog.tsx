@@ -28,7 +28,6 @@ interface FormDialogProps {
     children: React.ReactNode;
     buttonName: string;
     onClose: () => void;
-    onConfirm: () => void;
 }
 
 interface FullScreenDialogProps {

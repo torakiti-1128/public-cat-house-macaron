@@ -17,7 +17,9 @@ export interface ParentCatsType {
     imageUrl: string;
 }
 
+// 親猫詳細データ
 export interface ParentCatDetailType {
+    parentCatId: number;
     breedId: number;
     colorId: number;
     name: string;
@@ -26,6 +28,22 @@ export interface ParentCatDetailType {
     birthDate: string;
     description: string;
     imageUrl: string;
+}
+
+// 子猫詳細データ
+export interface KittenDetailType {
+    kittenId: number;
+    fatherCatId: number;
+    motherCatId: number;
+    description: string;
+    breedId: number;
+    colorId: number;
+    sex: number;
+    birthDate: string;
+    price: number;
+    tranState: string;
+    imageUrls: string[];
+    videoUrl: string;
 }
 
 // 猫色一覧データ
