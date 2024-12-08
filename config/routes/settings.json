@@ -16,7 +16,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/kittens",
+            "endPoint": "/kittens/{kittenId}",
             "command": "CommandUpdateKitten",
             "httpMethod": "PUT"
         },
@@ -41,7 +41,7 @@
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/parent",
+            "endPoint": "/parent/{parentCatId}",
             "command": "CommandUpdateParentCat",
             "httpMethod": "PUT"
         },
@@ -56,12 +56,17 @@
             "httpMethod": "GET"
         },
         {
+            "endPoint": "/adoption/{adoptionCatId}",
+            "command": "CommandGetAdoptionCatDetail",
+            "httpMethod": "GET"
+        },
+        {
             "endPoint": "/adoption",
             "command": "CommandPostAdoptionCat",
             "httpMethod": "POST"
         },
         {
-            "endPoint": "/adoption/",
+            "endPoint": "/adoption/{adoptionCatId}",
             "command": "CommandUpdateAdoptionCat",
             "httpMethod": "PUT"
         },

@@ -232,9 +232,9 @@ func (r *KittenRepositoryImpl) UpdateKitten(dto UpdateKittenDTO) error {
 			birth_date = $6,
 			description = $7,
 			price = $8,
-			tran_state = &9
+			tran_state = $9
 		WHERE
-			kitten_id = &10
+			kitten_id = $10
 	`
 	_, err := r.DB.Exec(query,
 		dto.FatherCatId,
@@ -256,13 +256,58 @@ func (r *KittenRepositoryImpl) UpdateKitten(dto UpdateKittenDTO) error {
 
 // 子猫の消去をDBへ反映
 func (r *KittenRepositoryImpl) DeleteKitten(kittenId int) error {
-	query := `
+	tx, err := r.DB.Begin()
+	if err != nil {
+		log.Printf("トランザクションの開始に失敗しました: %v", err)
+		return err
+	}
+
+	// ロールバック用
+	defer func() {
+		if p := recover(); p != nil {
+			tx.Rollback()
+			log.Printf("パニック発生: %v", p)
+		} else if err != nil {
+			tx.Rollback()
+			log.Printf("エラーが発生したためロールバックしました: %v", err)
+		} else {
+			err = tx.Commit()
+			if err != nil {
+				log.Printf("トランザクションのコミットに失敗しました: %v", err)
+			}
+		}
+	}()
+
+	// 写真を削除
+	_, err = tx.Exec(`
+		DELETE FROM kitten_images
+		WHERE kitten_id = $1;
+	`, kittenId)
+	if err != nil {
+		log.Printf("imagesテーブルの消去に失敗しました (kitten_id: %d): %v", kittenId, err)
+		return err
+	}
+
+	// 動画を削除
+	_, err = tx.Exec(`
+		DELETE FROM kitten_videos
+		WHERE kitten_id = $1;
+	`, kittenId)
+	if err != nil {
+		log.Printf("videosテーブルの消去に失敗しました (kitten_id: %d): %v", kittenId, err)
+		return err
+	}
+
+	// 子猫を削除
+	_, err = tx.Exec(`
 		DELETE FROM kittens
 		WHERE kitten_id = $1;
-	`
-	_, err := r.DB.Exec(query, kittenId)
+	`, kittenId)
 	if err != nil {
-		log.Printf("子猫の消去エラー: %v (kitten_id: %d)", err, kittenId)
+		log.Printf("kittensテーブルの消去に失敗しました (kitten_id: %d): %v", kittenId, err)
+		return err
 	}
-	return err
+
+	log.Printf("子猫ID %d の消去が成功しました", kittenId)
+	return nil
 }

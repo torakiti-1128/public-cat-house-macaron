@@ -1,8 +1,8 @@
-package parent
+package adoption
 
-// 親猫一覧データ
-type ParentCatsDTO struct {
-	ParentCatId int    `json:"parentCatId"`
+// 里親募集中猫一覧データ
+type AdoptionCatsDTO struct {
+	AdoptionCatId int    `json:"AdoptionCatId"`
 	Name        string `json:"name"`
 	Sex         int    `json:"sex"`
 	Breed       string `json:"breed"`
@@ -11,8 +11,8 @@ type ParentCatsDTO struct {
 }
 
 // 親猫詳細データ
-type ParentCatDetailDTO struct {
-	ParentCatId int    `json:"parentCatId"`
+type AdoptionCatDetailDTO struct {
+	AdoptionCatId int    `json:"AdoptionCatId"`
 	Name        string `json:"name"`
 	Sex         int    `json:"sex"`
 	Breed       string `json:"breed"`
@@ -23,8 +23,8 @@ type ParentCatDetailDTO struct {
 	ImageUrl    string `json:"imageUrl"`
 }
 
-// 親猫追加データ
-type PostParentCatDTO struct {
+// 里親募集中猫データ
+type PostAdoptionCatDTO struct {
 	BreedId     int    `json:"breedId"`
 	ColorId     int    `json:"colorId"`
 	Name        string `json:"name"`
@@ -35,9 +35,9 @@ type PostParentCatDTO struct {
 	ImageUrl    string `json:"imageUrl"`
 }
 
-// 親猫更新データ
-type UpdateParentCatDTO struct {
-	ParentCatId int    `json:"parentCatId"`
+// 里親募集中猫更新データ
+type UpdateAdoptionCatDTO struct {
+	AdoptionCatId int    `json:"AdoptionCatId"`
 	BreedId     int    `json:"breedId"`
 	ColorId     int    `json:"color"`
 	Name        string `json:"name"`

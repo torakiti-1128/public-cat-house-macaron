@@ -9,6 +9,7 @@ import (
 	storageConfig "chm-api/config/storage/supabase"
 
 	"chm-api/commands"
+	"chm-api/internal/adoption"
 	"chm-api/internal/auth"
 	"chm-api/internal/breed"
 	"chm-api/internal/color"
@@ -45,12 +46,13 @@ func main() {
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db), storageService)
+	adoptionSercice := adoption.NewAdoptionService(adoption.NewAdoptionRepository(db), storageService)
 	breedService := breed.NewBreedService(breed.NewBreedRepository(db))
 	colorService := color.NewColorService(color.NewColorRepository(db))
 	newsService := news.NewNewsService(news.NewNewsRepository(db))
 
 	// ビジネスロジックを各コマンドへ実装
-	commands.RegisterCommands(kittenService, authService, parentService, breedService, colorService, newsService)
+	commands.RegisterCommands(kittenService, authService, parentService, adoptionSercice, breedService, colorService, newsService)
 
 	// ルーターを初期化
 	router := routes.InitializeRouter(apiConfig)

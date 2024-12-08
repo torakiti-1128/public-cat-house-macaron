@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"chm-api/internal/adoption"
 	"chm-api/internal/auth"
 	"chm-api/internal/breed"
 	"chm-api/internal/color"
@@ -10,7 +11,7 @@ import (
 )
 
 // ビジネスロジックをコマンドに登録
-func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentService parent.ParentService, breedService breed.BreedService, colorService color.ColorService, newsService news.NewsService) {
+func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthService, parentService parent.ParentService, adoptionService adoption.AdoptionService, breedService breed.BreedService, colorService color.ColorService, newsService news.NewsService) {
 	commandMap := map[string]func() Command{
 		// Auth コマンド
 		"CommandLoginUser":  func() Command { return auth.NewCommandLoginUser(authService) },
@@ -29,6 +30,13 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 		"CommandPostParentCat":      func() Command { return parent.NewCommandPostParentCat(parentService) },
 		"CommandUpdateParentCat":    func() Command { return parent.NewCommandUpdateParentCat(parentService) },
 		"CommandDeleteParentCat":    func() Command { return parent.NewCommandDeleteParentCat(parentService) },
+
+		// Adoptionコマンド
+		"CommandGetAdoptionCats":      func() Command { return adoption.NewCommandGetAdoptionCats(adoptionService) },
+		"CommandGetAdoptionCatDetail": func() Command { return adoption.NewCommandGetAdoptionCatDetail(adoptionService) },
+		"CommandPostAdoptionCat":      func() Command { return adoption.NewCommandPostAdoptionCat(adoptionService) },
+		"CommandUpdateAdoptionCat":    func() Command { return adoption.NewCommandUpdateAdoptionCat(adoptionService) },
+		"CommandDeleteAdoptionCat":    func() Command { return adoption.NewCommandDeleteAdoptionCat(adoptionService) },
 
 		// Breedコマンド
 		"CommandGetBreeds":   func() Command { return breed.NewCommandGetBreeds(breedService) },
