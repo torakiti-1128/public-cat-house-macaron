@@ -71,7 +71,7 @@ func (s *KittenServiceImpl) PostKitten(dto PostKittenDTO) (int, error) {
 func (s *KittenServiceImpl) PostKittenImages(kittenId int, files []multipart.File) ([]string, error) {
 	var wg sync.WaitGroup
 	var mu sync.Mutex
-	sem := make(chan struct{}, 4)
+	sem := make(chan struct{}, 2) // 同時実行数を2に制限
 	imageUrls := []string{}
 	uploadErrors := []error{}
 
@@ -110,6 +110,7 @@ func (s *KittenServiceImpl) PostKittenImages(kittenId int, files []multipart.Fil
 	// 並列処理完了待機
 	wg.Wait()
 
+	// エラーが存在する場合はまとめて返す
 	if len(uploadErrors) > 0 {
 		return nil, fmt.Errorf("写真アップロード中にエラーが発生しました: %v", uploadErrors)
 	}

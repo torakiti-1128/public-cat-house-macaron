@@ -106,8 +106,6 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("Received Form Data: %+v\n", r.Form)
-
 	// リクエストをDTOにマッピング
 	dto := PostKittenDTO{
 		FatherCatId: utils.ToInt(r.FormValue("fatherCatId")),
