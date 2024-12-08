@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
 interface CardProps {
-  title: string;
-  content: string;
-  list?: string[];
-  note?: string;
+  title: string
+  content: string
+  list?: string[]
+  note?: string
 }
 
 const Card: React.FC<CardProps> = ({ title, content, list, note }) => {
@@ -21,7 +21,7 @@ const Card: React.FC<CardProps> = ({ title, content, list, note }) => {
       )}
       {note && <p className="text-sm text-[#B7B7B7] leading-relaxed">{note}</p>}
     </div>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card

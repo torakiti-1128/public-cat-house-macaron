@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import React from 'react';
-import sideBarData from '@/data/sideBar.json';
+import React from 'react'
+import sideBarData from '@/data/sideBar.json'
 
 // 作ったけど使わなかった
 // 今後のために残す
@@ -20,7 +20,7 @@ const SideBar: React.FC = () => {
         ))}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default SideBar;
+export default SideBar

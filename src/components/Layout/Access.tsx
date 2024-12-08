@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import React from 'react';
-import accessData from '../../data/access.json';
+import React from 'react'
+import accessData from '../../data/access.json'
 
-export const Access: React.FC = () => {
+const Access: React.FC = () => {
   return (
     <section className="text-gray-600 body-font relative bg-[#FDF7F2] py-16">
       <div className="container px-5 mx-auto flex flex-col lg:flex-row sm:flex-nowrap sm:space-x-8">
@@ -22,31 +22,41 @@ export const Access: React.FC = () => {
               <h2 className="title-font font-bold text-[#705C53] tracking-widest text-sm">
                 {accessData.address.title}
               </h2>
-              <p className="mt-2 text-[#4A403A] whitespace-pre-line">{accessData.address.details}</p>
+              <p className="mt-2 text-[#4A403A] whitespace-pre-line">
+                {accessData.address.details}
+              </p>
             </div>
             <div className="lg:w-1/2 px-4 mt-4 lg:mt-0">
               <h2 className="title-font font-bold text-[#705C53] tracking-widest text-sm">
                 {accessData.distance.title}
               </h2>
-              <p className="leading-relaxed text-[#4A403A] mt-2">{accessData.distance.details}</p>
+              <p className="leading-relaxed text-[#4A403A] mt-2">
+                {accessData.distance.details}
+              </p>
               <h2 className="title-font font-bold text-[#705C53] tracking-widest text-sm mt-6">
                 {accessData.other.title}
               </h2>
-              <p className="leading-relaxed text-[#4A403A] mt-2">{accessData.other.details}</p>
+              <p className="leading-relaxed text-[#4A403A] mt-2">
+                {accessData.other.details}
+              </p>
             </div>
           </div>
         </div>
 
         {/* その他のカード */}
         <div className="lg:w-1/3 md:w-1/2 bg-white rounded-3xl p-8 shadow-lg flex flex-col justify-center items-start border border-[#F3E8E8]">
-          <h3 className="text-lg font-bold text-[#705C53] mb-4">{accessData.shopInfo.title}</h3>
+          <h3 className="text-lg font-bold text-[#705C53] mb-4">
+            {accessData.shopInfo.title}
+          </h3>
           {accessData.shopInfo.details.map((info, index) => (
-            <p key={index} className="text-[#4A403A] mb-4 last:mb-0">{info}</p>
+            <p key={index} className="text-[#4A403A] mb-4 last:mb-0">
+              {info}
+            </p>
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Access;
+export default Access

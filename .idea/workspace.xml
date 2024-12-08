@@ -2,15 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04412cfd-97ca-416d-8b13-4d6acbd06f0d" name="変更" comment="">
+      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/fonts/GeistMonoVF.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/fonts/GeistVF.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/about/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/about/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/adoption/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/adoption/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/guarantee/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/guarantee/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/house/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/house/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/inquiry/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/inquiry/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/kittens/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kittens/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/kittens/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kittens/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/parent/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/parent/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/preparation/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/preparation/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/promise/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/promise/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/reservation/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/reservation/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/About.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CatHouse.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CatHouse.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CatTabNavigation.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Concept.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Concept.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Guarantee.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Guarantee.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Inquiry.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Inquiry.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KittensList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KittensList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Access.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Access.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/CheckPoints.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/CheckPoints.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Heder.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ParentCatList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ParentCatList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Preparation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Preparation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Promise.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Promise.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TopPageSlideShow.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/CategorySelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/CategorySelect.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Search.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Title.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Title.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/KittenDetail.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/navigation.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/navigation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/reservation.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/reservation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/supabaseClient.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/kitten.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/kitten.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,21 +52,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2n3OSztpftDqI4jrEZGfip5oGCw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="アプリケーションレベル" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="デフォルトタスク">

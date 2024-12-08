@@ -1,56 +1,83 @@
-import React from "react";
-import { ParentCatListType } from "@/types/kitten";
-import Title from "./common/Title";
+'use client'
+
+import React, { useState } from 'react'
+import Title from '@/components/common/Title'
+import SearchBox from '@/components/common/SearchBox'
+import CategorySelect from '@/components/common/CategorySelect'
+import { ParentCatListType } from '@/types/kitten'
+import categoriesData from '@/data/categories.json'
 
 interface ParentCatListProps {
-  parentCats: ParentCatListType[];
+  parentCats: ParentCatListType[]
 }
 
 const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
+  const [filteredBySearch, setFilteredBySearch] =
+    useState<ParentCatListType[]>(parentCats)
+  const [filteredByCategory, setFilteredByCategory] =
+    useState<ParentCatListType[]>(parentCats)
+
+  const combinedFilteredParentCats = filteredBySearch.filter((cat) =>
+    filteredByCategory.includes(cat)
+  )
+
   return (
     <section className="text-gray-600 body-font bg-[#FDF7F2]">
       <div className="container px-10 py-8 mx-auto">
         <Title text="親猫の紹介" />
-        {/* 親猫カード */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
+          <div className="flex-grow sm:w-7/12">
+            <SearchBox
+              data={parentCats}
+              filterKey="name"
+              onFilter={setFilteredBySearch}
+            />
+          </div>
+          <div className="sm:w-3/12">
+            <CategorySelect
+              data={parentCats}
+              filterKey="breed"
+              categories={categoriesData.categories}
+              onFilter={setFilteredByCategory}
+            />
+          </div>
+        </div>
         <div className="flex flex-wrap -m-4">
-          {parentCats.map((cat) => (
-            <div key={cat.parentCatId} className="xl:w-1/4 md:w-1/2 p-4">
+          {combinedFilteredParentCats.map((cat) => (
+            <div
+              key={cat.parentCatId}
+              className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
+            >
               <div className="bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <img
-                  className="h-40 rounded w-full object-cover object-center mb-6"
-                  src={cat.url}
+                  className="h-48 rounded-lg w-full object-cover object-center mb-6"
+                  src={cat.imageUrl}
                   alt={cat.name}
                 />
                 <h3 className="tracking-widest text-pink-500 text-xs font-medium title-font mb-1">
                   {cat.breed}
                 </h3>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  {cat.name}
-                </h2>
-                <p className="leading-relaxed text-base text-gray-700 mb-4">
-                  {cat.description}
+                <p className="text-sm text-gray-600">
+                  名前：<span className="font-bold">{cat.name}</span>
                 </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">
-                    性別: <span className="font-bold">{cat.sex}</span>
+                <div className="flex items-center">
+                  <p className="text-sm text-gray-600 mr-3">
+                    性別：
+                    <span className="font-bold">
+                      {cat.sex == 0 ? 'パパ猫' : 'ママ猫'}
+                    </span>
                   </p>
                   <p className="text-sm text-gray-600">
-                    カラー: <span className="font-bold">{cat.color}</span>
+                    年齢：<span className="font-bold">{cat.age}</span>
                   </p>
                 </div>
-                <p className="text-sm text-gray-600 mt-2">
-                  生年月日:{" "}
-                  <span className="font-bold">
-                    {String(cat.birthDate).replace(/(\d{4})(\d{2})(\d{2})/, "$1年$2月$3日")}
-                  </span>
-                </p>
               </div>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ParentCatList;
+export default ParentCatList

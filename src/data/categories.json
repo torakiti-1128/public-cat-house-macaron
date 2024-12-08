@@ -1,8 +1,8 @@
 {
-    "categories": [
-      { "label": "マンチカン", "value": "munchkin" },
-      { "label": "ミヌエット", "value": "minuet" },
-      { "label": "スコティッシュフォールド", "value": "scottish_fold" },
-      { "label": "ブリティッシュ", "value": "british" }
-    ]
-  }
+  "categories": [
+    { "label": "マンチカン", "value": "munchkin" },
+    { "label": "ミヌエット", "value": "minuet" },
+    { "label": "スコティッシュフォールド", "value": "scottish_fold" },
+    { "label": "ブリティッシュ", "value": "british" }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "sections": [
+    {
+      "title": "会社情報",
+      "links": [
+        { "label": "Cat House Macaronについて", "href": "/about" },
+        { "label": "猫舎紹介", "href": "/house" },
+        { "label": "準備品について", "href": "/preparation" },
+        { "label": "問い合わせ", "href": "/inquiry" }
+      ]
+    },
+    {
+      "title": "必須確認事項",
+      "links": [
+        { "label": "5つのお約束", "href": "/promise" },
+        { "label": "取引について", "href": "/reservation" },
+        { "label": "生体保証について", "href": "/gurantee" }
+      ]
+    },
+    {
+      "title": "猫の紹介",
+      "links": [
+        { "label": "ご家族募集中の子猫", "href": "/kittens" },
+        { "label": "ご家族が決まった子猫", "href": "/undefined" },
+        { "label": "親猫一覧", "href": "/parent" },
+        { "label": "里親募集中", "href": "/adoption" }
+      ]
+    }
+  ]
+}

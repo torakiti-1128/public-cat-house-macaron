@@ -1,32 +1,62 @@
-'use client';
-import React from 'react';
+'use client'
 
-import { Header } from '@/components/Layout/Heder';
-import { Footer } from '@/components/Layout/Footer';
-import KittenList from '@/components/KittensList';
-
-import { KittenListType } from '@/types/kitten';
-// import CatTabNavigation from '@/components/CatTabNavigation';
-
-const testKittens: KittenListType[] = [
-  { kittenId: 1, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat1.JPG" },
-  { kittenId: 2, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat2.JPG" },
-  { kittenId: 3, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat3.JPG" },
-  { kittenId: 4, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat10.JPG" },
-  { kittenId: 5, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat5.JPG" },
-  { kittenId: 6, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat6.JPG" },
-  { kittenId: 7, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat7.JPG" },
-  { kittenId: 8, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat8.JPG" },
-  { kittenId: 9, breed: "スコティッシュフィールド", tranStatus: "", url: "/images/cats/cat9.JPG" },
-];
+import React, { useState, useEffect } from 'react'
+import KittenList from '@/components/KittensList'
+import { KittenListType } from '@/types/kitten'
+import { PulseLoader } from 'react-spinners' // スピナーをインポート
+import ErrorContent from '@/components/ErrorContent'
 
 export default function KittenListPage() {
+  const [kittens, setKittens] = useState<KittenListType[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>("")
+
+  useEffect(() => {
+    // 子猫情報をフェッチする関数
+    const fetchKittens = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/kittens')
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const data: KittenListType[] = await response.json() // 型アサーション
+        setKittens(data) // データを直接セット
+      } catch (err: any) {
+        console.error('Fetch error:', err)
+        setError(err.message) // エラーメッセージを保存
+      } finally {
+        setLoading(false) // ローディング終了
+      }
+    }
+
+    fetchKittens()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PulseLoader size={15} color="#EDDFE0" /> {/* スピナーと色の指定 */}
+      </div>
+    )
+  }
+
+  if (error) {
+    const errorMessage = [
+      "子猫一覧の取得に失敗しました。",
+      "更新しても表示されない場合は下記メールアドレスまでお問い合わせください。",
+      "cathouseem@gmail.com"
+    ];
+    return (
+      <ErrorContent error={errorMessage}>
+      <img src="/images/not-found.JPG" alt="写真" className="max-w-xs rounded shadow-lg" />
+        </ErrorContent>
+    )
+  }
+
   return (
     <>
-    <Header />
-    {/* <CatTabNavigation /> */}
-    <KittenList kittens={testKittens} />
-    <Footer />
+      <KittenList kittens={kittens} />
     </>
-  );
+  )
 }

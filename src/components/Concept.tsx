@@ -1,8 +1,8 @@
-import React from "react";
-import conceptData from "../data/concept.json";
-import Button from "./common/Button";
+import React from 'react'
+import conceptData from '../data/concept.json'
+import Button from './common/Button'
 
-export const Concept: React.FC = () => {
+const Concept: React.FC = () => {
   return (
     <section className="text-gray-600 body-font mt-10">
       <div className="w-full bg-cover bg-center">
@@ -47,14 +47,14 @@ export const Concept: React.FC = () => {
                 <div className="flex flex-col items-center text-center justify-center">
                   <h2
                     className="font-medium title-font mt-4 text-gray-900 text-xl"
-                    style={{ fontFamily: "Paratino, serif" }}
+                    style={{ fontFamily: 'Paratino, serif' }}
                   >
                     {conceptData.about.title}
                   </h2>
                   <div className="w-20 h-1 bg-[#EDDFE0] rounded mt-2 mb-10"></div>
                   <p
                     className="text-sm"
-                    style={{ fontFamily: "Paratino, serif" }}
+                    style={{ fontFamily: 'Paratino, serif' }}
                   >
                     {conceptData.about.description}
                   </p>
@@ -63,42 +63,46 @@ export const Concept: React.FC = () => {
               <div className="sm:w-2/3 sm:pl-8 sm:py-8 mt-4 pt-4 sm:mt-0 text-center sm:text-center">
                 <h2
                   className="font-bold text-xl sm:text-xl md:text-xl lg:text-cl text-black mb-5 text-left"
-                  style={{ fontFamily: "Paratino, serif" }}
+                  style={{ fontFamily: 'Paratino, serif' }}
                 >
                   {conceptData.macaronMeaning.title}
                 </h2>
                 <p
                   className="leading-relaxed text-base mb-4 px-3 text-left"
-                  style={{ fontFamily: "Paratino, serif" }}
+                  style={{ fontFamily: 'Paratino, serif' }}
                 >
-                  {conceptData.macaronMeaning.content.split("\n").map((line, index) => (
-                    <React.Fragment key={index}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
+                  {conceptData.macaronMeaning.content
+                    .split('\n')
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
                 </p>
                 <h2
                   className="font-bold text-xl sm:text-xl md:text-xl lg:text-xl text-black mb-5 text-left"
-                  style={{ fontFamily: "Paratino, serif" }}
+                  style={{ fontFamily: 'Paratino, serif' }}
                 >
                   {conceptData.concept.title}
                 </h2>
                 <p
                   className="leading-relaxed text-base mb-4 px-5 text-left"
-                  style={{ fontFamily: "Paratino, serif" }}
+                  style={{ fontFamily: 'Paratino, serif' }}
                 >
-                  {conceptData.concept.content.split("\n").map((line, index) => (
-                    <React.Fragment key={index}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
+                  {conceptData.concept.content
+                    .split('\n')
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
                 </p>
                 <Button
-                text={conceptData.aboutButton.text}
-                link={conceptData.aboutButton.link}
-                icon={true}
+                  text={conceptData.aboutButton.text}
+                  link={conceptData.aboutButton.link}
+                  icon={true}
                 />
               </div>
             </div>
@@ -106,5 +110,7 @@ export const Concept: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+
+export default Concept

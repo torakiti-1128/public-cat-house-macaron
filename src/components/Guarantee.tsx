@@ -1,8 +1,8 @@
-import React from "react";
-import guaranteeData from "../data/guarantee.json";
-import Title from "./common/Title";
+import React from 'react'
+import guaranteeData from '../data/guarantee.json'
+import Title from './common/Title'
 
-export const Guarantee: React.FC = () => {
+const Guarantee: React.FC = () => {
   return (
     <section className="bg-[#FDF7F2] text-[#111111] p-8">
       <div className="container mx-auto">
@@ -30,5 +30,7 @@ export const Guarantee: React.FC = () => {
         ))}
       </div>
     </section>
-  );
-};
+  )
+}
+
+export default Guarantee

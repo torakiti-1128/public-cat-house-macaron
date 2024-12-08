@@ -1,15 +1,11 @@
-'use client';
-import React from 'react';
-import { Header } from '@/components/Layout/Heder';
-import { Footer } from '@/components/Layout/Footer';
-import { Reservation } from '@/components/Reservation';
+'use client'
+import React from 'react'
+import Reservation from '@/components/Reservation'
 
 export default function PromisePage() {
   return (
     <>
-    <Header />
-    <Reservation />
-    <Footer />
+      <Reservation />
     </>
-  );
+  )
 }

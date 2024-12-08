@@ -1,64 +1,101 @@
-'use client';
-import React from "react";
-import { KittenDetail } from "@/components/pages/KittenDetail";
-import { KittenDetailType, ParentCatKittenDetailType } from "@/types/kitten";
-import { Header } from "@/components/Layout/Heder";
-import { Footer } from "@/components/Layout/Footer";
-import { Access } from "@/components/Layout/Access";
-import { CheckPoints } from "@/components/Layout/CheckPoints";
+'use client'
 
-const testKittenDetail: KittenDetailType = {
-    kittenId: "001",
-    fatherCatId: 1,
-    motherCatId: 2,
-    description: "甘えん坊で遊ぶのが大好き！",
-    breed: "スコティッシュフォールド",
-    color: "ブルータビー&ホワイト",
-    birthDate: "2024年05月11日",
-    price: 150000,
-};
+import React, { useEffect, useState } from 'react'
+import KittenDetail from '@/components/KittenDetail'
+import { ParentCatKittenDetailType } from '@/types/kitten'
+import { PulseLoader } from 'react-spinners' // スピナーをインポート
+import ErrorContent from '@/components/ErrorContent'
 
-const testKittenImages = [
-    "/images/cats/cat1.JPG",
-    "/images/cats/cat2.JPG",
-    "/images/cats/cat3.JPG",
-    "/images/cats/cat4.JPG"
-];
+interface KittenDetailPageProps {
+  params: {
+    id: string // URLのパラメータ
+  }
+}
 
-const testParentCats: ParentCatKittenDetailType[] = [
-    {
-        parentCatId: 1,
-        name: "タイガー",
-        sex: "male",
-        breed: "スコティッシュフォールド",
-        description: "野性味あふれる見た目で、活発な性格が特徴の父猫です。",
-        url: "/images/cats/cat9.JPG",
-    },
-    {
-        parentCatId: 2,
-        name: "サクラ",
-        sex: "female",
-        breed: "メインクーン",
-        description: "元気いっぱいで遊び好きな、華やかな柄の母猫です。",
-        url: "/images/cats/cat8.JPG",
+export default function KittenDetailPage({ params }: KittenDetailPageProps) {
+  const kittenId = Number(params.id) // idを数値型に変換
+
+  const [kittenDetail, setKittenDetail] = useState<any>(null)
+  const [parentCats, setParentCats] = useState<ParentCatKittenDetailType[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchKittenDetail = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/kittens/${kittenId}`
+        )
+        if (!response.ok) {
+          throw new Error('子猫情報の取得に失敗しました。')
+        }
+        const data = await response.json()
+        setKittenDetail(data)
+
+        // 親猫情報の取得
+        const parentCatPromises = []
+        if (data.fatherCatId) {
+          parentCatPromises.push(fetchParentCat(data.fatherCatId))
+        }
+        if (data.motherCatId) {
+          parentCatPromises.push(fetchParentCat(data.motherCatId))
+        }
+
+        const parentCatsData = await Promise.all(parentCatPromises)
+        setParentCats(parentCatsData)
+      } catch (err: any) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
     }
-];
 
-const videoUrl = "/images/cat-test.mov";
+    const fetchParentCat = async (
+      parentCatId: number
+    ): Promise<ParentCatKittenDetailType> => {
+      const response = await fetch(
+        `http://localhost:8080/parent/${parentCatId}`
+      )
+      if (!response.ok) {
+        throw new Error(`親猫情報の取得に失敗しました (ID: ${parentCatId})`)
+      }
+      return response.json()
+    }
 
-export default function KittenDetailPage() {
+    fetchKittenDetail()
+  }, [kittenId])
+
+  if (isLoading) {
     return (
-        <>
-            <Header />
-            <KittenDetail
-                kittenDetail={testKittenDetail}
-                imageUrls={testKittenImages}
-                parentCats={testParentCats}
-                videoUrl={videoUrl}
-            />
-            <CheckPoints />
-            <Access />
-            <Footer />
-        </>
-    );
+      <div className="flex justify-center items-center h-screen">
+        <PulseLoader size={15} color="#EDDFE0" /> {/* スピナーを表示 */}
+      </div>
+    )
+  }
+
+  if (error) {
+    const errorMessage = [
+      "子猫詳細の取得に失敗しました。",
+      "更新しても表示されない場合は下記メールアドレスまでお問い合わせください。",
+      "cathouseem@gmail.com"
+    ];
+    return (
+      <ErrorContent error={errorMessage}>
+      <img src="/images/not-found.JPG" alt="写真" className="max-w-xs rounded shadow-lg" />
+        </ErrorContent>
+    )
+  }
+
+  if (!kittenDetail) {
+    return <p>該当する子猫情報が見つかりません。</p>
+  }
+
+  return (
+    <KittenDetail
+      kittenDetail={kittenDetail}
+      imageUrls={kittenDetail.imageUrls}
+      parentCats={parentCats}
+      videoUrl={kittenDetail.videoUrl}
+    />
+  )
 }

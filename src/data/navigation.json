@@ -1,19 +1,33 @@
 {
-    "desktopLinks": [
-      { "label": "ホーム", "href": "/" },
-      { "label": "子猫紹介", "href": "/kittens" },
-      { "label": "Cat House Macaronについて", "href": "/about" },
-      { "label": "お取引方法と5つのお約束", "href": "/reservation" },
-      { "label": "お問い合わせ", "href": "/inquiry" }
-    ],
-    "mobileLinks": [
-      { "label": "ホーム", "href": "/" },
-      { "label": "子猫紹介", "href": "/kittens" },
-      { "label": "Cat House Macaronについて", "href": "/about" },
-      { "label": "生体保証", "href": "/guarantee" },
-      { "label": "お取引方法と5つのお約束", "href": "/reservation" },
-      { "label": "お問い合わせ", "href": "/inquiry" },
-      { "label": "子猫を迎える準備品の一覧", "href": "/preparation" },
-      { "label": "親猫一覧", "href": "/parent" }
-    ]
+  "categories": [
+    {
+      "title": "猫舎情報",
+      "links": [
+        { "label": "Cat House Macaronについて", "href": "/about" },
+        { "label": "猫舎の紹介", "href": "/house" },
+        { "label": "お問い合わせ", "href": "/inquiry" }
+      ]
+    },
+    {
+      "title": "猫の紹介",
+      "links": [
+        { "label": "ご家族募集中の子猫", "href": "/kittens" },
+        { "label": "ご家族が決まった子猫", "href": "/undefined" },
+        { "label": "親猫", "href": "/parent" },
+        { "label": "里親募集中の猫", "href": "/adoption" }
+      ]
+    },
+    {
+      "title": "確認事項",
+      "links": [
+        { "label": "5つのお約束", "href": "/promise" },
+        { "label": "お取引方法", "href": "/reservation" },
+        { "label": "生体保証", "href": "/guarantee" }
+      ]
+    },
+    {
+      "title": "質問の回答",
+      "links": [{ "label": "準備品について", "href": "/preparation" }]
+    }
+  ]
 }

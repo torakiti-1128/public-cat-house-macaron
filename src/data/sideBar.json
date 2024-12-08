@@ -1,8 +1,8 @@
 {
-    "links": [
-      { "label": "ご家族募集中の子猫", "href": "/kittens" },
-      { "label": "親猫", "href": "/parent" },
-      { "label": "里親募集", "href": "/adoption" },
-      { "label": "ご家族が決まった子猫", "href": "/kittens/closed" }
-    ]
-  }
+  "links": [
+    { "label": "ご家族募集中の子猫", "href": "/kittens" },
+    { "label": "親猫", "href": "/parent" },
+    { "label": "里親募集", "href": "/adoption" },
+    { "label": "ご家族が決まった子猫", "href": "/kittens/closed" }
+  ]
+}

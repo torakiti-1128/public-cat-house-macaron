@@ -1,15 +1,11 @@
-'use client';
-import { About } from "@/components/About";
-import { Footer } from "@/components/Layout/Footer";
-import { Header } from "@/components/Layout/Heder";
-import React from "react";
+'use client'
+import React from 'react'
+import About from '@/components/About'
 
-export default function AboutPage(){
-    return(
-        <>
-        <Header />
-        <About />
-        <Footer />
-        </>
-    )  
+export default function AboutPage() {
+  return (
+    <>
+      <About />
+    </>
+  )
 }

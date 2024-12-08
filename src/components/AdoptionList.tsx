@@ -1,9 +1,9 @@
-import React from "react";
-import { AdoptionListType } from "@/types/kitten";
-import Title from "./common/Title";
+import React from 'react'
+import { AdoptionListType } from '@/types/kitten'
+import Title from './common/Title'
 
 interface AdoptionListProps {
-  adoptionList: AdoptionListType[];
+  adoptionList: AdoptionListType[]
 }
 
 const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
@@ -39,9 +39,12 @@ const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
                   </p>
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
-                  生年月日:{" "}
+                  生年月日:{' '}
                   <span className="font-bold">
-                    {String(cat.birthDate).replace(/(\d{4})(\d{2})(\d{2})/, "$1年$2月$3日")}
+                    {String(cat.birthDate).replace(
+                      /(\d{4})(\d{2})(\d{2})/,
+                      '$1年$2月$3日'
+                    )}
                   </span>
                 </p>
               </div>
@@ -50,7 +53,7 @@ const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default AdoptionList;
+export default AdoptionList

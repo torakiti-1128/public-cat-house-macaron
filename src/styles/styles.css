@@ -1,157 +1,169 @@
 .nav-link {
-    position: relative;
-    text-decoration: none;
+  position: relative;
+  text-decoration: none;
 }
 
 .nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background-color: #705C53;
-    left: 0;
-    bottom: -4px;
-    transition: width 0.3s ease-in-out;
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #705c53;
+  left: 0;
+  bottom: -4px;
+  transition: width 0.3s ease-in-out;
 }
 
-.nav-link:focus::after, .nav-link:hover::after {
-    width: 100%;
+.nav-link:focus::after,
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* styles.css */
 .menu {
-    position: fixed;
-    top: 0;
-    left: -300px; /* 初期位置を画面外に */
-    width: 300px;
-    height: 100%;
-    background-color: #f9f9f9;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: left 0.3s ease-in-out;
-    z-index: 1000;
-    padding: 20px;
+  position: fixed;
+  top: 0;
+  left: -300px; /* 初期位置を画面外に */
+  width: 300px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+  padding: 20px;
 }
 
 .menu-open {
-    left: 0; /* メニューがスライドインする */
+  left: 0; /* メニューがスライドインする */
 }
 
 .menu-items {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .menu-items li {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .menu-items li a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-    font-size: 18px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .menu-items li a:hover {
-    color: gray;
+  color: gray;
 }
 
 /* メニューボタンのスタイル */
 .menu-button {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 閉じるボタンのスタイル */
 .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* メニュー項目の下線 */
 .menu-items li a {
-    position: relative; /* 擬似要素のために position を relative に設定 */
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-    font-size: 18px;
+  position: relative; /* 擬似要素のために position を relative に設定 */
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .menu-items li a::after {
-    content: '';
-    position: absolute;
-    left: 0px;  /* 左に少しスペース */
-    right: 0px; /* 右に少しスペース */
-    bottom: -10px; /* テキストの下に下線を配置 */
-    height: 1px;  /* 下線の太さ */
-    background-color: #EDDFE0; /* 下線の色（文字とは別の色） */
-    width: calc(100% - 20px); /* 左右の余白を考慮した幅 */
+  content: '';
+  position: absolute;
+  left: 0px; /* 左に少しスペース */
+  right: 0px; /* 右に少しスペース */
+  bottom: -10px; /* テキストの下に下線を配置 */
+  height: 1px; /* 下線の太さ */
+  background-color: #eddfe0; /* 下線の色（文字とは別の色） */
+  width: calc(100% - 20px); /* 左右の余白を考慮した幅 */
 }
 
-.custom-prev, .custom-next {
-    background-color: rgba(0, 0, 0, 0.3); /* ボタンの背景色 */
-    border-radius: 50%;        /* 丸いボタン */
-    width: 40px;               /* ボタンの幅 */
-    height: 40px;              /* ボタンの高さ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;           /* 矢印のサイズ */
-    color: #111;               /* 矢印の色 */
-    cursor: pointer;           /* カーソルをポインタに */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 影 */
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;               /* ボタンが上に表示されるように */
-  }
-  
-  .custom-prev {
-    left: 10px;                /* 戻るボタンを左に配置 */
-  }
-  
-  .custom-next {
-    right: 10px;               /* 次にいくボタンを右に配置 */
-  }
-  
-  .custom-prev:hover, .custom-next:hover {
-    background-color: #ccc;     /* ホバー時の背景色 */
-  }
+.custom-prev,
+.custom-next {
+  background-color: rgba(0, 0, 0, 0.3); /* ボタンの背景色 */
+  border-radius: 50%; /* 丸いボタン */
+  width: 40px; /* ボタンの幅 */
+  height: 40px; /* ボタンの高さ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px; /* 矢印のサイズ */
+  color: #111; /* 矢印の色 */
+  cursor: pointer; /* カーソルをポインタに */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 影 */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10; /* ボタンが上に表示されるように */
+}
 
-  .paper-texture {
-    background-color: #EDDFE0;
-    background-image: linear-gradient(135deg, rgba(255,255,255,0.5) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.5) 75%, transparent 75%, transparent);
-    background-size: 20px 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
+.custom-prev {
+  left: 10px; /* 戻るボタンを左に配置 */
+}
+
+.custom-next {
+  right: 10px; /* 次にいくボタンを右に配置 */
+}
+
+.custom-prev:hover,
+.custom-next:hover {
+  background-color: #ccc; /* ホバー時の背景色 */
+}
+
+.paper-texture {
+  background-color: #eddfe0;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.5) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .subpage-title {
-    position: relative;
-    background: #EDDFE0;
-    box-shadow: 0px 0px 0px 5px #EDDFE0;
-    border: dashed 2px white;
-    padding: 0.2em 0.5em;
-    color: #454545;
-  }
-  
-  .subpage-title:after {
-    position: absolute;
-    content: '';
-    left: -7px;
-    top: -7px;
-    border-width: 0 0 15px 15px;
-    border-style: solid;
-    border-color: #fff #fff #EDDFE0;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
-  }
+  position: relative;
+  background: #eddfe0;
+  box-shadow: 0px 0px 0px 5px #eddfe0;
+  border: dashed 2px white;
+  padding: 0.2em 0.5em;
+  color: #454545;
+}
+
+.subpage-title:after {
+  position: absolute;
+  content: '';
+  left: -7px;
+  top: -7px;
+  border-width: 0 0 15px 15px;
+  border-style: solid;
+  border-color: #fff #fff #eddfe0;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}

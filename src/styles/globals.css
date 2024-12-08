@@ -4,7 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap');
 
-/* 追加のスタイルがあればここに記述 */
 body {
-  font-family: Hina Mincho, serif;
+  font-family:
+    Hina Mincho,
+    serif;
 }

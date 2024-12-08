@@ -1,48 +1,43 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import categoriesData from '@/data/categories.json';
+import React, { useState, useEffect } from 'react'
 
-interface CategorySelectProps {
-  onChange: (value: string) => void; // 選択された値を親コンポーネントに渡す
+interface CategorySelectProps<T> {
+  data: T[]
+  filterKey: keyof T
+  categories: { label: string; value: string }[]
+  onFilter: (filteredData: T[]) => void
 }
 
-export const CategorySelect: React.FC<CategorySelectProps> = ({ onChange }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const CategorySelect = <T extends object>({
+  data,
+  filterKey,
+  categories,
+  onFilter,
+}: CategorySelectProps<T>) => {
+  const [selectedCategory, setSelectedCategory] = useState('')
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    setSelectedCategory(value);
-    onChange(value); // 親コンポーネントに値を渡す
-  };
+  useEffect(() => {
+    const filteredData = selectedCategory
+      ? data.filter((item) => String(item[filterKey]) === selectedCategory)
+      : data
+    onFilter(filteredData)
+  }, [selectedCategory, data, filterKey, onFilter])
 
   return (
-    <div className="bg-white rounded-full border-none p-3 mb-4 shadow-md mx-4 lg:mx-0">
-      <select
-        id="category-select"
-        value={selectedCategory}
-        onChange={handleChange}
-        className="w-full bg-white rounded-full border-none text-gray-700 px-3 focus:outline-none"
-        style={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <option value="" disabled>
-          カテゴリー
+    <select
+      className="bg-white rounded-full border-none p-3 shadow-md"
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+    >
+      <option value="">全てのカテゴリ</option>
+      {categories.map((category) => (
+        <option key={category.value} value={category.label}>
+          {category.label}
         </option>
-        {categoriesData.categories.map((category) => (
-          <option
-            key={category.value}
-            value={category.value}
-          >
-            {category.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
+      ))}
+    </select>
+  )
+}
 
-export default CategorySelect;
+export default CategorySelect

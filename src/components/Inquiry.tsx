@@ -1,38 +1,45 @@
-import { useState } from "react";
-import inquiryData from "../data/inquiry.json";
-import Title from "./common/Title";
+import { useState } from 'react'
+import inquiryData from '../data/inquiry.json'
+import Title from './common/Title'
 
 interface InquiryProps {
-  onSubmit: (formData: Record<string, string>) => void; // 親にデータを渡す
+  onSubmit: (formData: Record<string, string>) => void // 親にデータを渡す
 }
 
-export const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [localFormData, setLocalFormData] = useState<Record<string, string>>({}); // ローカルの入力データ
+const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
+  const [localFormData, setLocalFormData] = useState<Record<string, string>>({}) // ローカルの入力データ
 
   // 入力内容の変更を管理
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { id, value } = e.target;
-    setLocalFormData((prev) => ({ ...prev, [id]: value }));
-  };
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { id, value } = e.target
+    setLocalFormData((prev) => ({ ...prev, [id]: value }))
+  }
 
   // モーダル管理
-  const handleModalOpen = () => setIsModalOpen(true);
-  const handleModalClose = () => setIsModalOpen(false);
+  const handleModalOpen = () => setIsModalOpen(true)
+  const handleModalClose = () => setIsModalOpen(false)
 
   // 送信処理
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(localFormData); // 親コンポーネントにデータを送信
-  };
+    e.preventDefault()
+    onSubmit(localFormData) // 親コンポーネントにデータを送信
+  }
 
   return (
-    <div className="bg-[#FDF7F2] px-10 py-8" style={{ fontFamily: "Paratino, serif" }}>
+    <div
+      className="bg-[#FDF7F2] px-10 py-8"
+      style={{ fontFamily: 'Paratino, serif' }}
+    >
       <div className="text-center container mx-auto">
         <Title text={inquiryData.title} />
         <p className="bg-[#FFF0F6] border-2 border-[#F9CCE3] rounded-lg p-6 mt-10 text-base leading-8 text-[#705C53] sm:mx-20 lg:mx-40 shadow-lg relative">
-          {inquiryData.description.split("\n").map((line, index) => (
+          {inquiryData.description.split('\n').map((line, index) => (
             <span key={index}>
               {line}
               <br />
@@ -43,19 +50,22 @@ export const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           {inquiryData.fields.map((field) => (
-            <div key={field.id} className={field.rows ? "sm:col-span-2" : ""}>
-              <label htmlFor={field.id} className="block text-sm font-semibold leading-6 text-[#705C53]">
+            <div key={field.id} className={field.rows ? 'sm:col-span-2' : ''}>
+              <label
+                htmlFor={field.id}
+                className="block text-sm font-semibold leading-6 text-[#705C53]"
+              >
                 {field.label}
               </label>
               <div className="mt-2.5">
-                {field.type === "textarea" ? (
+                {field.type === 'textarea' ? (
                   <textarea
                     id={field.id}
                     rows={field.rows}
                     onChange={handleInputChange}
                     className="block w-full rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-md ring-1 ring-inset ring-[#EDDFE0] placeholder:text-[#B7B7B7] focus:ring-2 focus:ring-inset focus:ring-[#705C53] sm:text-sm sm:leading-6"
                   ></textarea>
-                ) : field.id === "visit-date" ? (
+                ) : field.id === 'visit-date' ? (
                   <div className="flex gap-4">
                     <input
                       type="date"
@@ -120,7 +130,10 @@ export const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
                   onChange={() => setIsChecked(!isChecked)}
                   className="h-4 w-4 text-[#705C53] border-gray-300 rounded focus:ring-[#705C53]"
                 />
-                <label htmlFor="confirm" className="ml-2 text-sm text-[#705C53]">
+                <label
+                  htmlFor="confirm"
+                  className="ml-2 text-sm text-[#705C53]"
+                >
                   確認しました
                 </label>
               </div>
@@ -141,7 +154,9 @@ export const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
             type="submit"
             disabled={!isChecked}
             className={`block w-full rounded-full px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-md ${
-              isChecked ? "bg-[#705C53] hover:bg-[#583d2f]" : "bg-gray-400 cursor-not-allowed"
+              isChecked
+                ? 'bg-[#705C53] hover:bg-[#583d2f]'
+                : 'bg-gray-400 cursor-not-allowed'
             }`}
           >
             送信
@@ -149,5 +164,7 @@ export const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
+
+export default Inquiry

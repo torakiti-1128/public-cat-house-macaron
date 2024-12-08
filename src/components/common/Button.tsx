@@ -1,13 +1,18 @@
-import React from "react";
+import React from 'react'
 
 interface ButtonProps {
-  text: string; //ボタンに表示するテキスト
-  link: string; //リンク先のURL
-  icon?: boolean; //アイコン表示の切り替え
-  additionalClasses?: string; //必要に応じて追加のクラスを渡せる
+  text: string //ボタンに表示するテキスト
+  link: string //リンク先のURL
+  icon?: boolean //アイコン表示の切り替え
+  additionalClasses?: string //必要に応じて追加のクラスを渡せる
 }
 
-const Button: React.FC<ButtonProps> = ({ text, link, icon = false, additionalClasses = "" }) => {
+const Button: React.FC<ButtonProps> = ({
+  text,
+  link,
+  icon = false,
+  additionalClasses = '',
+}) => {
   return (
     <a
       href={link}
@@ -32,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({ text, link, icon = false, additionalCla
         </svg>
       )}
     </a>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

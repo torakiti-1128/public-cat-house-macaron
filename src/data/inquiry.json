@@ -2,16 +2,66 @@
   "title": "ご見学について",
   "description": "当店では猫ちゃんの幸せを何よりも願っております。そのため、購入意志がない方のご見学はお断りさせていただいておりますので、あらかじめご了承ください。\n\n募集中の子猫で気に入った子猫が見つかりましたら、公式LINEまたは下記のお問い合わせフォームより必要事項をご記入の上、ご見学予約をお願いいたします。遠方の方は、LINEのビデオ通話でオンライン見学も承っております。\n\n但し2020年6月から「動物愛護及び管理に関する法律の一部を改正する法律」により当猫舎にて対面生体確認が必要となりました。オンライン見学後ご購入時に一度、当猫舎にお越しいただく必要がございます。",
   "fields": [
-    { "id": "first-name", "label": "苗字(フリガナ)", "type": "text", "autocomplete": "given-name" },
-    { "id": "last-name", "label": "名前(フリガナ)", "type": "text", "autocomplete": "family-name" },
-    { "id": "address", "label": "ご住所", "type": "text", "autocomplete": "organization" },
-    { "id": "email", "label": "メールアドレス", "type": "email", "autocomplete": "email" },
-    { "id": "phone-number", "label": "電話番号", "type": "tel", "autocomplete": "tel" },
-    { "id": "visit-date", "label": "見学日時", "type": "datetime-local", "autocomplete": "off" },
-    { "id": "visit-method", "label": "ご来店方法", "type": "text", "autocomplete": "off" },
-    { "id": "visit-people", "label": "人数", "type": "text", "autocomplete": "off" },
-    { "id": "kitten-id", "label": "ご希望猫の管理番号", "type": "text", "autocomplete": "off" },
-    { "id": "pet-status", "label": "現在のペット飼育状況", "type": "text", "autocomplete": "off" },
+    {
+      "id": "first-name",
+      "label": "苗字(フリガナ)",
+      "type": "text",
+      "autocomplete": "given-name"
+    },
+    {
+      "id": "last-name",
+      "label": "名前(フリガナ)",
+      "type": "text",
+      "autocomplete": "family-name"
+    },
+    {
+      "id": "address",
+      "label": "ご住所",
+      "type": "text",
+      "autocomplete": "organization"
+    },
+    {
+      "id": "email",
+      "label": "メールアドレス",
+      "type": "email",
+      "autocomplete": "email"
+    },
+    {
+      "id": "phone-number",
+      "label": "電話番号",
+      "type": "tel",
+      "autocomplete": "tel"
+    },
+    {
+      "id": "visit-date",
+      "label": "見学日時",
+      "type": "datetime-local",
+      "autocomplete": "off"
+    },
+    {
+      "id": "visit-method",
+      "label": "ご来店方法",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "visit-people",
+      "label": "人数",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "kitten-id",
+      "label": "ご希望猫の管理番号",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "pet-status",
+      "label": "現在のペット飼育状況",
+      "type": "text",
+      "autocomplete": "off"
+    },
     { "id": "message", "label": "その他", "type": "textarea", "rows": 4 }
   ],
   "modal": {

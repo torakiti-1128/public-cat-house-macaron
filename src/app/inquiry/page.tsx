@@ -1,10 +1,9 @@
-'use client';
-import React from 'react';
-import { Header } from '@/components/Layout/Heder';
-import { Footer } from '@/components/Layout/Footer';
-import { Inquiry } from '@/components/Inquiry';
+'use client'
+import React from 'react'
+import Inquiry from '@/components/Inquiry'
 
 export default function InquiryPages() {
+  // ビルドできないから一旦コメントアウト
   // const [formData, setFormData] = useState<Record<string, string>>({}); // フォームデータを管理
   // const [isSubmitting, setIsSubmitting] = useState(false); // 送信中の状態を管理
   // const [error, setError] = useState<string | null>(null); // エラーメッセージの管理
@@ -44,9 +43,7 @@ export default function InquiryPages() {
 
   return (
     <>
-      <Header />
       <Inquiry onSubmit={handleFormSubmit} />
-      <Footer />
     </>
-  );
+  )
 }

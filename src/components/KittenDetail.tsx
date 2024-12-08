@@ -1,36 +1,44 @@
-import React, { useState } from "react";
-import { KittenDetailType, ParentCatKittenDetailType } from "@/types/kitten";
-import Button from "../common/Button";
-import "@/styles/styles.css"; 
-import Title from "../common/Title";
+import React, { useState } from 'react'
+import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
+import Button from '@/components/common/Button'
+import Title from '@/components/common/Title'
+import { formatDateToJapanese } from '@/hooks/datetimeConverter'
 
 interface KittenDetailProps {
-  kittenDetail: KittenDetailType; // 子猫の詳細情報
-  imageUrls: string[]; // 子猫画像URL：基本的には4枚
-  parentCats: ParentCatKittenDetailType[]; // 親猫の情報
-  videoUrl: string; // 動画URL
+  kittenDetail: KittenDetailType // 子猫の詳細情報
+  imageUrls: string[] // 子猫画像URL：基本的には4枚
+  parentCats: ParentCatKittenDetailType[] // 親猫の情報
+  videoUrl: string // 動画URL
 }
 
-export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageUrls, parentCats, videoUrl }) => {
-  const { kittenId, description, breed, color, birthDate, price } = kittenDetail;
+const KittenDetail: React.FC<KittenDetailProps> = ({
+  kittenDetail,
+  imageUrls,
+  parentCats,
+  videoUrl,
+}) => {
+  const { kittenId, description, breed, color, sex, birthDate, price } =
+    kittenDetail
 
-  const mediaUrls = [...imageUrls, videoUrl]; // 写真と動画をまとめる
-  const [currentMediaIndex, setCurrentMediaIndex] = useState(0); // 現在のメディアインデックス
+  const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0) // 現在のメディアインデックス
 
   // 次のメディアに切り替え
   const handleNext = () => {
-    setCurrentMediaIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length);
-  };
+    setCurrentMediaIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length)
+  }
 
   // 前のメディアに切り替え
   const handlePrev = () => {
-    setCurrentMediaIndex((prevIndex) => (prevIndex - 1 + mediaUrls.length) % mediaUrls.length);
-  };
+    setCurrentMediaIndex(
+      (prevIndex) => (prevIndex - 1 + mediaUrls.length) % mediaUrls.length
+    )
+  }
 
   return (
-    <section 
-      className="text-gray-600 body-font overflow-hidden px-10 py-8 bg-[#FDF7F2]" 
-      style={{ fontFamily: "Paratino, serif" }}
+    <section
+      className="text-gray-600 body-font overflow-hidden px-10 py-8 bg-[#FDF7F2]"
+      style={{ fontFamily: 'Paratino, serif' }}
     >
       <Title text="子猫の詳細" />
       <div className="container px-5 py-8 mx-auto">
@@ -38,7 +46,10 @@ export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageU
         <div className="lg:w-4/5 mx-auto flex flex-col lg:flex-row lg:items-stretch">
           {/* メディアセクション */}
           <div className="w-full lg:w-1/2 relative flex items-center justify-center mb-6 lg:mb-0">
-            <div className="relative w-full h-full" style={{ aspectRatio: "4/3" }}>
+            <div
+              className="relative w-full h-full"
+              style={{ aspectRatio: '4/3' }}
+            >
               {/* メディアの切り替え */}
               {currentMediaIndex < imageUrls.length ? (
                 <img
@@ -49,7 +60,7 @@ export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageU
               ) : (
                 <video
                   className="w-full h-full object-cover object-center rounded-2xl shadow"
-                  style={{ aspectRatio: "16/9" }}
+                  style={{ aspectRatio: '16/9' }}
                   src={mediaUrls[currentMediaIndex]}
                   controls
                 />
@@ -70,11 +81,15 @@ export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageU
 
           {/* 詳細セクション */}
           <div className="w-full lg:w-1/2 lg:pl-10 lg:py-6 flex flex-col justify-center">
-            <h2 className="text-sm title-font text-gray-500 tracking-widest mb-2">子猫情報</h2>
+            <h2 className="text-sm title-font text-gray-500 tracking-widest mb-2">
+              子猫情報
+            </h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
               お問い合わせ番号：{kittenId}
             </h1>
-            <p className="leading-relaxed mb-4 whitespace-pre-line">{description}</p>
+            <p className="leading-relaxed mb-4 whitespace-pre-line">
+              {description}
+            </p>
             <div className="flex border-t border-gray-200 py-2">
               <span className="text-gray-500">猫種</span>
               <span className="ml-auto text-gray-900">{breed}</span>
@@ -83,15 +98,25 @@ export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageU
               <span className="text-gray-500">カラー</span>
               <span className="ml-auto text-gray-900">{color}</span>
             </div>
+            <div className="flex border-t border-gray-200 py-2">
+              <span className="text-gray-500">性別</span>
+              <span className="ml-auto text-gray-900">
+                {sex == 0 ? '男の子' : '女の子'}
+              </span>
+            </div>
             <div className="flex border-t border-b mb-6 border-gray-200 py-2">
               <span className="text-gray-500">生年月日</span>
-              <span className="ml-auto text-gray-900">{birthDate}</span>
+              <span className="ml-auto text-gray-900">{formatDateToJapanese(birthDate)}</span>
             </div>
             <div className="flex">
               <span className="title-font font-medium text-2xl text-gray-900">
                 ¥{price.toLocaleString()}円
               </span>
-              <Button text="お問い合わせ" link="/inquiry" additionalClasses="ml-auto" />
+              <Button
+                text="お問い合わせ"
+                link="/inquiry"
+                additionalClasses="ml-auto"
+              />
             </div>
           </div>
         </div>
@@ -100,24 +125,32 @@ export const KittenDetail: React.FC<KittenDetailProps> = ({ kittenDetail, imageU
         <div className="lg:w-5/6 mx-auto mt-12">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-8 lg:space-y-0 lg:space-x-8">
             {parentCats.map((cat) => (
-              <div key={cat.parentCatId} className="flex flex-col items-center text-center justify-center bg-white p-6 rounded-lg shadow-lg w-full lg:w-1/2">
+              <div
+                key={cat.parentCatId}
+                className="flex flex-col items-center text-center justify-center bg-white p-6 rounded-3xl shadow-lg w-full lg:w-1/2"
+                style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+              >
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  {cat.sex === "male" ? "パパ猫" : "ママ猫"}
+                  {cat.sex == 0 ? 'パパ' : 'ママ'}
                 </h2>
                 <img
-                  className="w-24 h-24 rounded-full mb-4"
-                  src={cat.url}
+                  className="w-24 h-24 rounded-xl mb-4"
+                  src={cat.imageUrl}
                   alt={`${cat.name}`}
                 />
-                <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">{cat.name}</h2>
+                <h2 className="font-medium title-font font-semibold mt-4 text-gray-900 text-lg">
+                  {cat.name}
+                </h2>
                 <div className="w-20 h-1 bg-[#EDDFE0] rounded mt-2 mb-4"></div>
-                <p className="text-base font-semibold text-gray-800">猫種: {cat.breed}</p>
-                <p className="text-base mt-2">{cat.description}</p>
+                <p className="text-base text-gray-800">猫種: {cat.breed}</p>
+                <p className="text-base mt-2">年齢：{cat.age}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+
+export default KittenDetail
