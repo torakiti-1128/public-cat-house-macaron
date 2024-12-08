@@ -1,5 +1,5 @@
 import apiClient from '@/lib/axios';
-import { KittenDetailType, KittensType } from '@/types/getTypes';
+import { KittenDetailType, KittensType } from '@/types/types';
 
 export const fetchKittens = async (): Promise<KittensType[]> => {
     try {

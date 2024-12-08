@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { KittensType } from '@/types/getTypes';
+import { KittensType } from '@/types/types';
 import { fetchKittens } from '@/api/kittensApi';
 import Kittens from '@/components/kittens/Kittens'
-import Header from '@/components/common/header';
+import Header from '@/components/common/Header'
 
 const KittensPage: React.FC = () => {
     const [kittens, setKittens] = useState<KittensType[]>([]);

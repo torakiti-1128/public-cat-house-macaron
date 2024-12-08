@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { AgeSelect, CustomSelect } from '../ui/Select';
 import { FileUploadButton } from '../ui/Button';
-import { BreedsType, ColorsType, ParentCatDetailType } from '@/types/getTypes';
+import { BreedsType, ColorsType, ParentCatDetailType } from '@/types/types';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

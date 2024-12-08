@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { CustomSelect } from '../ui/Select';
+import { CustomSelect, CustomSelectString } from '../ui/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { Button } from '@mui/material';
-import { BreedsType, ColorsType, KittenDetailType, ParentCatsType } from '@/types/getTypes';
+import { BreedsType, ColorsType, KittenDetailType, ParentCatsType } from '@/types/types';
 
 interface KittensUpdateFormProps {
     handleUpdateKitten: (kittenId: number, formData: FormData) => void;
     initialData?: KittenDetailType;
 }
 
+
 const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({ handleUpdateKitten, initialData }) => {
+    const allowedTranStates = ['募集中', '商談中', '譲渡済'];
     const [kittenId, setKittenId] = useState<number>(0);
     const [fatherCatId, setFatherCatId] = useState<number>(0);
     const [motherCatId, setMotherCatId] = useState<number>(0);
@@ -52,7 +54,11 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({ handleUpdateKitte
             setBirthDate(initialData.birthDate ? dayjs(initialData.birthDate) : null);
             setDescription(initialData.description || '');
             setPrice(initialData.price || 0);
-            setTranState(initialData.tranState || '');
+        if (allowedTranStates.includes(initialData.tranState)) {
+            setTranState(initialData.tranState);
+        } else {
+            setTranState(''); // 不正な値の場合は空にする
+        }
         }
     }, [initialData]);
 
@@ -120,7 +126,7 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({ handleUpdateKitte
             birthDate: birthDate === null,
             description: description.trim() === '',
             price: price === 0,
-            tranState: tranState.trim() === '',
+            tranState: !allowedTranStates.includes(tranState), 
         };
         setErrors(newErrors);
         return !Object.values(newErrors).some((error) => error);
@@ -254,14 +260,15 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({ handleUpdateKitte
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
-                <TextField
-                    fullWidth
-                    value={tranState}
-                    onChange={(e) => setTranState(e.target.value)}
+            <CustomSelectString
                     label="取引状態"
-                    variant="outlined"
-                    error={errors.tranState}
-                    helperText={errors.tranState ? '取引状態を入力してください' : ''}
+                    value={tranState || '募集中'}
+                    options={[
+                        { value: '募集中', label: '募集中' },
+                        { value: '商談中', label: '商談中' },
+                        { value: '譲渡済', label: '譲渡済' },
+                    ]}
+                    onChange={(value) => setTranState(value)}
                 />
             </Box>
             <div className="mt-3">

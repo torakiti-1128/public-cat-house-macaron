@@ -16,7 +16,7 @@ export default function ColorForm({ onAdd }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2 mb-6">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2 mt-8 mb-8">
       <input
         type="text"
         value={colorName}

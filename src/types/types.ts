@@ -11,7 +11,7 @@ export interface KittensType {
 export interface ParentCatsType {
     parentCatId: number;
     name: string;
-    sex: number; // 0: オス, 1: メス
+    sex: number;
     breed: string;
     age: string;
     imageUrl: string;

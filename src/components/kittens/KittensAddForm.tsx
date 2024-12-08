@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
 import { Button } from '@mui/material';
-import { BreedsType, ColorsType, ParentCatsType } from '@/types/getTypes';
+import { BreedsType, ColorsType, ParentCatsType } from '@/types/types';
 import { FileUploadButton } from '../ui/Button';
 
 interface KittensAddFormProps {

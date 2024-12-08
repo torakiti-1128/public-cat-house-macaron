@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import ParentCats from '@/components/parent/ParentCats';
-import { ParentCatsType } from '@/types/getTypes';
+import { ParentCatsType } from '@/types/types';
 import { fetchParentCats } from '@/api/parentCatsApi';
+import Header from '@/components/common/Header';
 
 const ParentCatsPage: React.FC = () => {
     const [parentCats, setParentCats] = useState<ParentCatsType[]>([]);
@@ -22,7 +23,8 @@ const ParentCatsPage: React.FC = () => {
         getParentCats();
     }, []);
 
-    return <ParentCats parentCats={parentCats} getParentCats={getParentCats} />;
+    return (
+        <><Header /><ParentCats parentCats={parentCats} getParentCats={getParentCats} /></>);
 };
 
 export default ParentCatsPage;

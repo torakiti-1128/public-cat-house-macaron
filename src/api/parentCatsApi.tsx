@@ -1,5 +1,5 @@
 import apiClient from '@/lib/axios';
-import { ParentCatDetailType, ParentCatsType } from '@/types/getTypes';
+import { ParentCatDetailType, ParentCatsType } from '@/types/types';
 
 export const fetchParentCats = async (): Promise<ParentCatsType[]> => {
     try {

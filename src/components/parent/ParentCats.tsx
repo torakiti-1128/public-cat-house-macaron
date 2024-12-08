@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { ParentCatDetailType, ParentCatsType } from '@/types/getTypes';
+import { ParentCatDetailType, ParentCatsType } from '@/types/types';
 import {
     deleteParentCat,
     fetchParentCatDetail,
@@ -125,8 +125,8 @@ const ParentCats: React.FC<ParentCatsProps> = ({
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6 text-">親猫管理サイト</h1>
+        <div className="container mx-auto pt-20 p-4">
+            <h1 className="text-3xl font-bold mb-6 text-center">親猫管理サイト</h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {parentCats.map((cat) => (
                     <Card

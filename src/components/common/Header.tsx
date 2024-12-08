@@ -38,10 +38,7 @@ const Header: React.FC<Props> = (props) => {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "left", p: 2 }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        猫管理システム
-      </Typography>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "left", mt: 5, p: 2 }}>
       <Divider />
       <List>
         {navItems.map((item) => (

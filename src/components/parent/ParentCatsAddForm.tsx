@@ -3,8 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { AgeSelect, CustomSelect } from '../ui/Select';
 import { FileUploadButton } from '../ui/Button';
-import { BreedsType, ColorsType } from '@/types/getTypes';
-import { PostParentCatType } from '@/types/postType';
+import { BreedsType, ColorsType } from '@/types/types';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -96,25 +95,17 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
             return;
         }
 
-        const postParentCatData: PostParentCatType = {
-            name,
-            sex: Number(sex),
-            breedId: Number(breedId),
-            colorId: Number(colorId),
-            age: Number(age),
-            birthDate: birthDate ? birthDate.format('YYYY-MM-DD') : '',
-            description,
-            imageUrl: '',
-        };
-
         const formData = new FormData();
-        formData.append('name', postParentCatData.name);
-        formData.append('sex', postParentCatData.sex.toString());
-        formData.append('breedId', postParentCatData.breedId.toString());
-        formData.append('colorId', postParentCatData.colorId.toString());
-        formData.append('age', postParentCatData.age.toString());
-        formData.append('birthDate', postParentCatData.birthDate);
-        formData.append('description', postParentCatData.description);
+        formData.append('name', name);
+        formData.append('sex', sex.toString());
+        formData.append('breedId', breedId.toString());
+        formData.append('colorId', colorId.toString());
+        formData.append('age', age.toString());
+        formData.append(
+            'birthDate',
+            birthDate ? birthDate.format('YYYY-MM-DD') : '' // 生年月日
+        );
+        formData.append('description', description);
 
         if (uploadedFiles) {
             formData.append('image', uploadedFiles[0]);
