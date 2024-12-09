@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"mime/multipart"
+	"sync"
 )
 
 // 親猫関連のビジネスロジックインターフェース
@@ -81,18 +82,68 @@ func (s *ParentServiceImpl) UpdateParentCatImage(parentCatId int, file multipart
 
 // 親猫情報を更新
 func (s *ParentServiceImpl) UpdateParentCat(dto UpdateParentCatDTO) error {
-	err := s.Repo.UpdateParentCat(dto)
-	if err != nil {
-		return fmt.Errorf("親猫情報の更新に失敗しました: %w", err)
+	var wg sync.WaitGroup
+	errChan := make(chan error, 2)
+
+	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", dto.ParentCatId)
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := s.Repo.UpdateParentCat(dto); err != nil {
+			errChan <- fmt.Errorf("親猫情報の更新に失敗しました: %w", err)
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		// if err := s.StorageService.UpdateFileInStorage(dt); err != nil {
+		// 	errChan <- fmt.Errorf("画像の更新に失敗しました: %w", err)
+		// }
+	}()
+
+	wg.Wait()
+	close(errChan)
+
+	for err := range errChan {
+		return err
 	}
+
 	return nil
 }
 
-// 親猫を削除
+// 親猫情報を消去
 func (s *ParentServiceImpl) DeleteParentCat(parentCatId int) error {
-	err := s.Repo.DeleteParentCat(parentCatId)
-	if err != nil {
-		return fmt.Errorf("親猫情報の削除に失敗しました: %w", err)
+	var wg sync.WaitGroup
+	errChan := make(chan error, 2)
+
+	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", parentCatId)
+
+	// DBからフィールド削除
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := s.Repo.DeleteParentCat(parentCatId); err != nil {
+			errChan <- fmt.Errorf("親猫情報の削除に失敗しました: %w", err)
+		}
+	}()
+
+	// ストレージから画像削除
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := s.StorageService.DeleteFileInStorage("images", imagePath); err != nil {
+			errChan <- fmt.Errorf("画像の削除に失敗しました: %w", err)
+		}
+	}()
+
+	wg.Wait()
+	close(errChan)
+
+	for err := range errChan {
+		return err
 	}
+
 	return nil
 }

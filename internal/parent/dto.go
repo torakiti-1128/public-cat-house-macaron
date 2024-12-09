@@ -45,4 +45,5 @@ type UpdateParentCatDTO struct {
 	Age         int    `json:"age"`
 	BirthDate   string `json:"birthDate"`
 	Description string `json:"description"`
+	ImageUrl    string `json:"imageUrl"`
 }

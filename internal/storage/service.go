@@ -10,10 +10,12 @@ import (
 type StorageService interface {
 	// ファイルをストレージにアップロード
 	UploadFileToStorage(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
-	// 写真を更新する
-	UpdateFileInStorage(file multipart.File, bucket string, oldPath, newPath string) (UploadedFileDTO, error)
-	// フォルダごと写真を消去する
-	DeleteFolderFromStorage(bucket, folderPath string) error
+	// Storageのファイルを消去
+	UpdateFileInStorage(file multipart.File, bucket string, oldPath string, newPath string) (UploadedFileDTO, error)
+	// Storageのファイルを更新
+	DeleteFileInStorage(bucket string, filePath string) error
+	// Storageのフォルダを消去
+	DeleteFolderFromStorage(bucket string, folderPath string) error
 }
 
 // ストレージのビジネスロジック実装
@@ -46,8 +48,8 @@ func (s *StorageServiceImpl) UploadFileToStorage(file multipart.File, bucket, de
 	}, nil
 }
 
-// Supabaseの写真を更新する
-func (s *StorageServiceImpl) UpdateFileInStorage(file multipart.File, bucket, oldPath, newPath string) (UploadedFileDTO, error) {
+// Storageのファイルを更新
+func (s *StorageServiceImpl) UpdateFileInStorage(file multipart.File, bucket string, oldPath string, newPath string) (UploadedFileDTO, error) {
 	err := s.Repo.DeleteFile(bucket, oldPath)
 	if err != nil {
 		return UploadedFileDTO{}, fmt.Errorf("古いファイルの削除に失敗しました: %w", err)
@@ -56,8 +58,17 @@ func (s *StorageServiceImpl) UpdateFileInStorage(file multipart.File, bucket, ol
 	return s.UploadFileToStorage(file, bucket, newPath)
 }
 
-// Supabaseのフォルダを消去する
-func (s *StorageServiceImpl) DeleteFolderFromStorage(bucket, folderPath string) error {
+// Storageのファイルを消去
+func (s *StorageServiceImpl) DeleteFileInStorage(bucket string, filePath string) error {
+	err := s.Repo.DeleteFile(bucket, filePath)
+	if err != nil {
+		return fmt.Errorf("ファイルの消去に失敗しました (%s): %w", filePath, err)
+	}
+	return nil
+}
+
+// Storageのフォルダを消去
+func (s *StorageServiceImpl) DeleteFolderFromStorage(bucket string, folderPath string) error {
 	err := s.Repo.DeleteFolder(bucket, folderPath)
 	if err != nil {
 		return fmt.Errorf("フォルダの消去に失敗しました (%s): %w", folderPath, err)
