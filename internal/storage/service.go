@@ -10,6 +10,10 @@ import (
 type StorageService interface {
 	// ファイルをストレージにアップロード
 	UploadFileToStorage(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
+	// 写真を更新する
+	UpdateFileInStorage(file multipart.File, bucket string, oldPath, newPath string) (UploadedFileDTO, error)
+	// フォルダごと写真を消去する
+	DeleteFolderFromStorage(bucket, folderPath string) error
 }
 
 // ストレージのビジネスロジック実装
@@ -40,4 +44,23 @@ func (s *StorageServiceImpl) UploadFileToStorage(file multipart.File, bucket, de
 		Bucket:    bucket,
 		Path:      destPath,
 	}, nil
+}
+
+// Supabaseの写真を更新する
+func (s *StorageServiceImpl) UpdateFileInStorage(file multipart.File, bucket, oldPath, newPath string) (UploadedFileDTO, error) {
+	err := s.Repo.DeleteFile(bucket, oldPath)
+	if err != nil {
+		return UploadedFileDTO{}, fmt.Errorf("古いファイルの削除に失敗しました: %w", err)
+	}
+
+	return s.UploadFileToStorage(file, bucket, newPath)
+}
+
+// Supabaseのフォルダを消去する
+func (s *StorageServiceImpl) DeleteFolderFromStorage(bucket, folderPath string) error {
+	err := s.Repo.DeleteFolder(bucket, folderPath)
+	if err != nil {
+		return fmt.Errorf("フォルダの消去に失敗しました (%s): %w", folderPath, err)
+	}
+	return nil
 }
