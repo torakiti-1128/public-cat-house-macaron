@@ -5,7 +5,7 @@ import Title from './common/Title'
 //猫舎の紹介
 const CatHouse: React.FC = () => {
   return (
-    <div className="bg-[#FDF7F2]">
+    <div className="bg-[#FDF7F2] p-b">
       <div className="mx-auto max-w-7xl px-10">
         <div className="mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none lg:py-8">
           <Title text="猫舎の紹介" />
@@ -21,7 +21,6 @@ const CatHouse: React.FC = () => {
                 </div>
                 <h3 className="mt-3 text-base lg:mt-2">
                   <a href="#">
-                    <span className="absolute inset-0"></span>
                     {item.title}
                   </a>
                 </h3>

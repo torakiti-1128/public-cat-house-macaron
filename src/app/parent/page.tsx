@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import ParentCatList from '@/components/ParentCatList'
 import { ParentCatListType } from '@/types/kitten'
 import ErrorContent from '@/components/ErrorContent'
+import { PulseLoader } from 'react-spinners'
 
 export default function KittenListPage() {
   const [parentCats, setParentCats] = useState<ParentCatListType[]>([])
@@ -31,7 +32,11 @@ export default function KittenListPage() {
   }, [])
 
   if (loading) {
-    return <div>Loading...</div> // ローディング中の表示
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <PulseLoader size={15} color="#EDDFE0" /> {/* スピナーと色の指定 */}
+      </div>
+    )
   }
 
   if (error) {

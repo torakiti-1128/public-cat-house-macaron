@@ -79,7 +79,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
                     className="text-[#705C53] mb-2 text-2xl"
                     style={{ fontFamily: 'Paratino, serif' }}
                   >
-                    問い合わせ番号：{kitten.kittenId}
+                    子猫番号：{kitten.kittenId}
                   </h5>
                 </a>
                 <p style={{ fontFamily: 'Paratino, serif' }}>

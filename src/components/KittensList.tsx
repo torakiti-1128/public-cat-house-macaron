@@ -61,7 +61,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens }) => {
                   {kitten.breed}
                 </h3>
                 <h2 className="text-gray-900 text-lg font-medium mb-2">
-                  お問い合わせ番号: {kitten.kittenId}
+                  子猫番号: {kitten.kittenId}
                 </h2>
                 <p style={{ fontFamily: 'Paratino, serif' }}>
                   取引状態：{kitten.tranState}

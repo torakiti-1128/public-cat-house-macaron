@@ -4,7 +4,7 @@ import Title from './common/Title'
 
 const Reservation: React.FC = () => {
   return (
-    <section className="bg-[#FDF7F2] p-8">
+    <section className="bg-[#FDF7F2] p-8 pt:30">
       <div className="container mx-auto">
         <Title text="お取引方法" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">

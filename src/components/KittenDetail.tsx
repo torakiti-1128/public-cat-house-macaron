@@ -85,7 +85,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
               子猫情報
             </h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
-              お問い合わせ番号：{kittenId}
+              子猫番号：{kittenId}
             </h1>
             <p className="leading-relaxed mb-4 whitespace-pre-line">
               {description}
@@ -142,8 +142,8 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                   {cat.name}
                 </h2>
                 <div className="w-20 h-1 bg-[#EDDFE0] rounded mt-2 mb-4"></div>
-                <p className="text-base text-gray-800">猫種: {cat.breed}</p>
-                <p className="text-base mt-2">年齢：{cat.age}</p>
+                <p className="text-base text-gray-800">{cat.breed}</p>
+                <p className="text-base mt-2">年齢：{cat.age}歳</p>
               </div>
             ))}
           </div>
