@@ -9,6 +9,7 @@ interface KittenDetailProps {
   imageUrls: string[] // 子猫画像URL：基本的には4枚
   parentCats: ParentCatKittenDetailType[] // 親猫の情報
   videoUrl: string // 動画URL
+  tranState: string
 }
 
 const KittenDetail: React.FC<KittenDetailProps> = ({
@@ -16,6 +17,8 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
   imageUrls,
   parentCats,
   videoUrl,
+  tranState,
+  
 }) => {
   const { kittenId, description, breed, color, sex, birthDate, price } =
     kittenDetail
@@ -108,15 +111,25 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
               <span className="text-gray-500">生年月日</span>
               <span className="ml-auto text-gray-900">{formatDateToJapanese(birthDate)}</span>
             </div>
-            <div className="flex">
-              <span className="title-font font-medium text-2xl text-gray-900">
-                ¥{price.toLocaleString()}円
-              </span>
-              <Button
-                text="お問い合わせ"
-                link="/inquiry"
-                additionalClasses="ml-auto"
-              />
+            <div>
+              {tranState === '譲渡済' ? (
+                <div className="flex">
+                  <span className="title-font font-medium text-2xl text-blue-500">
+                    ご家族決まりました！
+                  </span>
+                </div>
+              ) : (
+                <div className="flex">
+                  <span className="title-font font-medium text-2xl text-gray-900">
+                    ¥{price.toLocaleString()}円
+                  </span>
+                  <Button
+                    text="お問い合わせ"
+                    link="/inquiry"
+                    additionalClasses="ml-auto"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

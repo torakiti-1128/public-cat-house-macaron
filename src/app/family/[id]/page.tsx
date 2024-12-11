@@ -12,7 +12,7 @@ interface KittenDetailPageProps {
   }
 }
 
-export default function KittenDetailPage({ params }: KittenDetailPageProps) {
+export default function FamilyKittenDetailPage({ params }: KittenDetailPageProps) {
   const kittenId = Number(params.id) // idを数値型に変換
 
   const [kittenDetail, setKittenDetail] = useState<any>(null)
@@ -96,7 +96,7 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
       imageUrls={kittenDetail.imageUrls}
       parentCats={parentCats}
       videoUrl={kittenDetail.videoUrl}
-      tranState='募集中'
+      tranState='譲渡済'
     />
   )
 }

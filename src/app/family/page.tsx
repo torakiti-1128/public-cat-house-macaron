@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import KittenList from '@/components/KittensList'
+import FamilyKittenList from '@/components/FamilyKittensList'
 import { KittenListType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners' // スピナーをインポート
 import ErrorContent from '@/components/ErrorContent'
 
-export default function KittenListPage() {
+export default function FamilyKittenListPage() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>("")
@@ -56,7 +56,7 @@ export default function KittenListPage() {
 
   return (
     <>
-      <KittenList kittens={kittens} status='募集中'/>
+      <FamilyKittenList kittens={kittens} status='譲渡済'/>
     </>
   )
 }

@@ -21,7 +21,7 @@
       "title": "猫の紹介",
       "links": [
         { "label": "ご家族募集中の子猫", "href": "/kittens" },
-        { "label": "ご家族が決まった子猫", "href": "/undefined" },
+        { "label": "ご家族が決まった子猫", "href": "/family" },
         { "label": "親猫一覧", "href": "/parent" },
         { "label": "里親募集中", "href": "/adoption" }
       ]

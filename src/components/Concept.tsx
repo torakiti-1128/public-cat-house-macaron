@@ -1,110 +1,108 @@
 import React from 'react'
 import conceptData from '../data/concept.json'
 import Button from './common/Button'
+import CatAnimation from './CatAnimation'
 
 const Concept: React.FC = () => {
   return (
-    <section className="text-gray-600 body-font mt-10">
-      <div className="w-full bg-cover bg-center">
-        <div className="container px-5 py- mx-auto flex flex-col">
-          <div className="mx-auto">
-            <div className="rounded-lg h-100 overflow-hidden">
-              <img
-                alt="content"
-                className="object-cover object-center h-full w-full"
-                src={conceptData.image}
-              />
-            </div>
-            <div className="relative flex flex-col sm:flex-row mt-5">
-              <div className="absolute inset-0 -z-10 overflow-hidden">
-                <svg
-                  className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <pattern
-                      id="pattern-id"
-                      width="200"
-                      height="200"
-                      x="50%"
-                      y="-1"
-                      patternUnits="userSpaceOnUse"
-                    >
-                      <path d="M100 200V.5M.5 .5H200" fill="none" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#pattern-id)" />
-                </svg>
-              </div>
-              <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
-                <div className="w-40 h-40 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400 mt-5 sm:mt-0">
+    <section className="text-gray-600 body-font bg-[#FDF7F2] py-10">
+      <div className="container mx-auto px-5">
+        <div className="relative overflow-hidden rounded-lg shadow-xl">
+          <div className="absolute inset-0 bg-[url('/images/paw-pattern.png')] opacity-20"></div>
+          <img
+            alt="content"
+            className="w-full max-h-150 object-contain rounded-t-lg"
+            src={conceptData.image}
+          />
+          <div className="bg-white p-6 rounded-b-lg">
+            <div className="flex flex-col sm:flex-row items-center md:items-start sm:items-start">
+              {/* 左側ロゴ */}
+              <div className="sm:w-1/3 lg:w-2/4 text-center sm:pr-8 sm:py-8">
+                <div className="w-40 h-40 rounded-full inline-flex items-center justify-center bg-pink-200 shadow-lg">
                   <img
                     alt="logo"
-                    className="object-cover object-center h-full w-full shadow-xl"
+                    className="object-contain rounded-full"
                     src={conceptData.logo}
                   />
                 </div>
-                <div className="flex flex-col items-center text-center justify-center">
+                <div className="mt-6">
                   <h2
-                    className="font-medium title-font mt-4 text-gray-900 text-xl"
+                    className="font-bold text-2xl text-gray-800"
                     style={{ fontFamily: 'Paratino, serif' }}
                   >
+                    <span className="inline-block mr-2 text-pink-300">🐾</span>
                     {conceptData.about.title}
                   </h2>
-                  <div className="w-20 h-1 bg-[#EDDFE0] rounded mt-2 mb-10"></div>
                   <p
-                    className="text-sm"
+                    className="mt-4 text-lg text-gray-600 leading-relaxed"
                     style={{ fontFamily: 'Paratino, serif' }}
                   >
                     {conceptData.about.description}
                   </p>
                 </div>
               </div>
-              <div className="sm:w-2/3 sm:pl-8 sm:py-8 mt-4 pt-4 sm:mt-0 text-center sm:text-center">
-                <h2
-                  className="font-bold text-xl sm:text-xl md:text-xl lg:text-cl text-black mb-5 text-left"
-                  style={{ fontFamily: 'Paratino, serif' }}
-                >
-                  {conceptData.macaronMeaning.title}
-                </h2>
-                <p
-                  className="leading-relaxed text-base mb-4 px-3 text-left"
-                  style={{ fontFamily: 'Paratino, serif' }}
-                >
-                  {conceptData.macaronMeaning.content
-                    .split('\n')
-                    .map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                </p>
-                <h2
-                  className="font-bold text-xl sm:text-xl md:text-xl lg:text-xl text-black mb-5 text-left"
-                  style={{ fontFamily: 'Paratino, serif' }}
-                >
-                  {conceptData.concept.title}
-                </h2>
-                <p
-                  className="leading-relaxed text-base mb-4 px-5 text-left"
-                  style={{ fontFamily: 'Paratino, serif' }}
-                >
-                  {conceptData.concept.content
-                    .split('\n')
-                    .map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                </p>
-                <Button
-                  text={conceptData.aboutButton.text}
-                  link={conceptData.aboutButton.link}
-                  icon={true}
-                />
-              </div>
+
+              {/* 右側テキスト */}
+<div className="sm:w-2/3 sm:pl-8 mt-6 sm:mt-0 p-6 rounded-lg shadow-md relative">
+{/* 猫の画像 */}
+{/* PC用 */}
+<img
+  src="/images/macaron/cat1.jpg"
+  alt="Cute cat"
+  className="absolute hidden lg:block bottom-2 right-[-40px] w-80 h-80 object-contain "
+/>
+
+{/* スマホ用 */}
+<img
+  src="/images/macaron/cat1.jpg"
+  alt="Cute cat"
+  className="absolute block sm:hidden bottom-2 right-2 w-32 h-32 object-contain"
+/>
+  <h2
+    className="font-bold text-3xl text-[#705C53] mb-6"
+    style={{ fontFamily: 'Paratino, serif' }}
+  >
+    {conceptData.macaronMeaning.title}
+  </h2>
+  <p
+    className="text-lg text-gray-700 leading-relaxed mb-8"
+    style={{ fontFamily: 'Paratino, serif' }}
+  >
+    {conceptData.macaronMeaning.content
+      .split('\n')
+      .map((line, index) => (
+        <React.Fragment key={index}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+  </p>
+  <h2
+    className="font-bold text-3xl text-[#705C53] mb-6"
+    style={{ fontFamily: 'Paratino, serif' }}
+  >
+    {conceptData.concept.title}
+  </h2>
+  <p
+    className="text-lg text-gray-700 leading-relaxed mb-8"
+    style={{ fontFamily: 'Paratino, serif' }}
+  >
+    {conceptData.concept.content
+      .split('\n')
+      .map((line, index) => (
+        <React.Fragment key={index}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+  </p>
+  <Button
+    text={conceptData.aboutButton.text}
+    link={conceptData.aboutButton.link}
+    icon={true}
+    additionalClasses="bg-[#705C53] hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-md text-lg"
+  />
+</div>
             </div>
           </div>
         </div>

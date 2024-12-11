@@ -8,10 +8,10 @@ import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 
 interface KittenListProps {
   kittens: KittenListType[]
-  status: '募集中' | '商談中' // 表示したい状態を指定
+  status: '譲渡済' 
 }
 
-const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
+const FamilyKittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   const [filteredBySearch, setFilteredBySearch] =
     useState<KittenListType[]>(kittens)
 
@@ -51,7 +51,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
             >
               <a
-                href={`kittens/${kitten.kittenId}`}
+                href={`family/${kitten.kittenId}`}
                 className="block bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <img
@@ -80,4 +80,4 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   )
 }
 
-export default KittenList
+export default FamilyKittenList
