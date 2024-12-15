@@ -20,9 +20,7 @@ const CatHouse: React.FC = () => {
                   />
                 </div>
                 <h3 className="mt-3 text-base lg:mt-2">
-                  <a href="#">
-                    {item.title}
-                  </a>
+                  <a href="#">{item.title}</a>
                 </h3>
                 <p className="text-base text-gray-500">{item.description}</p>
               </div>

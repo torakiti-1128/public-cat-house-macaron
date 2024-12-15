@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const CatAnimation = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const triggerPosition = 200; // アニメーション開始位置 (px)
+      const scrollPosition = window.scrollY
+      const triggerPosition = 200 // アニメーション開始位置 (px)
       if (scrollPosition > triggerPosition) {
-        setIsVisible(true);
+        setIsVisible(true)
       } else {
-        setIsVisible(false);
+        setIsVisible(false)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <motion.div
@@ -40,7 +40,7 @@ const CatAnimation = () => {
         style={{ borderRadius: '50%' }}
       />
     </motion.div>
-  );
-};
+  )
+}
 
-export default CatAnimation;
+export default CatAnimation

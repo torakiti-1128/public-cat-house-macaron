@@ -65,7 +65,9 @@ const Header: React.FC = () => {
               </button>
               <ul
                 className={`absolute left-0 p-5 mt-2 space-y-3 bg-white border border-gray-200 rounded-lg shadow-md z-10 transition-opacity duration-200 ${
-                  openIndex === categoryIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  openIndex === categoryIndex
+                    ? 'opacity-100'
+                    : 'opacity-0 pointer-events-none'
                 }`}
               >
                 {category.links.map((link, linkIndex) => (

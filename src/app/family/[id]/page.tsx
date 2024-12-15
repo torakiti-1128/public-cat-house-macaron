@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import KittenDetail from '@/components/KittenDetail'
-import { ParentCatKittenDetailType } from '@/types/kitten'
+import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners' // スピナーをインポート
 import ErrorContent from '@/components/ErrorContent'
 
@@ -12,12 +12,14 @@ interface KittenDetailPageProps {
   }
 }
 
-export default function FamilyKittenDetailPage({ params }: KittenDetailPageProps) {
+export default function FamilyKittenDetailPage({
+  params,
+}: KittenDetailPageProps) {
   const kittenId = Number(params.id) // idを数値型に変換
 
-  const [kittenDetail, setKittenDetail] = useState<any>(null)
+  const [kittenDetail, setKittenDetail] = useState<KittenDetailType>()
   const [parentCats, setParentCats] = useState<ParentCatKittenDetailType[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -43,10 +45,15 @@ export default function FamilyKittenDetailPage({ params }: KittenDetailPageProps
 
         const parentCatsData = await Promise.all(parentCatPromises)
         setParentCats(parentCatsData)
-      } catch (err: any) {
-        setError(err.message)
+      } catch (error: unknown) {
+        console.error('Fetch error:', error)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('An unexpected error occurred.')
+        }
       } finally {
-        setIsLoading(false)
+        setLoading(false)
       }
     }
 
@@ -75,14 +82,18 @@ export default function FamilyKittenDetailPage({ params }: KittenDetailPageProps
 
   if (error) {
     const errorMessage = [
-      "子猫詳細の取得に失敗しました。",
-      "更新しても表示されない場合は下記メールアドレスまでお問い合わせください。",
-      "cathouseem@gmail.com"
-    ];
+      '子猫詳細の取得に失敗しました。',
+      '更新しても表示されない場合は下記メールアドレスまでお問い合わせください。',
+      'cathouseem@gmail.com',
+    ]
     return (
       <ErrorContent error={errorMessage}>
-      <img src="/images/not-found.JPG" alt="写真" className="max-w-xs rounded shadow-lg" />
-        </ErrorContent>
+        <img
+          src="/images/not-found.JPG"
+          alt="写真"
+          className="max-w-xs rounded shadow-lg"
+        />
+      </ErrorContent>
     )
   }
 
@@ -96,7 +107,7 @@ export default function FamilyKittenDetailPage({ params }: KittenDetailPageProps
       imageUrls={kittenDetail.imageUrls}
       parentCats={parentCats}
       videoUrl={kittenDetail.videoUrl}
-      tranState='譲渡済'
+      tranState="譲渡済"
     />
   )
 }

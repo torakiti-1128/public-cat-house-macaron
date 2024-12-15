@@ -8,7 +8,7 @@ import { PulseLoader } from 'react-spinners'
 export default function KittenListPage() {
   const [parentCats, setParentCats] = useState<ParentCatListType[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // データをフェッチする関数
@@ -20,11 +20,15 @@ export default function KittenListPage() {
         }
         const data = await response.json()
         setParentCats(data) // フェッチしたデータを状態にセット
-      } catch (err: any) {
-        console.error('Fetch error:', err)
-        setError(err.message)
+      } catch (error: unknown) {
+        console.error('Fetch error:', error)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('An unexpected error occurred.')
+        }
       } finally {
-        setLoading(false) // フェッチ完了後にローディングを終了
+        setLoading(false)
       }
     }
 
@@ -41,14 +45,18 @@ export default function KittenListPage() {
 
   if (error) {
     const errorMessage = [
-      "親猫一覧の取得に失敗しました。",
-      "更新しても表示されない場合は下記メールアドレスまでお問い合わせください。",
-      "cathouseem@gmail.com"
-    ];
-    
+      '親猫一覧の取得に失敗しました。',
+      '更新しても表示されない場合は下記メールアドレスまでお問い合わせください。',
+      'cathouseem@gmail.com',
+    ]
+
     return (
       <ErrorContent error={errorMessage}>
-      <img src="/images/not-found.JPG" alt="写真" className="max-w-xs rounded shadow-lg" />
+        <img
+          src="/images/not-found.JPG"
+          alt="写真"
+          className="max-w-xs rounded shadow-lg"
+        />
       </ErrorContent>
     )
   }

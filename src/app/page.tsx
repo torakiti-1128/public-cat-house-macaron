@@ -5,7 +5,6 @@ import TopPageSlideShow from '@/components/KittensSlideShow'
 import { KittenListType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners'
 
-
 export default function Home() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
   const [loading, setLoading] = useState(true)
@@ -22,25 +21,29 @@ export default function Home() {
 
         const data: KittenListType[] = await response.json() // 型アサーション
         setKittens(data) // データを直接セット
-      } catch (err: any) {
-        console.error('Fetch error:', err)
-        setError(err.message) // エラーメッセージを保存
+      } catch (error: unknown) {
+        console.error('Fetch error:', error)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('An unexpected error occurred.')
+        }
       } finally {
-        setLoading(false) // ローディング終了
+        setLoading(false)
       }
     }
 
     fetchKittens()
   }, [])
 
-  if (loading) {
+  if (loading || error) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PulseLoader size={15} color="#EDDFE0" /> {/* スピナーと色の指定 */}
       </div>
     )
   }
-  
+
   return (
     <>
       <Concept />

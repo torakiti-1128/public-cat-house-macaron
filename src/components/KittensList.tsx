@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { KittenListType } from '@/types/kitten'
 import Title from '@/components/common/Title'
-import SearchBox from '@/components/common/SearchBox'
+// import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 
 interface KittenListProps {
@@ -12,14 +12,16 @@ interface KittenListProps {
 }
 
 const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
-  const [filteredBySearch, setFilteredBySearch] =
-    useState<KittenListType[]>(kittens)
+  // const [filteredBySearch, setFilteredBySearch] =
+  //   useState<KittenListType[]>(kittens)
 
   const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
 
   // 状態でフィルタリング
   useEffect(() => {
-    const filteredByStatus = kittens.filter((kitten) => kitten.tranState === status)
+    const filteredByStatus = kittens.filter(
+      (kitten) => kitten.tranState === status
+    )
     setFilteredKittens(filteredByStatus)
   }, [kittens, status])
 
@@ -35,7 +37,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
     <section className="text-gray-600 body-font bg-[#FDF7F2] px-10 py-8">
       <div className="container mx-auto">
         <Title text="子猫一覧" />
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
+        {/* <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
           <div className="flex-grow sm:w-7/12">
             <SearchBox
               data={kittens}
@@ -43,7 +45,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
               onFilter={setFilteredBySearch}
             />
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-wrap -m-4">
           {filteredKittens.map((kitten) => (
             <div
@@ -69,7 +71,8 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
                   取引状態：{kitten.tranState}
                 </p>
                 <p style={{ fontFamily: 'Paratino, serif' }}>
-                  更新日時：<span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
+                  更新日時：
+                  <span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
                 </p>
               </a>
             </div>

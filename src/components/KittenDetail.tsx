@@ -18,7 +18,6 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
   parentCats,
   videoUrl,
   tranState,
-  
 }) => {
   const { kittenId, description, breed, color, sex, birthDate, price } =
     kittenDetail
@@ -109,7 +108,9 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
             </div>
             <div className="flex border-t border-b mb-6 border-gray-200 py-2">
               <span className="text-gray-500">生年月日</span>
-              <span className="ml-auto text-gray-900">{formatDateToJapanese(birthDate)}</span>
+              <span className="ml-auto text-gray-900">
+                {formatDateToJapanese(birthDate)}
+              </span>
             </div>
             <div>
               {tranState === '譲渡済' ? (

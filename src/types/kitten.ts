@@ -18,7 +18,8 @@ export interface KittenDetailType {
   sex: number
   birthDate: string //生年月日
   price: number //価格
-  updatedAt: string
+  imageUrls: string[]
+  videoUrl: string
 }
 
 //子猫詳細画像

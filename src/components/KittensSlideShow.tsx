@@ -89,7 +89,8 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
                   取引状態：{kitten.tranState}
                 </p>
                 <p style={{ fontFamily: 'Paratino, serif' }}>
-                  更新日時：<span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
+                  更新日時：
+                  <span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
                 </p>
               </div>
             </div>

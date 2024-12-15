@@ -9,7 +9,7 @@ import ErrorContent from '@/components/ErrorContent'
 export default function FamilyKittenListPage() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>("")
+  const [error, setError] = useState<string | null>('')
 
   useEffect(() => {
     // 子猫情報をフェッチする関数
@@ -19,14 +19,17 @@ export default function FamilyKittenListPage() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
-
-        const data: KittenListType[] = await response.json() // 型アサーション
-        setKittens(data) // データを直接セット
-      } catch (err: any) {
-        console.error('Fetch error:', err)
-        setError(err.message) // エラーメッセージを保存
+        const data: KittenListType[] = await response.json()
+        setKittens(data)
+      } catch (error: unknown) {
+        console.error('Fetch error:', error)
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('An unexpected error occurred.')
+        }
       } finally {
-        setLoading(false) // ローディング終了
+        setLoading(false)
       }
     }
 
@@ -43,20 +46,24 @@ export default function FamilyKittenListPage() {
 
   if (error) {
     const errorMessage = [
-      "子猫一覧の取得に失敗しました。",
-      "更新しても表示されない場合は下記メールアドレスまでお問い合わせください。",
-      "cathouseem@gmail.com"
-    ];
+      '子猫一覧の取得に失敗しました。',
+      '更新しても表示されない場合は下記メールアドレスまでお問い合わせください。',
+      'cathouseem@gmail.com',
+    ]
     return (
       <ErrorContent error={errorMessage}>
-      <img src="/images/not-found.JPG" alt="写真" className="max-w-xs rounded shadow-lg" />
-        </ErrorContent>
+        <img
+          src="/images/not-found.JPG"
+          alt="写真"
+          className="max-w-xs rounded shadow-lg"
+        />
+      </ErrorContent>
     )
   }
 
   return (
     <>
-      <FamilyKittenList kittens={kittens} status='譲渡済'/>
+      <FamilyKittenList kittens={kittens} status="譲渡済" />
     </>
   )
 }

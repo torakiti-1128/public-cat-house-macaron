@@ -1,7 +1,6 @@
 import React from 'react'
 import conceptData from '../data/concept.json'
 import Button from './common/Button'
-import CatAnimation from './CatAnimation'
 
 const Concept: React.FC = () => {
   return (
@@ -43,66 +42,66 @@ const Concept: React.FC = () => {
               </div>
 
               {/* 右側テキスト */}
-<div className="sm:w-2/3 sm:pl-8 mt-6 sm:mt-0 p-6 rounded-lg shadow-md relative">
-{/* 猫の画像 */}
-{/* PC用 */}
-<img
-  src="/images/macaron/cat1.jpg"
-  alt="Cute cat"
-  className="absolute hidden lg:block bottom-2 right-[-40px] w-80 h-80 object-contain "
-/>
+              <div className="sm:w-2/3 sm:pl-8 mt-6 sm:mt-0 p-6 rounded-lg shadow-md relative">
+                {/* 猫の画像 */}
+                {/* PC用 */}
+                <img
+                  src="/images/macaron/cat1.jpg"
+                  alt="Cute cat"
+                  className="absolute hidden lg:block bottom-2 right-[-40px] w-80 h-80 object-contain "
+                />
 
-{/* スマホ用 */}
-<img
-  src="/images/macaron/cat1.jpg"
-  alt="Cute cat"
-  className="absolute block sm:hidden bottom-2 right-2 w-32 h-32 object-contain"
-/>
-  <h2
-    className="font-bold text-3xl text-[#705C53] mb-6"
-    style={{ fontFamily: 'Paratino, serif' }}
-  >
-    {conceptData.macaronMeaning.title}
-  </h2>
-  <p
-    className="text-lg text-gray-700 leading-relaxed mb-8"
-    style={{ fontFamily: 'Paratino, serif' }}
-  >
-    {conceptData.macaronMeaning.content
-      .split('\n')
-      .map((line, index) => (
-        <React.Fragment key={index}>
-          {line}
-          <br />
-        </React.Fragment>
-      ))}
-  </p>
-  <h2
-    className="font-bold text-3xl text-[#705C53] mb-6"
-    style={{ fontFamily: 'Paratino, serif' }}
-  >
-    {conceptData.concept.title}
-  </h2>
-  <p
-    className="text-lg text-gray-700 leading-relaxed mb-8"
-    style={{ fontFamily: 'Paratino, serif' }}
-  >
-    {conceptData.concept.content
-      .split('\n')
-      .map((line, index) => (
-        <React.Fragment key={index}>
-          {line}
-          <br />
-        </React.Fragment>
-      ))}
-  </p>
-  <Button
-    text={conceptData.aboutButton.text}
-    link={conceptData.aboutButton.link}
-    icon={true}
-    additionalClasses="bg-[#705C53] hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-md text-lg"
-  />
-</div>
+                {/* スマホ用 */}
+                <img
+                  src="/images/macaron/cat1.jpg"
+                  alt="Cute cat"
+                  className="absolute block sm:hidden bottom-2 right-2 w-32 h-32 object-contain"
+                />
+                <h2
+                  className="font-bold text-3xl text-[#705C53] mb-6"
+                  style={{ fontFamily: 'Paratino, serif' }}
+                >
+                  {conceptData.macaronMeaning.title}
+                </h2>
+                <p
+                  className="text-lg text-gray-700 leading-relaxed mb-8"
+                  style={{ fontFamily: 'Paratino, serif' }}
+                >
+                  {conceptData.macaronMeaning.content
+                    .split('\n')
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                </p>
+                <h2
+                  className="font-bold text-3xl text-[#705C53] mb-6"
+                  style={{ fontFamily: 'Paratino, serif' }}
+                >
+                  {conceptData.concept.title}
+                </h2>
+                <p
+                  className="text-lg text-gray-700 leading-relaxed mb-8"
+                  style={{ fontFamily: 'Paratino, serif' }}
+                >
+                  {conceptData.concept.content
+                    .split('\n')
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                </p>
+                <Button
+                  text={conceptData.aboutButton.text}
+                  link={conceptData.aboutButton.link}
+                  icon={true}
+                  additionalClasses="bg-[#705C53] hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-md text-lg"
+                />
+              </div>
             </div>
           </div>
         </div>
