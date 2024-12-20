@@ -198,7 +198,29 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		TranState:   r.FormValue("tranState"),
 	}
 
-	log.Printf("更新データ確認: %v", dto)
+	// // "image"に関連するすべてのファイルを取得
+	// imageHeaders := r.MultipartForm.File["image"]
+	// var imageFiles []multipart.File
+	// for _, header := range imageHeaders {
+	// 	file, err := header.Open()
+	// 	if err != nil {
+	// 		log.Printf("画像ファイルのオープンに失敗しました: %v", err)
+	// 		continue
+	// 	}
+	// 	imageFiles = append(imageFiles, file)
+	// }
+
+	// // 動画ファイルを取得
+	// videoFile, _, err := r.FormFile("video")
+	// if err != nil {
+	// 	if err != http.ErrMissingFile {
+	// 		log.Printf("動画ファイル取得エラー: %v", err)
+	// 		http.Error(w, "動画ファイルの取得に失敗しました", http.StatusBadRequest)
+	// 		return
+	// 	}
+	// 	videoFile = nil // 動画はオプション
+	// }
+
 	// 子猫情報を保存
 	err := c.KittenService.UpdateKitten(dto)
 	if err != nil {

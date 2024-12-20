@@ -144,6 +144,16 @@
             "endPoint": "/create",
             "command": "CommandCreateUser",
             "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/inquiry",
+            "command": "CommandPostBaseInquiry",
+            "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/inquiry/inspection",
+            "command": "CommandPostInspectionInquiry",
+            "httpMethod": "POST"
         }
     ]
 }

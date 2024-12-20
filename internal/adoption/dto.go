@@ -10,7 +10,7 @@ type AdoptionCatsDTO struct {
 	ImageUrl    string `json:"imageUrl"`
 }
 
-// 親猫詳細データ
+// 里親募集中猫詳細データ
 type AdoptionCatDetailDTO struct {
 	AdoptionCatId int    `json:"AdoptionCatId"`
 	Name        string `json:"name"`
@@ -23,7 +23,7 @@ type AdoptionCatDetailDTO struct {
 	ImageUrl    string `json:"imageUrl"`
 }
 
-// 里親募集中猫データ
+// 里親募集中猫追加データ
 type PostAdoptionCatDTO struct {
 	BreedId     int    `json:"breedId"`
 	ColorId     int    `json:"colorId"`

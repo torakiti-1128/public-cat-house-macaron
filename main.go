@@ -13,8 +13,10 @@ import (
 	"chm-api/internal/auth"
 	"chm-api/internal/breed"
 	"chm-api/internal/color"
+	"chm-api/internal/inquiry"
 	"chm-api/internal/kitten"
 	"chm-api/internal/news"
+	"chm-api/internal/notification"
 	"chm-api/internal/parent"
 	"chm-api/internal/storage"
 	"chm-api/routes"
@@ -42,7 +44,9 @@ func main() {
 	defer db.Close()
 
 	// ビジネスロジックの依存関係をインスタンス化
-	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.Config(storageConfig.NewConfig())))
+	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig())))
+	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig{}))
+	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService)
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db), storageService)
@@ -52,7 +56,7 @@ func main() {
 	newsService := news.NewNewsService(news.NewNewsRepository(db))
 
 	// ビジネスロジックを各コマンドへ実装
-	commands.RegisterCommands(kittenService, authService, parentService, adoptionSercice, breedService, colorService, newsService)
+	commands.RegisterCommands(kittenService, authService, parentService, adoptionSercice, breedService, colorService, newsService, inquiryService)
 
 	// ルーターを初期化
 	router := routes.InitializeRouter(apiConfig)

@@ -9,7 +9,7 @@ import (
 )
 
 // Supabaseの設定
-type Config struct {
+type SupabaseConfig struct {
 	SupabaseURL    string
 	SupabaseAPIKey string
 }
@@ -21,22 +21,22 @@ type StorageRepository interface {
 	DeleteFolder(bucket, folderPath string) error
 }
 
-// ストレージのAPI実装
-type SupabaseRepository struct {
-	Config Config
+// SupabaseストレージのAPI実装
+type SupabaseRepositoryImp struct {
+	Config SupabaseConfig
 	Client *http.Client
 }
 
 // ストレージのAPIコンストラクタ
-func NewSupabaseRepository(config Config) StorageRepository {
-	return &SupabaseRepository{
+func NewSupabaseRepository(config SupabaseConfig) StorageRepository {
+	return &SupabaseRepositoryImp{
 		Config: config,
 		Client: &http.Client{},
 	}
 }
 
 // ファイルをSupabaseストレージにアップロード
-func (r *SupabaseRepository) UploadFile(bucket, path, filePath string) (string, error) {
+func (r *SupabaseRepositoryImp) UploadFile(bucket, path, filePath string) (string, error) {
 	fileData, err := os.ReadFile(filePath)
 	if err != nil {
 		return "", fmt.Errorf("ファイルの読み込みに失敗しました (%s): %w", filePath, err)
@@ -67,7 +67,7 @@ func (r *SupabaseRepository) UploadFile(bucket, path, filePath string) (string, 
 }
 
 // ファイルをSupabaseから削除
-func (r *SupabaseRepository) DeleteFile(bucket, path string) error {
+func (r *SupabaseRepositoryImp) DeleteFile(bucket, path string) error {
 	url := fmt.Sprintf("%s/storage/v1/object/%s/%s", r.Config.SupabaseURL, bucket, path)
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
@@ -91,7 +91,7 @@ func (r *SupabaseRepository) DeleteFile(bucket, path string) error {
 }
 
 // フォルダをSupabaseから削除
-func (r *SupabaseRepository) DeleteFolder(bucket, folderPath string) error {
+func (r *SupabaseRepositoryImp) DeleteFolder(bucket, folderPath string) error {
 	url := fmt.Sprintf("%s/storage/v1/object/%s/%s?recursive=true", r.Config.SupabaseURL, bucket, folderPath)
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {

@@ -135,7 +135,7 @@ func (c *CommandPostParentCat) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = c.ParentService.UpdateParentCatImage(parentCatId, file)
+	err = c.ParentService.PostParentCatImage(parentCatId, file)
 	if err != nil {
 		log.Printf("親猫画像の更新エラー: %v", err)
 	}
@@ -157,10 +157,16 @@ func (c *CommandUpdateParentCat) Execute(w http.ResponseWriter, r *http.Request)
 		Sex:         utils.ToInt(r.FormValue("sex")),
 		Age:         utils.ToInt(r.FormValue("age")),
 		BirthDate:   r.FormValue("birthDate"),
-		Description: r.FormValue("description"),
+		Description: r.FormValue("description"), 
 	}
 
-	err := c.ParentService.UpdateParentCat(dto)
+	file, _, err := r.FormFile("image")
+	if err != nil {
+		log.Printf("画像がリクエストに含まれていないので写真の更新をしていません: %v", err)
+		file = nil
+	}
+
+	err = c.ParentService.UpdateParentCat(dto, file)
 	if err != nil {
 		http.Error(w, "親猫情報の更新に失敗しました", http.StatusInternalServerError)
 		log.Printf("親猫情報の更新エラー: %v", err)

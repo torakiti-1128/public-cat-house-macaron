@@ -17,9 +17,9 @@ type ParentService interface {
 	// 親猫を追加
 	PostParentCat(dto PostParentCatDTO) (int, error)
 	// 親猫の写真を更新
-	UpdateParentCatImage(parentCatId int, file multipart.File) error
+	PostParentCatImage(parentCatId int, file multipart.File) error
 	// 親猫を更新
-	UpdateParentCat(dto UpdateParentCatDTO) error
+	UpdateParentCat(dto UpdateParentCatDTO, ile multipart.File) error
 	// 親猫を削除
 	DeleteParentCat(parentCatId int) error
 }
@@ -65,8 +65,8 @@ func (s *ParentServiceImpl) PostParentCat(dto PostParentCatDTO) (int, error) {
 	return parentCatId, nil
 }
 
-// 親猫の写真を更新
-func (s *ParentServiceImpl) UpdateParentCatImage(parentCatId int, file multipart.File) error {
+// 親猫の写真を追加
+func (s *ParentServiceImpl) PostParentCatImage(parentCatId int, file multipart.File) error {
 	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", parentCatId)
 	uploadedFile, err := s.StorageService.UploadFileToStorage(file, "images", imagePath)
 	if err != nil {
@@ -74,17 +74,16 @@ func (s *ParentServiceImpl) UpdateParentCatImage(parentCatId int, file multipart
 		return err
 	}
 	if err := s.Repo.UpdateParentCatImage(parentCatId, uploadedFile.PublicUrl); err != nil {
-		fmt.Printf("親猫の写真の更新に失敗しました (parentCatid: %d, ImageUrl: %s): %v\n", parentCatId, uploadedFile.PublicUrl, err)
-		return fmt.Errorf("親猫の写真の更新に失敗しました: %w", err)
+		fmt.Printf("親猫の写真の追加に失敗しました (parentCatid: %d, ImageUrl: %s): %v\n", parentCatId, uploadedFile.PublicUrl, err)
+		return fmt.Errorf("親猫の写真の追加に失敗しました: %w", err)
 	}
 	return nil
 }
 
 // 親猫情報を更新
-func (s *ParentServiceImpl) UpdateParentCat(dto UpdateParentCatDTO) error {
+func (s *ParentServiceImpl) UpdateParentCat(dto UpdateParentCatDTO, file multipart.File) error {
 	var wg sync.WaitGroup
 	errChan := make(chan error, 2)
-
 	imagePath := fmt.Sprintf("parent-cats/cat%d.jpg", dto.ParentCatId)
 
 	wg.Add(1)
@@ -95,13 +94,22 @@ func (s *ParentServiceImpl) UpdateParentCat(dto UpdateParentCatDTO) error {
 		}
 	}()
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		// if err := s.StorageService.UpdateFileInStorage(dt); err != nil {
-		// 	errChan <- fmt.Errorf("画像の更新に失敗しました: %w", err)
-		// }
-	}()
+	// ファイルが含まれる場合
+	if file != nil {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			uploadedFile, err := s.StorageService.UpdateFileInStorage(file, "images", imagePath, imagePath)
+			if err != nil {
+				errChan <- fmt.Errorf("storageへの親猫の写真の更新に失敗しました: %w", err)
+				// ストレージの更新ができない場合は処理を中断
+				return
+			}
+			if err := s.Repo.UpdateParentCatImage(dto.ParentCatId, uploadedFile.PublicUrl); err != nil {
+				errChan <- fmt.Errorf("dbへの親猫の写真の更新に失敗しました (parentCatid: %d, ImageUrl: %s): %v", dto.ParentCatId, uploadedFile.PublicUrl, err)
+			}
+		}()
+	}
 
 	wg.Wait()
 	close(errChan)

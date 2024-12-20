@@ -10,9 +10,9 @@ import (
 type StorageService interface {
 	// ファイルをストレージにアップロード
 	UploadFileToStorage(file multipart.File, bucket string, destPath string) (UploadedFileDTO, error)
-	// Storageのファイルを消去
-	UpdateFileInStorage(file multipart.File, bucket string, oldPath string, newPath string) (UploadedFileDTO, error)
 	// Storageのファイルを更新
+	UpdateFileInStorage(file multipart.File, bucket string, oldPath string, newPath string) (UploadedFileDTO, error)
+	// Storageのファイルを消去
 	DeleteFileInStorage(bucket string, filePath string) error
 	// Storageのフォルダを消去
 	DeleteFolderFromStorage(bucket string, folderPath string) error
