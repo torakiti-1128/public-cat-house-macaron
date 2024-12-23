@@ -2,7 +2,9 @@ package notification
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/smtp"
 )
 
@@ -54,7 +56,7 @@ func NewLineRepository(config LineConfig) ChatNotificationRepository {
 	}
 }
 
-// 引数の内容をGmailに送信
+// 問い合わせをGmailに送信
 func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 	// SMTPサーバー情報
 	auth := smtp.PlainAuth("", r.Config.Username, r.Config.Password, r.Config.SMTPHost)
@@ -86,6 +88,37 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 	return nil
 }
 
+// 問い合わせをLineに送信
 func (r *LineRepositoryImpl) SendChat(title, message string) error {
+	// LINE Notify APIへのリクエストデータ
+	payload := map[string]string{
+		"message": fmt.Sprintf("%s\n%s", title, message),
+	}
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return fmt.Errorf("リクエストデータの生成に失敗しました: %w", err)
+	}
+
+	// HTTPリクエストの作成
+	req, err := http.NewRequest("POST", r.Config.LineAPI, bytes.NewBuffer(payloadBytes))
+	if err != nil {
+		return fmt.Errorf("HTTPリクエストの作成に失敗しました: %w", err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+r.Config.LineNotifyToken)
+
+	// リクエスト送信
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return fmt.Errorf("通知送信中にエラーが発生しました: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// レスポンスステータスチェック
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("LINE Notifyの送信に失敗しました: ステータスコード %d", resp.StatusCode)
+	}
+
 	return nil
 }
