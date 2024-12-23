@@ -14,9 +14,20 @@ type GmailConfig struct {
 	Password string
 }
 
-// 通知関連のAPIインターフェース
-type NotificationRepository interface {
+// Lineの設定
+type LineConfig struct {
+	LineAPI         string
+	LineNotifyToken string
+}
+
+// メール関連のAPIインターフェース
+type MailNotificationRepository interface {
 	SendMail(to, subject, body string) error
+}
+
+// チャット関連のAPIインターフェース
+type ChatNotificationRepository interface {
+	SendChat(title, message string) error
 }
 
 // GmailのAPI実装
@@ -24,9 +35,21 @@ type GmailRepositoryImpl struct {
 	Config GmailConfig
 }
 
+// LineのAPI実装
+type LineRepositoryImpl struct {
+	Config LineConfig
+}
+
 // GmailのAPIコンストラクタ
-func NewGmailRepository(config GmailConfig) NotificationRepository {
+func NewGmailRepository(config GmailConfig) MailNotificationRepository {
 	return &GmailRepositoryImpl{
+		Config: config,
+	}
+}
+
+// GmailのAPIコンストラクタ
+func NewLineRepository(config LineConfig) ChatNotificationRepository {
+	return &LineRepositoryImpl{
 		Config: config,
 	}
 }
@@ -60,5 +83,9 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 		return fmt.Errorf("メールの送信に失敗しました: %w", err)
 	}
 
+	return nil
+}
+
+func (r *LineRepositoryImpl) SendChat(title, message string) error {
 	return nil
 }

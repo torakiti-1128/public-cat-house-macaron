@@ -45,7 +45,7 @@ func main() {
 
 	// ビジネスロジックの依存関係をインスタンス化
 	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig())))
-	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig{}))
+	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig{}), notification.NewLineRepository(notification.LineConfig{}))
 	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService)
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
