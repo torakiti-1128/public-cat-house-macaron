@@ -5,7 +5,9 @@ import (
 	"net/http"
 
 	dbConfig "chm-api/config/database"
+	emailConfig "chm-api/config/e-mail/gmail"
 	apiConfig "chm-api/config/routes"
+	snsConfig "chm-api/config/sns/line"
 	storageConfig "chm-api/config/storage/supabase"
 
 	"chm-api/commands"
@@ -45,7 +47,7 @@ func main() {
 
 	// ビジネスロジックの依存関係をインスタンス化
 	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig())))
-	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig{}), notification.NewLineRepository(notification.LineConfig{}))
+	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig(emailConfig.NewConfig())), notification.NewLineRepository(notification.LineConfig(snsConfig.NewConfig())))
 	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService)
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))

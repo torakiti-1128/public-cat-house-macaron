@@ -2,10 +2,11 @@ package notification
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/smtp"
+	"strings"
 )
 
 // Gmailの設定
@@ -90,21 +91,15 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 
 // 問い合わせをLineに送信
 func (r *LineRepositoryImpl) SendChat(title, message string) error {
-	// LINE Notify APIへのリクエストデータ
-	payload := map[string]string{
-		"message": fmt.Sprintf("%s\n%s", title, message),
-	}
-	payloadBytes, err := json.Marshal(payload)
-	if err != nil {
-		return fmt.Errorf("リクエストデータの生成に失敗しました: %w", err)
-	}
+	// メッセージ内容
+	formData := fmt.Sprintf("message=%s\n%s", title, message)
 
 	// HTTPリクエストの作成
-	req, err := http.NewRequest("POST", r.Config.LineAPI, bytes.NewBuffer(payloadBytes))
+	req, err := http.NewRequest("POST", "https://notify-api.line.me/api/notify", strings.NewReader(formData))
 	if err != nil {
 		return fmt.Errorf("HTTPリクエストの作成に失敗しました: %w", err)
 	}
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", "Bearer "+r.Config.LineNotifyToken)
 
 	// リクエスト送信
@@ -115,9 +110,10 @@ func (r *LineRepositoryImpl) SendChat(title, message string) error {
 	}
 	defer resp.Body.Close()
 
-	// レスポンスステータスチェック
+	// レスポンスの確認
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("LINE Notifyの送信に失敗しました: ステータスコード %d", resp.StatusCode)
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("LINE Notifyの送信に失敗しました: ステータスコード %d, レスポンス: %s", resp.StatusCode, string(body))
 	}
 
 	return nil

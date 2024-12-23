@@ -24,10 +24,18 @@ func NewCommandPostInspectionInquiry(inquiryService InquiryService) *CommandPost
 
 // 基本的な問い合わせコマンドの実行
 func (c *CommandPostBaseInquiry) Execute(w http.ResponseWriter, r *http.Request) {
-	
+	err := c.InquiryService.PostBaseInquiry(BaseInquiryDTO{})
+	if err != nil {
+		http.Error(w, "問い合わせに失敗しました", http.StatusInternalServerError)
+		return
+	}
 }
 
 // 見学の問い合わせコマンドの実行
 func (c *CommandPostInspectionInquiry) Execute(w http.ResponseWriter, r *http.Request) {
-	
+	err := c.InquiryService.PostInspectionInquiry(InspectionInquiryDTO{})
+	if err != nil {
+		http.Error(w, "問い合わせに失敗しました", http.StatusInternalServerError)
+		return
+	}
 }

@@ -1,5 +1,7 @@
 package notification
 
+import "fmt"
+
 // 通知関連のビジネスロジックインターフェース
 type NotificationService interface {
 	// 問い合わせをメールに通知
@@ -21,12 +23,18 @@ func NewNotificationService(mailRepo MailNotificationRepository, chatRepo ChatNo
 
 // 問い合わせをメールに通知
 func (s *NotificationServiceImpl) NotifyToMail() error {
-	s.MailRepo.SendMail("", "", "")
+	err := s.MailRepo.SendMail("Test", "auto.inquiry.1128@gmail.com", "Test")
+	if err != nil {
+		return fmt.Errorf("メールの送信に失敗しました: %w", err)
+	}
 	return nil
 }
 
 // 問い合わせをチャットに通知
 func (s *NotificationServiceImpl) NotifyToChat() error {
-	s.ChatRepo.SendChat("", "")
+	err := s.ChatRepo.SendChat("Test", "Test")
+	if err != nil {
+		return fmt.Errorf("チャットの送信に失敗しました: %w", err)
+	}
 	return nil
 }
