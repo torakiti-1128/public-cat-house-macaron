@@ -126,7 +126,8 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                   </span>
                   <Button
                     text="お問い合わせ"
-                    link="/inquiry"
+                    link="/inquiry/"
+                    id={kittenId.toString()}
                     additionalClasses="ml-auto"
                   />
                 </div>

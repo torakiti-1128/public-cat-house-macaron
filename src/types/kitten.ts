@@ -1,3 +1,5 @@
+import Inquiry from "@/components/Inquiry"
+
 //子猫一覧
 export interface KittenListType {
   kittenId: number //お問い合わせ番号
@@ -69,4 +71,20 @@ export interface AdoptionListType {
   color: string //カラー
   description: string //説明
   url: string //画像URL
+}
+
+//見学希望者の問い合わせ
+export interface InquiryType {
+  name: string; 
+  email: string; 
+  phone?: string;
+  visitDate?: string;
+  visitTime?: string; 
+  message: string; 
+  agreedToTerms: boolean; 
+}
+
+//見学希望者の問いわせ
+export interface InspectionType {
+
 }

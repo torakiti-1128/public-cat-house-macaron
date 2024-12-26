@@ -3,7 +3,15 @@ import React from 'react'
 import Inquiry from '@/components/Inquiry'
 import { InspectionType } from '@/types/kitten'
 
-export default function InquiryPages() {
+interface InquiryKittenIdProps {
+params: {
+    id: string // URLのパラメータ
+  }
+}
+
+export default function InquiryBeforeKittenDetailPages({ params }: InquiryKittenIdProps) {
+  const kittenId = Number(params.id)
+
   const handleFormSubmit = async (data: InspectionType) => {
     try {
       const endpoint = process.env.NEXT_PUBLIC_BASE_URL + "/inquiry/inspection";
@@ -28,7 +36,7 @@ export default function InquiryPages() {
 
   return (
     <>
-      <Inquiry onSubmit={handleFormSubmit} />
+      <Inquiry onSubmit={handleFormSubmit} kittenId={kittenId}/>
     </>
   )
 }

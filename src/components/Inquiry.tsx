@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import inquiryData from '../data/inquiry.json'
 import Title from './common/Title'
+import { InspectionType } from '@/types/kitten'
 
 interface InquiryProps {
-  onSubmit: (formData: Record<string, string>) => void // 親にデータを渡す
+  onSubmit: (formData: InspectionType) => void // 親にデータを渡す
+  kittenId?: number
 }
 
-const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
+const Inquiry: React.FC<InquiryProps> = ({ onSubmit, kittenId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
-  const [localFormData, setLocalFormData] = useState<Record<string, string>>({}) // ローカルの入力データ
+  const [localFormData, setLocalFormData] = useState<Record<string, string>>({
+    'kitten-id': kittenId ? "問い合わせ番号：" + kittenId.toString() : '', 
+  })
 
   // 入力内容の変更を管理
   const handleInputChange = (
@@ -28,7 +32,24 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
   // 送信処理
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(localFormData) // 親コンポーネントにデータを送信
+
+    // 渡ってきたデータをマッピング
+    const inspectionData: InspectionType = {
+      address: localFormData.address,
+      email: localFormData.email,
+      firstName: localFormData["first-name"],
+      kittenId: localFormData["kitten-id"],
+      lastName: localFormData["last-name"],
+      message: localFormData.message,
+      petStatus: localFormData["pet-status"],
+      phoneNumber: localFormData["phone-number"],
+      visitDate: localFormData["visit-date-date"],
+      visitTime: localFormData["visit-date-time"],
+      visitMethod: localFormData["visit-method"],
+      visitPeople: localFormData["visit-people"],
+    }
+
+    onSubmit(inspectionData)
   }
 
   return (
@@ -62,6 +83,7 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
                   <textarea
                     id={field.id}
                     rows={field.rows}
+                    value={localFormData[field.id] || ''}
                     onChange={handleInputChange}
                     className="block w-full rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-md ring-1 ring-inset ring-[#EDDFE0] placeholder:text-[#B7B7B7] focus:ring-2 focus:ring-inset focus:ring-[#705C53] sm:text-sm sm:leading-6"
                   ></textarea>
@@ -70,16 +92,18 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
                     <input
                       type="date"
                       id={`${field.id}-date`}
+                      value={localFormData[`${field.id}-date`] || ''}
                       onChange={handleInputChange}
                       className="block w-full rounded-full border-0 px-3.5 py-2 text-gray-900 shadow-md ring-1 ring-inset ring-[#EDDFE0] placeholder:text-[#B7B7B7] focus:ring-2 focus:ring-inset focus:ring-[#705C53] sm:text-sm sm:leading-6"
                     />
                     <select
                       id={`${field.id}-time`}
+                      value={localFormData[`${field.id}-time`] || ''}
                       onChange={handleInputChange}
                       className="block w-full rounded-full border-0 px-3.5 py-2 text-gray-900 shadow-md ring-1 ring-inset ring-[#EDDFE0] placeholder:text-[#B7B7B7] focus:ring-2 focus:ring-inset focus:ring-[#705C53] sm:text-sm sm:leading-6"
                     >
-                      <option value="" disabled selected>
-                        時間を選択
+                      <option value="" disabled>
+                        時間
                       </option>
                       <option value="12:00">12:00</option>
                       <option value="13:00">13:00</option>
@@ -93,6 +117,7 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
                   <input
                     type={field.type}
                     id={field.id}
+                    value={localFormData[field.id] || ''}
                     autoComplete={field.autocomplete}
                     onChange={handleInputChange}
                     className="block w-full rounded-full border-0 px-3.5 py-2 text-gray-900 shadow-md ring-1 ring-inset ring-[#EDDFE0] placeholder:text-[#B7B7B7] focus:ring-2 focus:ring-inset focus:ring-[#705C53] sm:text-sm sm:leading-6"

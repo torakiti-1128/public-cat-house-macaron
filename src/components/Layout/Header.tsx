@@ -87,7 +87,7 @@ const Header: React.FC = () => {
       </div>
 
       {/* モバイル画面 */}
-      <div className="md:hidden flex items-center justify-between w-full mt-5 mb-5 px-4">
+      <div className="md:hidden flex items-center justify-between w-full mt-5 mb-6 px-4">
         <button
           onClick={toggleMenu}
           className="menu-button text-black focus:outline-none w-12 h-12 flex items-center justify-center hover:bg-gray-200 transition"

@@ -24,8 +24,8 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
     const fetchKittenDetail = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/kittens/${kittenId}`
-        )
+          `${process.env.NEXT_PUBLIC_BASE_URL}/kittens/${kittenId}`
+        );
         if (!response.ok) {
           throw new Error('子猫情報の取得に失敗しました。')
         }
@@ -59,7 +59,7 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
       parentCatId: number
     ): Promise<ParentCatKittenDetailType> => {
       const response = await fetch(
-        `http://localhost:8080/parent/${parentCatId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/parent/${parentCatId}`
       )
       if (!response.ok) {
         throw new Error(`親猫情報の取得に失敗しました (ID: ${parentCatId})`)
