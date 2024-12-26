@@ -1,6 +1,9 @@
 package inquiry
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 // 基本的な問い合わせコマンド
 type CommandPostBaseInquiry struct {
@@ -23,9 +26,8 @@ func NewCommandPostInspectionInquiry(inquiryService InquiryService) *CommandPost
 }
 
 // 基本的な問い合わせコマンドの実行
-func (c *CommandPostBaseInquiry) Execute(w http.ResponseWriter, r *http.Request) {
-	err := c.InquiryService.PostBaseInquiry(BaseInquiryDTO{})
-	if err != nil {
+func (c *CommandPostBaseInquiry) Execute(w http.ResponseWriter, r *http.Request) {	
+	if err := c.InquiryService.PostBaseInquiry(BaseInquiryDTO{}); err != nil {
 		http.Error(w, "問い合わせに失敗しました", http.StatusInternalServerError)
 		return
 	}
@@ -33,8 +35,13 @@ func (c *CommandPostBaseInquiry) Execute(w http.ResponseWriter, r *http.Request)
 
 // 見学の問い合わせコマンドの実行
 func (c *CommandPostInspectionInquiry) Execute(w http.ResponseWriter, r *http.Request) {
-	err := c.InquiryService.PostInspectionInquiry(InspectionInquiryDTO{})
-	if err != nil {
+	var dto InspectionInquiryDTO
+	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
+		http.Error(w, "無効なリクエスト形式です", http.StatusBadRequest)
+		return
+	}
+
+	if err := c.InquiryService.PostInspectionInquiry(dto); err != nil {
 		http.Error(w, "問い合わせに失敗しました", http.StatusInternalServerError)
 		return
 	}

@@ -30,7 +30,7 @@ type MailNotificationRepository interface {
 
 // チャット関連のAPIインターフェース
 type ChatNotificationRepository interface {
-	SendChat(title, message string) error
+	SendChat(message string) error
 }
 
 // GmailのAPI実装
@@ -90,9 +90,9 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 }
 
 // 問い合わせをLineに送信
-func (r *LineRepositoryImpl) SendChat(title, message string) error {
+func (r *LineRepositoryImpl) SendChat(message string) error {
 	// メッセージ内容
-	formData := fmt.Sprintf("message=%s\n%s", title, message)
+	formData := fmt.Sprintf("message=%s", message)
 
 	// HTTPリクエストの作成
 	req, err := http.NewRequest("POST", "https://notify-api.line.me/api/notify", strings.NewReader(formData))
