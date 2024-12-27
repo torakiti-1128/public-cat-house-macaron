@@ -3,7 +3,7 @@ import React from 'react'
 interface ButtonProps {
   text: string //ボタンに表示するテキスト
   link: string //リンク先のURL
-  id?: string 
+  id?: string
   icon?: boolean //アイコン表示の切り替え
   additionalClasses?: string //必要に応じて追加のクラスを渡せる
 }

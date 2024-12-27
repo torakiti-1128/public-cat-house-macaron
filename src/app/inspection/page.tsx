@@ -1,12 +1,12 @@
 'use client'
-import Inquiry from '@/components/Inquiry'
-import { InquiryType } from '@/types/kitten'
 import React from 'react'
+import { InspectionType } from '@/types/kitten'
+import Inspection from '@/components/Inspection'
 
-export default function InquiryPages() {
-  const handleFormSubmit = async (data: InquiryType): Promise<{ message: string; isError: boolean }> => {
+export default function InspectionPages() {
+  const handleFormSubmit = async (data: InspectionType): Promise<{ message: string; isError: boolean }> => {
     try {
-      const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/inquiry'
+      const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/inquiry/inspection'
   
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -29,7 +29,7 @@ export default function InquiryPages() {
 
   return (
     <>
-      <Inquiry onSubmit={handleFormSubmit} />
+      <Inspection onSubmit={handleFormSubmit} />
     </>
   )
 }

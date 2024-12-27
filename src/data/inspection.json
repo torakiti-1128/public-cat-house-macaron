@@ -1,0 +1,80 @@
+{
+  "title": "ご見学について",
+  "description": "当店では猫ちゃんの幸せを何よりも願っております。そのため、購入意志がない方のご見学はお断りさせていただいておりますので、あらかじめご了承ください。\n\n募集中の子猫で気に入った子猫が見つかりましたら、公式LINEまたは下記のお問い合わせフォームより必要事項をご記入の上、ご見学予約をお願いいたします。遠方の方は、LINEのビデオ通話でオンライン見学も承っております。\n\n但し2020年6月から「動物愛護及び管理に関する法律の一部を改正する法律」により当猫舎にて対面生体確認が必要となりました。オンライン見学後ご購入時に一度、当猫舎にお越しいただく必要がございます。",
+  "fields": [
+    {
+      "id": "first-name",
+      "label": "苗字(フリガナ)",
+      "type": "text",
+      "autocomplete": "given-name"
+    },
+    {
+      "id": "last-name",
+      "label": "名前(フリガナ)",
+      "type": "text",
+      "autocomplete": "family-name"
+    },
+    {
+      "id": "address",
+      "label": "ご住所",
+      "type": "text",
+      "autocomplete": "organization"
+    },
+    {
+      "id": "email",
+      "label": "メールアドレス",
+      "type": "email",
+      "autocomplete": "email"
+    },
+    {
+      "id": "phone-number",
+      "label": "電話番号",
+      "type": "tel",
+      "autocomplete": "tel"
+    },
+    {
+      "id": "visit-date",
+      "label": "見学日時",
+      "type": "datetime-local",
+      "autocomplete": "off"
+    },
+    {
+      "id": "visit-method",
+      "label": "ご来店方法",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "visit-people",
+      "label": "人数",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "kitten-id",
+      "label": "ご希望猫の管理番号",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    {
+      "id": "pet-status",
+      "label": "現在のペット飼育状況",
+      "type": "text",
+      "autocomplete": "off"
+    },
+    { "id": "message", "label": "その他", "type": "textarea", "rows": 4 }
+  ],
+  "modal": {
+    "title": "送信前の注意事項",
+    "content": [
+      "こちらは猫カフェやペットショップではございませんので、子猫の体調・ストレスを考えて子猫をむやみにお見せすることはできませんが、ペットショップでは会えないパパ、ママ猫にも会っていただけます。",
+      "必ずご家族の同意、アレルギーの有無、譲渡費用をご確認いただき納得された上でのご見学をお願いいたします。",
+      "* 見学のご予約は、3日前までにお願いします。（当日お迎えをご希望の方は必ずご予約の際にお申し付けください）",
+      "* 病院・出産などで対応できない場合は日時変更させていただきます",
+      "* ご見学時間は、12:00～17:00までの1時間程度でお願いいたします。",
+      "* 感染症予防のためにご見学前にペットショップ・猫カフェ・ブリーダー様宅へのお立ち寄りはご遠慮ください。",
+      "* ご見学の際には消毒をお願いしております。",
+      "* 靴下の持参をお願いいたします。"
+    ]
+  }
+}

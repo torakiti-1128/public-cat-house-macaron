@@ -106,33 +106,41 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                 {sex == 0 ? '男の子' : '女の子'}
               </span>
             </div>
-            <div className="flex border-t border-b mb-6 border-gray-200 py-2">
+            <div className="flex border-t border-b border-gray-200 py-2">
               <span className="text-gray-500">生年月日</span>
               <span className="ml-auto text-gray-900">
                 {formatDateToJapanese(birthDate)}
               </span>
             </div>
-            <div>
-              {tranState === '譲渡済' ? (
-                <div className="flex">
-                  <span className="title-font font-medium text-2xl text-blue-500">
-                    ご家族決まりました！
-                  </span>
-                </div>
-              ) : (
-                <div className="flex">
-                  <span className="title-font font-medium text-2xl text-gray-900">
-                    ¥{price.toLocaleString()}円
-                  </span>
-                  <Button
-                    text="お問い合わせ"
-                    link="/inquiry/"
-                    id={kittenId.toString()}
-                    additionalClasses="ml-auto"
-                  />
-                </div>
-              )}
+            <div className="flex mt-5 mb-6 border-gray-200 py-2">
+              <span className="text-2xl text-gray-900">生体価格：</span>
+              <p className="ml-auto text-2xl text-gray-900">
+                ¥{price.toLocaleString()}円
+              </p>
             </div>
+            <div>
+            {tranState === '譲渡済' ? (
+              <div className="flex">
+                <span className="title-font font-medium text-2xl text-blue-500">
+                  ご家族決まりました！
+                </span>
+              </div>
+            ) : (
+              <div className="flex w-full max-w-full justify-center items-center gap-4">
+              <Button
+                text="　お問い合わせ"
+                link="/inquiry"
+                additionalClasses="w-1/2 py-2"
+              />
+              <Button
+                text="　ご見学を希望"
+                link="/inspection/"
+                id={kittenId.toString()}
+                additionalClasses="text-center w-1/2 py-2"
+              />
+            </div>
+            )}
+          </div>
           </div>
         </div>
 

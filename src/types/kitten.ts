@@ -1,4 +1,4 @@
-import Inquiry from "@/components/Inquiry"
+import Inquiry from '@/components/Inspection'
 
 //子猫一覧
 export interface KittenListType {
@@ -75,16 +75,26 @@ export interface AdoptionListType {
 
 //見学希望者の問い合わせ
 export interface InquiryType {
-  name: string; 
-  email: string; 
-  phone?: string;
-  visitDate?: string;
-  visitTime?: string; 
-  message: string; 
-  agreedToTerms: boolean; 
+  firstName: string
+  lastName: string
+  email: string
+  phoneNumber: string
+  title: string
+  message: string
 }
 
 //見学希望者の問いわせ
 export interface InspectionType {
-
+  address: string
+  email: string
+  firstName: string
+  kittenId: string
+  lastName: string
+  message: string
+  petStatus: string
+  phoneNumber: string
+  visitDate: string
+  visitTime: string
+  visitMethod: string
+  visitPeople: string
 }

@@ -25,7 +25,7 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/kittens/${kittenId}`
-        );
+        )
         if (!response.ok) {
           throw new Error('子猫情報の取得に失敗しました。')
         }

@@ -1,17 +1,20 @@
 import { useState } from 'react'
-import inquiryData from '../data/inquiry.json'
+import inspectionData from '../data/inspection.json'
 import Title from './common/Title'
-import { InquiryType } from '@/types/kitten'
+import { InspectionType } from '@/types/kitten'
 
-interface InquiryProps {
-  onSubmit: (formData: InquiryType) => Promise<{ message: string; isError: boolean }>
+interface InspectionProps {
+  onSubmit: (formData: InspectionType) => Promise<{ message: string; isError: boolean }>
+  kittenId?: number
 }
 
-const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
+const Inspection: React.FC<InspectionProps> = ({ onSubmit, kittenId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [localFormData, setLocalFormData] = useState<Record<string, string>>({})
+  const [localFormData, setLocalFormData] = useState<Record<string, string>>({
+    'kitten-id': kittenId ? '問い合わせ番号：' + kittenId.toString() : '',
+  })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submissionMessage, setSubmissionMessage] = useState<{
     message: string
@@ -36,7 +39,7 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
   // 入力必須チェック
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
-    inquiryData.fields.forEach((field) => {
+    inspectionData.fields.forEach((field) => {
       if (!localFormData[field.id]) {
         newErrors[field.id] = `${field.label}は必須です`
       }
@@ -55,16 +58,22 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
     setSubmissionMessage(null) // メッセージをリセット
     try {
       // 渡ってきたデータをマッピング
-      const inquiryData: InquiryType = {
-        firstName: localFormData['first-name'],
-        lastName: localFormData['last-name'],
+      const inspectionData: InspectionType = {
+        address: localFormData.address,
         email: localFormData.email,
-        phoneNumber: localFormData['phone-number'],
-        title: localFormData.title,
+        firstName: localFormData['first-name'],
+        kittenId: localFormData['kitten-id'],
+        lastName: localFormData['last-name'],
         message: localFormData.message,
+        petStatus: localFormData['pet-status'],
+        phoneNumber: localFormData['phone-number'],
+        visitDate: localFormData['visit-date-date'],
+        visitTime: localFormData['visit-date-time'],
+        visitMethod: localFormData['visit-method'],
+        visitPeople: localFormData['visit-people'],
       }
 
-      const result = await onSubmit(inquiryData)
+      const result = await onSubmit(inspectionData)
       setSubmissionMessage(result)
     } catch (error: any) {
       setSubmissionMessage({ message: error.message, isError: true })
@@ -79,9 +88,9 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
       style={{ fontFamily: 'Paratino, serif' }}
     >
       <div className="text-center container mx-auto">
-        <Title text={inquiryData.title} />
+        <Title text={inspectionData.title} />
         <p className="bg-[#FFF0F6] border-2 border-[#F9CCE3] rounded-lg p-6 mt-10 text-base leading-8 text-[#705C53] sm:mx-20 lg:mx-40 shadow-lg relative">
-          {inquiryData.description.split('\n').map((line, index) => (
+          {inspectionData.description.split('\n').map((line, index) => (
             <span key={index}>
               {line}
               <br />
@@ -91,7 +100,7 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
       </div>
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          {inquiryData.fields.map((field) => (
+          {inspectionData.fields.map((field) => (
             <div key={field.id} className={field.rows ? 'sm:col-span-2' : ''}>
               <label
                 htmlFor={field.id}
@@ -143,9 +152,9 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
             <div className="bg-white rounded-lg p-6 max-w-md mx-auto text-left shadow-lg">
               <h2 className="text-2xl font-semibold text-center text-[#705C53]">
-                {inquiryData.modal.title}
+                {inspectionData.modal.title}
               </h2>
-              {inquiryData.modal.content.map((item, index) => (
+              {inspectionData.modal.content.map((item, index) => (
                 <p key={index} className="mt-4 text-[#705C53]">
                   {item}
                 </p>
@@ -212,4 +221,4 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
   )
 }
 
-export default Inquiry
+export default Inspection
