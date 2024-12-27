@@ -11,6 +11,10 @@ type MessageFormatter interface {
 
 type DefaultMessageFormatter struct{}
 
+func NewMessageFormatter() MessageFormatter {
+	return &DefaultMessageFormatter{}
+}
+
 func (f *DefaultMessageFormatter) Format(data map[string]string) string {
 	var message strings.Builder
 

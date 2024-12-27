@@ -7,7 +7,7 @@ import (
 // 通知関連のビジネスロジックインターフェース
 type NotificationService interface {
 	// 問い合わせをメールに通知
-	NotifyToMail() error
+	NotifyToMail(to, subject, message string) error
 	// 問い合わせをチャットに通知
 	NotifyToChat(message string) error
 }
@@ -24,8 +24,8 @@ func NewNotificationService(mailRepo MailNotificationRepository, chatRepo ChatNo
 }
 
 // 問い合わせをメールに通知
-func (s *NotificationServiceImpl) NotifyToMail() error {
-	err := s.MailRepo.SendMail("", "", "")
+func (s *NotificationServiceImpl) NotifyToMail(to, subject, message string) error {
+	err := s.MailRepo.SendMail(to, subject, message)
 	if err != nil {
 		return fmt.Errorf("メールの送信に失敗しました: %w", err)
 	}

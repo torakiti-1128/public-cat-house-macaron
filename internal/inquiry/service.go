@@ -18,21 +18,35 @@ type InquiryService interface {
 type InquiryServiceImpl struct {
 	Repo InquiryRepository
 	NotificationService notification.NotificationService
+	MessageFormatter utils.MessageFormatter
 }
 
 // 問い合わせ関連のビジネスロジックコンストラクタ
-func NewInquiryService(repo InquiryRepository, notificationService notification.NotificationService) InquiryService {
-	return &InquiryServiceImpl{Repo: repo, NotificationService: notificationService}
+func NewInquiryService(repo InquiryRepository, notificationService notification.NotificationService, messageFormatter utils.MessageFormatter) InquiryService {
+	return &InquiryServiceImpl{Repo: repo, NotificationService: notificationService, MessageFormatter: messageFormatter}
 }
 
 // 店舗に問い合わせ
 func (s *InquiryServiceImpl) PostBaseInquiry(dto BaseInquiryDTO) error {
-	err := s.NotificationService.NotifyToMail()
-	if err != nil {
-		fmt.Printf("メールの送信に失敗しました: %v\n", err)
-		return fmt.Errorf("メールの送信に失敗しました: %w", err)
+	data := map[string]string{
+		"お名前":        fmt.Sprintf("%s %s", dto.FirstName, dto.LastName),
+		"メールアドレス": dto.Email,
+		"電話番号":      dto.PhoneNumber,
+		"タイトル":      dto.Title,
+		"メッセージ":    dto.Message,
 	}
-	err = s.NotificationService.NotifyToChat("")
+
+	// 送信内容を作成
+	message := s.MessageFormatter.Format(data)
+
+	// ToDo：サービスが終了していため、GCPを利用する
+	// err := s.NotificationService.NotifyToMail("", "", "")
+	// if err != nil {
+	// 	fmt.Printf("メールの送信に失敗しました: %v\n", err)
+	// 	return fmt.Errorf("メールの送信に失敗しました: %w", err)
+	// }
+
+	err := s.NotificationService.NotifyToChat(message)
 	if err != nil {
 		fmt.Printf("問い合わせに失敗しました: %v\n", err)
 		return fmt.Errorf("問い合わせに失敗しました: %w", err)
@@ -43,10 +57,10 @@ func (s *InquiryServiceImpl) PostBaseInquiry(dto BaseInquiryDTO) error {
 // 店舗に見学の問い合わせ
 func (s *InquiryServiceImpl) PostInspectionInquiry(dto InspectionInquiryDTO) error {
 	data := map[string]string{
-		"住所":        dto.Address,
+		"住所":         dto.Address,
 		"メールアドレス": dto.Email,
-		"お名前":      fmt.Sprintf("%s %s", dto.FirstName, dto.LastName),
-		"子猫ID":      dto.KittenID,
+		"お名前":       fmt.Sprintf("%s %s", dto.FirstName, dto.LastName),
+		"子猫ID":       dto.KittenID,
 		"メッセージ":   dto.Message,
 		"ペットの状況": dto.PetStatus,
 		"電話番号":    dto.PhoneNumber,
@@ -57,11 +71,10 @@ func (s *InquiryServiceImpl) PostInspectionInquiry(dto InspectionInquiryDTO) err
 	}
 
 	// 送信内容を作成
-	formatter := utils.DefaultMessageFormatter{}
-	message := formatter.Format(data)
+	message := s.MessageFormatter.Format(data)
 
-	// ToDO：サービスが終了していため、GCPを利用する
-	// err := s.NotificationService.NotifyToMail()
+	// ToDo：サービスが終了していため、GCPを利用する
+	// err := s.NotificationService.NotifyToMail("", "", "")
 	// if err != nil {
 	// 	fmt.Printf("メールの送信に失敗しました: %v\n", err)
 	// 	return fmt.Errorf("メールの送信に失敗しました: %w", err)

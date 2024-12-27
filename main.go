@@ -21,6 +21,7 @@ import (
 	"chm-api/internal/notification"
 	"chm-api/internal/parent"
 	"chm-api/internal/storage"
+	"chm-api/internal/utils"
 	"chm-api/routes"
 )
 
@@ -48,7 +49,7 @@ func main() {
 	// ビジネスロジックの依存関係をインスタンス化
 	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig())))
 	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig(emailConfig.NewConfig())), notification.NewLineRepository(notification.LineConfig(snsConfig.NewConfig())))
-	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService)
+	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService, utils.NewMessageFormatter())
 	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
 	authService := auth.NewAuthService(auth.NewAuthRepository(db))
 	parentService := parent.NewParenttService(parent.NewParentRepository(db), storageService)

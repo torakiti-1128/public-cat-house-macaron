@@ -27,7 +27,13 @@ func NewCommandPostInspectionInquiry(inquiryService InquiryService) *CommandPost
 
 // 基本的な問い合わせコマンドの実行
 func (c *CommandPostBaseInquiry) Execute(w http.ResponseWriter, r *http.Request) {	
-	if err := c.InquiryService.PostBaseInquiry(BaseInquiryDTO{}); err != nil {
+	var dto BaseInquiryDTO
+	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
+		http.Error(w, "無効なリクエスト形式です", http.StatusBadRequest)
+		return
+	}
+
+	if err := c.InquiryService.PostBaseInquiry(dto); err != nil {
 		http.Error(w, "問い合わせに失敗しました", http.StatusInternalServerError)
 		return
 	}
