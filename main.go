@@ -46,22 +46,44 @@ func main() {
 	}
 	defer db.Close()
 
-	// ビジネスロジックの依存関係をインスタンス化
-	storageService := storage.NewStorageService(storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig())))
-	notificationService := notification.NewNotificationService(notification.NewGmailRepository(notification.GmailConfig(emailConfig.NewConfig())), notification.NewLineRepository(notification.LineConfig(snsConfig.NewConfig())))
-	inquiryService := inquiry.NewInquiryService(inquiry.NewInquiryRepository(db), notificationService, utils.NewMessageFormatter())
-	kittenService := kitten.NewKittenService(kitten.NewKittenRepository(db), storageService)
-	authService := auth.NewAuthService(auth.NewAuthRepository(db))
-	parentService := parent.NewParenttService(parent.NewParentRepository(db), storageService)
-	adoptionSercice := adoption.NewAdoptionService(adoption.NewAdoptionRepository(db), storageService)
-	breedService := breed.NewBreedService(breed.NewBreedRepository(db))
-	colorService := color.NewColorService(color.NewColorRepository(db))
-	newsService := news.NewNewsService(news.NewNewsRepository(db))
+	// Repositoryインスタンスの生成
+	supabaseRepo := storage.NewSupabaseRepository(storage.SupabaseConfig(storageConfig.NewConfig()))
+	gmailRepo := notification.NewGmailRepository(notification.GmailConfig(emailConfig.NewConfig()))
+	lineRepo := notification.NewLineRepository(notification.LineConfig(snsConfig.NewConfig()))
+	inquiryRepo := inquiry.NewInquiryRepository(db)
+	kittenRepo := kitten.NewKittenRepository(db)
+	authRepo := auth.NewAuthRepository(db)
+	parentRepo := parent.NewParentRepository(db)
+	adoptionRepo := adoption.NewAdoptionRepository(db)
+	breedRepo := breed.NewBreedRepository(db)
+	colorRepo := color.NewColorRepository(db)
+	newsRepo := news.NewNewsRepository(db)
 
-	// ビジネスロジックを各コマンドへ実装
-	commands.RegisterCommands(kittenService, authService, parentService, adoptionSercice, breedService, colorService, newsService, inquiryService)
+	// Serviceインスタンスの生成
+	storageService := storage.NewStorageService(supabaseRepo)
+	notificationService := notification.NewNotificationService(gmailRepo, lineRepo)
+	inquiryService := inquiry.NewInquiryService(inquiryRepo, notificationService, utils.NewMessageFormatter())
+	kittenService := kitten.NewKittenService(kittenRepo, storageService)
+	authService := auth.NewAuthService(authRepo)
+	parentService := parent.NewParentService(parentRepo, storageService)
+	adoptionService := adoption.NewAdoptionService(adoptionRepo, storageService)
+	breedService := breed.NewBreedService(breedRepo)
+	colorService := color.NewColorService(colorRepo)
+	newsService := news.NewNewsService(newsRepo)
 
-	// ルーターを初期化
+	// ビジネスロジックをコマンドへ実装
+	commands.RegisterCommands(
+		kittenService, 
+		authService, 
+		parentService, 
+		adoptionService, 
+		breedService, 
+		colorService, 
+		newsService, 
+		inquiryService,
+	)
+
+	// エンドポイントのルーターを設定
 	router := routes.InitializeRouter(apiConfig)
 
 	// サーバーを起動

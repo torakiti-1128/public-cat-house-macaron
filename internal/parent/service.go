@@ -31,7 +31,7 @@ type ParentServiceImpl struct {
 }
 
 // 親猫関連のビジネスロジックコンストラクタ
-func NewParenttService(repo ParentRepository, storageService storage.StorageService) ParentService {
+func NewParentService(repo ParentRepository, storageService storage.StorageService) ParentService {
 	return &ParentServiceImpl{Repo: repo, StorageService: storageService}
 }
 
