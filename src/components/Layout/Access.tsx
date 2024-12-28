@@ -6,9 +6,9 @@ import accessData from '../../data/access.json'
 const Access: React.FC = () => {
   return (
     <section className="text-gray-600 body-font relative bg-[#FDF7F2] py-16">
-      <div className="container px-5 mx-auto flex flex-col lg:flex-row sm:flex-nowrap sm:space-x-8">
+      <div className="container px-5 mx-auto flex flex-col lg:flex-row md:flex-row sm:flex-nowrap sm:space-x-8">
         {/* 地図のカード */}
-        <div className="lg:w-2/3 md:w-1/2 bg-[#EDDFE0] rounded-3xl overflow-hidden p-10 flex items-end justify-start relative shadow-lg mb-8 lg:mb-0">
+        <div className="lg:w-2/3 md:w-1/2 bg-[#EDDFE0] rounded-3xl overflow-hidden p-10 flex items-end justify-start relative shadow-lg mb-2">
           <iframe
             width="100%"
             height="100%"

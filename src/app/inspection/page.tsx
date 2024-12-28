@@ -24,8 +24,12 @@ export default function InspectionPages() {
       }
 
       return { message: '送信が完了しました', isError: false }
-    } catch (error: any) {
-      return { message: '送信中にエラーが発生しました', isError: true }
+    } catch (error) {
+      if (error instanceof Error) {
+        return { message: '送信中にエラーが発生しました', isError: true }
+      } else {
+        return { message: '予期せぬエラーが発生しました', isError: true }
+      }
     }
   }
 

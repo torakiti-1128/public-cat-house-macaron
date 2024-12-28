@@ -1,37 +1,32 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-interface SearchBoxProps<T> {
-  data: T[]
-  filterKey: keyof T
-  onFilter: (filteredData: T[]) => void
+interface SearchBoxProps {
+  placeholder?: string // プレースホルダーのテキスト
+  onSearch: (query: string) => void // 検索文字列の変更時に呼び出される関数
 }
 
-const SearchBox = <T extends object>({
-  data,
-  filterKey,
-  onFilter,
-}: SearchBoxProps<T>) => {
-  const [searchQuery, setSearchQuery] = useState('')
+const SearchBox: React.FC<SearchBoxProps> = ({
+  placeholder = '検索',
+  onSearch,
+}) => {
+  const [query, setQuery] = useState('') // 入力文字列の状態管理
 
-  useEffect(() => {
-    const filteredData = data.filter((item) =>
-      String(item[filterKey]).toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    onFilter(filteredData)
-  }, [searchQuery, data, filterKey, onFilter])
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setQuery(value)
+    onSearch(value) // 入力が変更されるたびに親コンポーネントに通知
+  }
 
   return (
-    <div className="bg-white rounded-full border-none p-3 shadow-md">
-      <input
-        type="text"
-        placeholder="検索..."
-        className="focus:outline-none w-full"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-    </div>
+    <input
+      type="text"
+      value={query}
+      onChange={handleChange}
+      placeholder={placeholder}
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+    />
   )
 }
 

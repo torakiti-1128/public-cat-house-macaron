@@ -33,7 +33,6 @@ const CheckPoints: React.FC = () => {
                     text="確認する"
                     link={card.link}
                     additionalClasses=""
-                    icon={true}
                   />
                 </div>
               </div>

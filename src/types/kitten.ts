@@ -1,5 +1,3 @@
-import Inquiry from '@/components/Inspection'
-
 //子猫一覧
 export interface KittenListType {
   kittenId: number //お問い合わせ番号
@@ -24,21 +22,7 @@ export interface KittenDetailType {
   videoUrl: string
 }
 
-//子猫詳細画像
-export interface KittenDetailImageType {
-  imageId: string //写真番号
-  kittenId: string //お問い合わせ番号
-  url: string //画像URL
-}
-
-//子猫詳細動画
-export interface KittenDetailVideoType {
-  videoId: string //ビデオ番号
-  kittenId: string //お問い合わせ番号
-  url: string //動画URL
-}
-
-//親猫
+//子猫の親猫情報
 export interface ParentCatKittenDetailType {
   parentCatId: number //親猫番号
   name: string //名前
@@ -57,7 +41,10 @@ export interface ParentCatListType {
   name: string //名前
   sex: number //性別
   breed: string //猫種
-  age: string //説明
+  color: string //カラー
+  age: number //年齢
+  birthDate: string //生年月日
+  description: string //説明
   imageUrl: string //画像URL
 }
 
@@ -65,12 +52,13 @@ export interface ParentCatListType {
 export interface AdoptionListType {
   adoptionCatId: number //猫番号
   name: string //名前
-  sex: string //性別
-  birthDate: number //生年月日
+  sex: number //性別
   breed: string //猫種
   color: string //カラー
+  age: number //年齢
+  birthDate: string //生年月日
   description: string //説明
-  url: string //画像URL
+  imageUrl: string //画像URL
 }
 
 //見学希望者の問い合わせ

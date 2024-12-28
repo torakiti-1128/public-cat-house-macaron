@@ -31,10 +31,10 @@ const slideSettings = {
 
 export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
   kittens,
-  status
+  status,
 }) => {
   const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
-  
+
   // 状態でフィルタリング
   useEffect(() => {
     const filteredByStatus = kittens.filter(
@@ -114,7 +114,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
       </Swiper>
 
       <div className="text-center mt-10 flex justify-center items-center">
-        <Button text={'すべての子猫を見る'} link={'/kittens'} icon={true} />
+        <Button text={'すべての子猫を見る'} link={'/kittens'} />
       </div>
     </div>
   )

@@ -77,8 +77,17 @@ const Inspection: React.FC<InspectionProps> = ({ onSubmit, kittenId }) => {
 
       const result = await onSubmit(inspectionData)
       setSubmissionMessage(result)
-    } catch (error: any) {
-      setSubmissionMessage({ message: error.message, isError: true })
+    } catch (error) {
+      if (error instanceof Error) {
+        // Error 型の場合、メッセージを設定
+        setSubmissionMessage({ message: error.message, isError: true })
+      } else {
+        // Error 型でない場合、デフォルトのメッセージを設定
+        setSubmissionMessage({
+          message: '予期しないエラーが発生しました',
+          isError: true,
+        })
+      }
     } finally {
       setIsSubmitting(false)
     }

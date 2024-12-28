@@ -14,7 +14,8 @@ export default function KittenListPage() {
     // データをフェッチする関数
     const fetchParentCats = async () => {
       try {
-        const response = await fetch('http://localhost:8080/parent')
+        const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/parent'
+        const response = await fetch(endpoint)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }

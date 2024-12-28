@@ -27,5 +27,11 @@
         { "label": "里親募集中", "href": "/adoption" }
       ]
     }
-  ]
+  ],
+  "urls": {
+    "instagramKitten": "https://www.instagram.com/cat_house_macaron/profilecard/?igsh=NDFkb3RzaDd1dTRt",
+    "instagramParent": "https://www.instagram.com/_muta_kuta_uta_lita/profilecard/?igsh=MTlrdHZxaGdua2tzYQ==",
+    "tiktok": "https://www.tiktok.com/@cat_house_macaron?_t=8sa9qB8xHOh&_r=1",
+    "line": "https://line.me/ti/p/bmImVkVmm7"
+  }
 }

@@ -88,7 +88,6 @@ const Concept: React.FC = () => {
                   <Button
                     text={conceptData.aboutButton.text}
                     link={conceptData.aboutButton.link}
-                    icon={true}
                     additionalClasses="bg-[#705C53] hover:bg-pink-600 text-white px-6 py-3 rounded-full shadow-md text-lg"
                   />
                 </div>

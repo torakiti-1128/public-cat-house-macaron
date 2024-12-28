@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { KittenListType } from '@/types/kitten'
 import Title from '@/components/common/Title'
+import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
-import SearchBox from './common/SearchBox'
 
 interface KittenListProps {
   kittens: KittenListType[]
@@ -12,40 +12,34 @@ interface KittenListProps {
 }
 
 const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
-  const [filteredBySearch, setFilteredBySearch] =
-    useState<KittenListType[]>(kittens)
-
   const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
+  const [searchQuery, setSearchQuery] = useState('') // 検索文字列の状態管理
 
-  // 状態でフィルタリング
+  // 状態と検索文字列でフィルタリング
   useEffect(() => {
     const filteredByStatus = kittens.filter(
-      (kitten) => kitten.tranState === status
+      (kitten) =>
+        kitten.tranState === status &&
+        (kitten.breed.includes(searchQuery) ||
+          kitten.kittenId.toString().includes(searchQuery))
     )
     setFilteredKittens(filteredByStatus)
-  }, [kittens, status])
-
-  // // // 検索結果を状態に基づいて再フィルタリング
-  // useEffect(() => {
-  //   const combinedFiltered = filteredKittens.filter((kitten) =>
-  //     filteredBySearch.includes(kitten)
-  //   )
-  //   setFilteredKittens(combinedFiltered)
-  // }, [filteredBySearch, filteredKittens])
+  }, [kittens, status, searchQuery])
 
   return (
     <section className="text-gray-600 body-font bg-[#FDF7F2] px-10 py-8">
       <div className="container mx-auto">
         <Title text="子猫一覧" />
+
+        {/* 検索バー */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
-          <div className="flex-grow sm:w-7/12">
-            <SearchBox
-              data={kittens}
-              filterKey="breed" // 検索対象のキー
-              onFilter={setFilteredBySearch}
-            />
-          </div>
+          <SearchBox
+            placeholder="検索（例：マンチカン）"
+            onSearch={(query) => setSearchQuery(query)} // 検索文字列の変更を受け取る
+          />
         </div>
+
+        {/* フィルタリングされた子猫一覧 */}
         <div className="flex flex-wrap -m-4">
           {filteredKittens.map((kitten) => (
             <div

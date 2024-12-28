@@ -1,75 +1,86 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Title from '@/components/common/Title'
 import SearchBox from '@/components/common/SearchBox'
-import CategorySelect from '@/components/common/CategorySelect'
 import { ParentCatListType } from '@/types/kitten'
-import categoriesData from '@/data/categories.json'
+import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 
 interface ParentCatListProps {
   parentCats: ParentCatListType[]
 }
 
 const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
-  const [filteredBySearch, setFilteredBySearch] =
-    useState<ParentCatListType[]>(parentCats)
-  const [filteredByCategory, setFilteredByCategory] =
-    useState<ParentCatListType[]>(parentCats)
+  const [filteredCats, setFilteredCats] = useState<ParentCatListType[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const combinedFilteredParentCats = filteredBySearch.filter((cat) =>
-    filteredByCategory.includes(cat)
-  )
+  // 検索フィルタリング
+  useEffect(() => {
+    const filtered = parentCats.filter(
+      (cat) =>
+        cat.name.includes(searchQuery) ||
+        cat.breed.includes(searchQuery) ||
+        cat.color.includes(searchQuery) ||
+        cat.description.includes(searchQuery)
+    )
+    setFilteredCats(filtered)
+  }, [parentCats, searchQuery])
 
   return (
     <section className="text-gray-600 body-font bg-[#FDF7F2]">
       <div className="container px-10 py-8 mx-auto">
         <Title text="親猫の紹介" />
+
+        {/* 検索バー */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
-          <div className="flex-grow sm:w-7/12">
-            <SearchBox
-              data={parentCats}
-              filterKey="name"
-              onFilter={setFilteredBySearch}
-            />
-          </div>
-          <div className="sm:w-3/12">
-            <CategorySelect
-              data={parentCats}
-              filterKey="breed"
-              categories={categoriesData.categories}
-              onFilter={setFilteredByCategory}
-            />
-          </div>
+          <SearchBox
+            placeholder="検索（例：マンチカン）"
+            onSearch={(query) => setSearchQuery(query)}
+          />
         </div>
+
+        {/* 親猫リスト */}
         <div className="flex flex-wrap -m-4">
-          {combinedFilteredParentCats.map((cat) => (
+          {filteredCats.map((cat) => (
             <div
               key={cat.parentCatId}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
             >
-              <div className="bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                {/* 親猫の画像 */}
                 <img
-                  className="h-48 rounded-lg w-full object-cover object-center mb-6"
+                  className="h-48 rounded-lg w-full object-cover object-center mb-4"
                   src={cat.imageUrl}
                   alt={cat.name}
                 />
-                <h3 className="tracking-widest text-pink-500 text-xs font-medium title-font mb-1">
-                  {cat.breed}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  名前：<span className="font-bold">{cat.name}</span>
-                </p>
-                <div className="flex items-center">
-                  <p className="text-sm text-gray-600 mr-3">
-                    性別：
-                    <span className="font-bold">
-                      {cat.sex == 0 ? 'パパ猫' : 'ママ猫'}
+                {/* 基本情報 */}
+                <div className="mb-4">
+                  <h3 className="text-pink-500 text-sm font-semibold mb-1">
+                    {cat.breed}
+                  </h3>
+                  <h2 className="text-lg text-gray-900 font-bold mb-1">
+                    {cat.name}
+                  </h2>
+                  <p className="text-gray-700 text-sm">{cat.description}</p>
+                </div>
+                {/* 詳細情報 */}
+                <div className="text-sm text-gray-600">
+                  <div className="flex justify-between mb-1">
+                    <span>性別:</span>
+                    <span className="font-medium">
+                      {cat.sex === 0 ? 'パパ猫' : 'ママ猫'}
                     </span>
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    年齢：<span className="font-bold">{cat.age}</span>
-                  </p>
+                  </div>
+                  <div className="flex justify-between mb-1">
+                    <span>生年月日:</span>
+                    <span className="font-medium">
+                      {formatDateTimeToJapanese(cat.birthDate)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>年齢:</span>
+                    <span className="font-medium">{cat.age}歳</span>
+                  </div>
                 </div>
               </div>
             </div>
