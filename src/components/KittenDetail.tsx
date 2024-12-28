@@ -3,7 +3,6 @@ import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
 import Button from '@/components/common/Button'
 import Title from '@/components/common/Title'
 import { formatDateToJapanese } from '@/hooks/datetimeConverter'
-import Image from 'next/image'
 
 interface KittenDetailProps {
   kittenDetail: KittenDetailType // 子猫の詳細情報
@@ -55,7 +54,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
             >
               {/* メディアの切り替え */}
               {currentMediaIndex < imageUrls.length ? (
-                <Image
+                <img
                   alt={`Kitten Image ${currentMediaIndex + 1}`}
                   className="w-full h-full object-cover object-center rounded-2xl shadow"
                   src={mediaUrls[currentMediaIndex]}
@@ -157,7 +156,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
                   {cat.sex == 0 ? 'パパ' : 'ママ'}
                 </h2>
-                <Image
+                <img
                   className="w-24 h-24 rounded-xl mb-4"
                   src={cat.imageUrl}
                   alt={`${cat.name}`}

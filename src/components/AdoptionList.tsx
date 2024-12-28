@@ -5,7 +5,6 @@ import { AdoptionListType } from '@/types/kitten'
 import Title from './common/Title'
 import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
-import Image from 'next/image'
 
 interface AdoptionListProps {
   adoptionList: AdoptionListType[]
@@ -49,7 +48,7 @@ const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
             >
               <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 {/* 猫の画像 */}
-                <Image
+                <img
                   className="h-48 rounded-lg w-full object-cover object-center mb-4"
                   src={cat.imageUrl}
                   alt={cat.name}

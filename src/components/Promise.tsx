@@ -1,7 +1,6 @@
 import React from 'react'
 import promiseData from '../data/promise.json'
 import Title from './common/Title'
-import Image from 'next/image'
 
 //ステップで約束を表示するコンポーネント
 const PromiseStep: React.FC<{
@@ -47,7 +46,7 @@ const Promise: React.FC = () => {
               />
             ))}
           </div>
-          <Image
+          <img
             className="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12"
             src="/images/cats/cat13.JPG"
             alt="Promise Cats"

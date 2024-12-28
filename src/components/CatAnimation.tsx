@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 
 const CatAnimation = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -32,7 +31,7 @@ const CatAnimation = () => {
         zIndex: 1000,
       }}
     >
-      <Image
+      <img
         src="/images/macaron/cat1.jpg"
         alt="Flying Cat"
         width={200}

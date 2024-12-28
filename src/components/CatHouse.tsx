@@ -1,7 +1,6 @@
 import React from 'react'
 import catHouseData from '../data/catHouse.json'
 import Title from './common/Title'
-import Image from 'next/image'
 
 //猫舎の紹介
 const CatHouse: React.FC = () => {
@@ -14,7 +13,7 @@ const CatHouse: React.FC = () => {
             {catHouseData.map((item, index) => (
               <div key={index} className="group relative lg:mb-8">
                 <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 sm:h-64">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.title}
                     className="h-full w-full object-cover object-center"

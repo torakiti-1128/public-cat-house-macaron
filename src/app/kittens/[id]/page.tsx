@@ -5,7 +5,6 @@ import KittenDetail from '@/components/KittenDetail'
 import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners' // スピナーをインポート
 import ErrorContent from '@/components/ErrorContent'
-import Image from 'next/image'
 
 interface KittenDetailPageProps {
   params: {
@@ -87,7 +86,7 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
     ]
     return (
       <ErrorContent error={errorMessage}>
-        <Image
+        <img
           src="/images/not-found.JPG"
           alt="写真"
           className="max-w-xs rounded shadow-lg"

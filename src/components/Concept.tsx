@@ -1,17 +1,15 @@
 import React from 'react'
 import conceptData from '../data/concept.json'
 import Button from './common/Button'
-import Image from 'next/image'
 
 const Concept: React.FC = () => {
   return (
     <div>
       <div className="relative overflow-hidden">
-        <Image
+        <img
           alt="content"
           className="w-full max-h-150 object-contain"
           src={conceptData.image}
-          layout="fill"
         />
       </div>
       <section className="text-gray-800 body-font bg-[#FAF7F5] py-16">

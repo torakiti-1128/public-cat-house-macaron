@@ -1,7 +1,6 @@
 import React from 'react'
 import aboutData from '../data/about.json'
 import Title from './common/Title'
-import Image from 'next/image'
 
 const About: React.FC = () => {
   return (
@@ -10,7 +9,7 @@ const About: React.FC = () => {
         <Title text={aboutData.title} />
         <div className="mx-auto">
           <div className="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4">
-            <Image
+            <img
               alt="gallery"
               className="w-full object-cover h-full object-center block absolute inset-0 rounded-xl shadow-lg"
               src={aboutData.image}

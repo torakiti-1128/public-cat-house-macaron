@@ -5,7 +5,6 @@ import FamilyKittenList from '@/components/FamilyKittensList'
 import { KittenListType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners' // スピナーをインポート
 import ErrorContent from '@/components/ErrorContent'
-import Image from 'next/image'
 
 export default function FamilyKittenListPage() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
@@ -53,7 +52,7 @@ export default function FamilyKittenListPage() {
     ]
     return (
       <ErrorContent error={errorMessage}>
-        <Image
+        <img
           src="/images/not-found.JPG"
           alt="写真"
           className="max-w-xs rounded shadow-lg"

@@ -4,7 +4,6 @@ import AdoptionList from '@/components/AdoptionList'
 import { AdoptionListType } from '@/types/kitten'
 import ErrorContent from '@/components/ErrorContent'
 import { PulseLoader } from 'react-spinners'
-import Image from 'next/image'
 
 export default function AdoptionPages() {
   const [adoptionCats, setAdoptionCats] = useState<AdoptionListType[]>([])
@@ -54,7 +53,7 @@ export default function AdoptionPages() {
 
     return (
       <ErrorContent error={errorMessage}>
-        <Image
+        <img
           src="/images/not-found.JPG"
           alt="写真"
           className="max-w-xs rounded shadow-lg"

@@ -2,7 +2,6 @@ import React from 'react'
 import checkPointData from '@/data/checkPoints.json'
 import Button from '@/components/common/Button'
 import Title from '@/components/common/Title'
-import Image from 'next/image'
 
 const CheckPoints: React.FC = () => {
   return (
@@ -14,11 +13,10 @@ const CheckPoints: React.FC = () => {
             <div key={index} className="p-4 md:w-1/3 flex">
               {/* カード全体の高さを揃える */}
               <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col justify-between">
-                <Image
+                <img
                   className="h-60 w-full object-cover object-center"
                   src={card.image}
                   alt={card.title}
-                  layout="fill"
                 />
                 <div className="p-6 flex-grow">
                   <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
