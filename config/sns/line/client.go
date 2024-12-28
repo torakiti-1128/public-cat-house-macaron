@@ -8,6 +8,6 @@ type Config struct {
 func NewConfig() Config {
 	return Config {
 		LineAPI: "https://notify-api.line.me/api/notify",
-		LineNotifyToken: "ItQMmmLnuxDYqScQk5WbvsuLPeSNJQjNj4GYLG1eRAD",
+		LineNotifyToken: "KYZXrxfxXLWEzpBinb9QVCIeYhOv5G8l9OkOYJk63NC",
 	}
 }
