@@ -8,11 +8,11 @@ interface TitleProps {
 
 const Title: React.FC<TitleProps> = ({ text, additionalClasses = '' }) => {
   return (
-    <h2
+    <h1
       className={`subpage-title text-2xl font-bold text-center mb-8 ${additionalClasses}`}
     >
       {text}
-    </h2>
+    </h1>
   )
 }
 

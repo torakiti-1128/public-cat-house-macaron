@@ -6,8 +6,9 @@ import Access from '@/components/shared/Access'
 import Footer from '@/components/shared/Footer'
 
 export const metadata = {
-  title: 'Cat House Macaron',
-  description: '一般家庭でブリードしています。',
+  title: 'Cat House Macaron | 福岡県北九州の海外猫専門ブリーダー',
+  description:
+    '福岡県の北九州にあるCat House Macaronは、マンチカン、ミヌエット、スコティッシュフォールド、ゴールデンブリティッシュなど、高品質で愛らしい海外猫を取り扱う信頼のブリーダーサイトです。',
 }
 
 export default function RootLayout({
