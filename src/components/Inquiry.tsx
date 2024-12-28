@@ -4,7 +4,9 @@ import Title from './common/Title'
 import { InquiryType } from '@/types/kitten'
 
 interface InquiryProps {
-  onSubmit: (formData: InquiryType) => Promise<{ message: string; isError: boolean }>
+  onSubmit: (
+    formData: InquiryType
+  ) => Promise<{ message: string; isError: boolean }>
 }
 
 const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
@@ -141,7 +143,7 @@ const Inquiry: React.FC<InquiryProps> = ({ onSubmit }) => {
 
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md mx-auto text-left shadow-lg">
+            <div className="bg-white rounded-lg sm: mx-5 p-6 max-w-md mx-auto text-left shadow-lg">
               <h2 className="text-2xl font-semibold text-center text-[#705C53]">
                 {inquiryData.modal.title}
               </h2>

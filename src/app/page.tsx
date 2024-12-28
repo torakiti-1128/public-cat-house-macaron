@@ -14,7 +14,8 @@ export default function Home() {
     // 子猫情報をフェッチする関数
     const fetchKittens = async () => {
       try {
-        const response = await fetch('http://localhost:8080/kittens')
+        const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/kittens'
+        const response = await fetch(endpoint)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -39,7 +40,7 @@ export default function Home() {
   if (loading || error) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <PulseLoader size={15} color="#EDDFE0" /> {/* スピナーと色の指定 */}
+        <PulseLoader size={15} color="#EDDFE0" />
       </div>
     )
   }
@@ -47,7 +48,7 @@ export default function Home() {
   return (
     <>
       <Concept />
-      <TopPageSlideShow kittens={kittens} />
+      <TopPageSlideShow kittens={kittens} status="募集中" />
     </>
   )
 }

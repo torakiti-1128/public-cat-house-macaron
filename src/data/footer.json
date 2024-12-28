@@ -14,7 +14,8 @@
       "links": [
         { "label": "5つのお約束", "href": "/promise" },
         { "label": "取引について", "href": "/reservation" },
-        { "label": "生体保証について", "href": "/guarantee" }
+        { "label": "生体保証について", "href": "/guarantee" },
+        { "label": "プライバシーポリシー", "href": "/privacy" }
       ]
     },
     {

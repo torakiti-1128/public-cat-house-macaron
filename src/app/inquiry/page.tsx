@@ -4,10 +4,12 @@ import { InquiryType } from '@/types/kitten'
 import React from 'react'
 
 export default function InquiryPages() {
-  const handleFormSubmit = async (data: InquiryType): Promise<{ message: string; isError: boolean }> => {
+  const handleFormSubmit = async (
+    data: InquiryType
+  ): Promise<{ message: string; isError: boolean }> => {
     try {
       const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/inquiry'
-  
+
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -15,7 +17,7 @@ export default function InquiryPages() {
         },
         body: JSON.stringify(data),
       })
-  
+
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.message || '送信に失敗しました')

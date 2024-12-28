@@ -7,9 +7,11 @@ import Button from './common/Button'
 import { KittenListType } from '@/types/kitten'
 import Title from './common/Title'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
+import { useEffect, useState } from 'react'
 
 interface KittensSlideShowProps {
   kittens: KittenListType[]
+  status: '募集中' | '商談中' // 表示したい状態を指定
 }
 
 const slideSettings = {
@@ -29,7 +31,18 @@ const slideSettings = {
 
 export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
   kittens,
+  status
 }) => {
+  const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
+  
+  // 状態でフィルタリング
+  useEffect(() => {
+    const filteredByStatus = kittens.filter(
+      (kitten) => kitten.tranState === status
+    )
+    setFilteredKittens(filteredByStatus)
+  }, [kittens, status])
+
   return (
     <div className="container px-5 mx-auto mt-10">
       <div className="relative mt-10 mb-8 w-full items-center">
@@ -54,7 +67,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
           clickable: true,
         }}
       >
-        {kittens.map((kitten, index) => (
+        {filteredKittens.map((kitten, index) => (
           <SwiperSlide key={index}>
             <div
               className="bg-gray-100 rounded-2xl shadow overflow-hidden"

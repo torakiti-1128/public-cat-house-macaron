@@ -4,7 +4,9 @@ import Title from './common/Title'
 import { InspectionType } from '@/types/kitten'
 
 interface InspectionProps {
-  onSubmit: (formData: InspectionType) => Promise<{ message: string; isError: boolean }>
+  onSubmit: (
+    formData: InspectionType
+  ) => Promise<{ message: string; isError: boolean }>
   kittenId?: number
 }
 
@@ -150,7 +152,7 @@ const Inspection: React.FC<InspectionProps> = ({ onSubmit, kittenId }) => {
 
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md mx-auto text-left shadow-lg">
+            <div className="bg-white rounded-lg sm: mx-5 p-6 max-w-md mx-auto text-left shadow-lg">
               <h2 className="text-2xl font-semibold text-center text-[#705C53]">
                 {inspectionData.modal.title}
               </h2>

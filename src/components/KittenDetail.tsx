@@ -119,28 +119,28 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
               </p>
             </div>
             <div>
-            {tranState === '譲渡済' ? (
-              <div className="flex">
-                <span className="title-font font-medium text-2xl text-blue-500">
-                  ご家族決まりました！
-                </span>
-              </div>
-            ) : (
-              <div className="flex w-full max-w-full justify-center items-center gap-4">
-              <Button
-                text="　お問い合わせ"
-                link="/inquiry"
-                additionalClasses="w-1/2 py-2"
-              />
-              <Button
-                text="　ご見学を希望"
-                link="/inspection/"
-                id={kittenId.toString()}
-                additionalClasses="text-center w-1/2 py-2"
-              />
+              {tranState === '譲渡済' ? (
+                <div className="flex">
+                  <span className="title-font font-medium text-2xl text-blue-500">
+                    ご家族決まりました！
+                  </span>
+                </div>
+              ) : (
+                <div className="flex w-full max-w-full justify-center items-center gap-4">
+                  <Button
+                    text="お問い合わせ"
+                    link="/inquiry"
+                    additionalClasses="w-1/2 py-2"
+                  />
+                  <Button
+                    text="ご見学を希望"
+                    link="/inspection/"
+                    id={kittenId.toString()}
+                    additionalClasses="w-1/2 py-2"
+                  />
+                </div>
+              )}
             </div>
-            )}
-          </div>
           </div>
         </div>
 
