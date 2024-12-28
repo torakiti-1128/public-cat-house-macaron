@@ -37,7 +37,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
 
   // 状態でフィルタリング
   useEffect(() => {
-    const filteredByStatus = kittens.filter(
+    const filteredByStatus = kittens?.filter(
       (kitten) => kitten.tranState === status
     )
     setFilteredKittens(filteredByStatus)
@@ -67,7 +67,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
           clickable: true,
         }}
       >
-        {filteredKittens.map((kitten, index) => (
+        {filteredKittens?.map((kitten, index) => (
           <SwiperSlide key={index}>
             <div
               className="bg-gray-100 rounded-2xl shadow overflow-hidden"

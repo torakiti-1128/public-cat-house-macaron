@@ -16,7 +16,7 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
 
   // 検索フィルタリング
   useEffect(() => {
-    const filtered = parentCats.filter(
+    const filtered = parentCats?.filter(
       (cat) =>
         cat.name.includes(searchQuery) ||
         cat.breed.includes(searchQuery) ||
@@ -41,7 +41,7 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
 
         {/* 親猫リスト */}
         <div className="flex flex-wrap -m-4">
-          {filteredCats.map((cat) => (
+          {filteredCats?.map((cat) => (
             <div
               key={cat.parentCatId}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"

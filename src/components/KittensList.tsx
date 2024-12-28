@@ -17,7 +17,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
 
   // 状態と検索文字列でフィルタリング
   useEffect(() => {
-    const filteredByStatus = kittens.filter(
+    const filteredByStatus = kittens?.filter(
       (kitten) =>
         kitten.tranState === status &&
         (kitten.breed.includes(searchQuery) ||
@@ -41,7 +41,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
 
         {/* フィルタリングされた子猫一覧 */}
         <div className="flex flex-wrap -m-4">
-          {filteredKittens.map((kitten) => (
+          {filteredKittens?.map((kitten) => (
             <div
               key={kitten.kittenId}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"

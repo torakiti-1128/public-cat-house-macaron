@@ -16,7 +16,7 @@ const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
 
   // 検索フィルタリング
   useEffect(() => {
-    const filtered = adoptionList.filter(
+    const filtered = adoptionList?.filter(
       (cat) =>
         cat.name.includes(searchQuery) ||
         cat.breed.includes(searchQuery) ||
@@ -29,19 +29,19 @@ const AdoptionList: React.FC<AdoptionListProps> = ({ adoptionList }) => {
   return (
     <section className="text-gray-600 body-font bg-[#FDF7F2]">
       <div className="container px-10 py-8 mx-auto">
-        <Title text="検索（例：マンチカン）" />
+        <Title text="里親募集中の猫" />
 
         {/* 検索バー */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:mt-0 mb-5">
           <SearchBox
-            placeholder="名前や猫種で検索"
+            placeholder="検索（例：マンチカン）"
             onSearch={(query) => setSearchQuery(query)} // 入力値を状態に反映
           />
         </div>
 
         {/* 里親募集中カード */}
         <div className="flex flex-wrap -m-4">
-          {filteredCats.map((cat) => (
+          {filteredCats?.map((cat) => (
             <div
               key={cat.adoptionCatId}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"

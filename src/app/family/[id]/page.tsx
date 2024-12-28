@@ -61,7 +61,7 @@ export default function FamilyKittenDetailPage({
       parentCatId: number
     ): Promise<ParentCatKittenDetailType> => {
       const response = await fetch(
-        `http://localhost:8080/parent/${parentCatId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/parent/${parentCatId}`
       )
       if (!response.ok) {
         throw new Error(`親猫情報の取得に失敗しました (ID: ${parentCatId})`)

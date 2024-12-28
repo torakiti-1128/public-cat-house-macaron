@@ -8,7 +8,6 @@ import { PulseLoader } from 'react-spinners'
 export default function Home() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // 子猫情報をフェッチする関数
@@ -20,14 +19,14 @@ export default function Home() {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const data: KittenListType[] = await response.json() // 型アサーション
+        const data: KittenListType[] = await response.json()
         setKittens(data) // データを直接セット
-      } catch (error: unknown) {
+      } catch (error) {
         console.error('Fetch error:', error)
         if (error instanceof Error) {
-          setError(error.message)
+          console.error('Fetch error:', error.message)
         } else {
-          setError('An unexpected error occurred.')
+          console.error('予期せぬエラー')
         }
       } finally {
         setLoading(false)
@@ -37,18 +36,16 @@ export default function Home() {
     fetchKittens()
   }, [])
 
-  if (loading || error) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <PulseLoader size={15} color="#EDDFE0" />
-      </div>
-    )
-  }
-
   return (
     <>
       <Concept />
-      <TopPageSlideShow kittens={kittens} status="募集中" />
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          <PulseLoader size={15} color="#EDDFE0" />
+        </div>
+      ) : (
+        <TopPageSlideShow kittens={kittens} status="募集中" />
+      )}
     </>
   )
 }
