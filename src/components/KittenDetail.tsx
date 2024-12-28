@@ -24,7 +24,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
     kittenDetail
 
   const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
-  const [currentMediaIndex, setCurrentMediaIndex] = useState(0) // 現在のメディアインデックス
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
 
   // 次のメディアに切り替え
   const handleNext = () => {
