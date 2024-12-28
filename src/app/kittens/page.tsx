@@ -15,7 +15,8 @@ export default function KittenListPage() {
     // 子猫情報をフェッチする関数
     const fetchKittens = async () => {
       try {
-        const response = await fetch('http://localhost:8080/kittens')
+        const endpoint = process.env.NEXT_PUBLIC_BASE_URL + '/kittens'
+        const response = await fetch(endpoint)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
