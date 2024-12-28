@@ -25,10 +25,10 @@ const CheckPoints: React.FC = () => {
                   <h1 className="title-font text-lg font-medium text-[#705C53] mb-3">
                     {card.title}
                   </h1>
-                  <p className="leading-relaxed mb-3">{card.description}</p>
+                  <p className="leading-relaxed">{card.description}</p>
                 </div>
                 {/* ボタン部分をフッターに固定 */}
-                <div className="p-6">
+                <div className="pb-6 px-6">
                   <Button
                     text="確認する"
                     link={card.link}
