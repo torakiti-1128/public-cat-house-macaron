@@ -6,6 +6,7 @@ import Title from '@/components/common/Title'
 // import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 import SearchBox from './common/SearchBox'
+import Image from 'next/image'
 
 interface KittenListProps {
   kittens: KittenListType[]
@@ -48,7 +49,7 @@ const FamilyKittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
                 href={`family/${kitten.kittenId}`}
                 className="block bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
-                <img
+                <Image
                   className="w-full h-48 object-cover rounded-lg mb-6"
                   src={kitten.imageUrl}
                   alt={`子猫 ${kitten.kittenId}`}

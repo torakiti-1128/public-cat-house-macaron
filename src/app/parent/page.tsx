@@ -4,6 +4,7 @@ import ParentCatList from '@/components/ParentCatList'
 import { ParentCatListType } from '@/types/kitten'
 import ErrorContent from '@/components/ErrorContent'
 import { PulseLoader } from 'react-spinners'
+import Image from 'next/image'
 
 export default function KittenListPage() {
   const [parentCats, setParentCats] = useState<ParentCatListType[]>([])
@@ -53,7 +54,7 @@ export default function KittenListPage() {
 
     return (
       <ErrorContent error={errorMessage}>
-        <img
+        <Image
           src="/images/not-found.JPG"
           alt="写真"
           className="max-w-xs rounded shadow-lg"

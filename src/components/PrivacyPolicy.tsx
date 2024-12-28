@@ -1,6 +1,7 @@
 import React from 'react'
 import privacyPolicyData from '../data/privacyPolicy.json'
 import Title from './common/Title'
+import Image from 'next/image'
 
 const PrivacyPolicy: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ const PrivacyPolicy: React.FC = () => {
         <Title text={privacyPolicyData.title} />
         <div className="mx-auto">
           <div className="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4">
-            <img
+            <Image
               alt="gallery"
               className="w-full object-cover h-full object-center block absolute inset-0 rounded-xl shadow-lg"
               src={privacyPolicyData.image}

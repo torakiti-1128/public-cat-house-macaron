@@ -8,6 +8,7 @@ import { KittenListType } from '@/types/kitten'
 import Title from './common/Title'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 interface KittensSlideShowProps {
   kittens: KittenListType[]
@@ -74,7 +75,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
               style={{ height: '500px' }}
             >
               <a href={`kittens/${kitten.kittenId}`}>
-                <img
+                <Image
                   className="w-full"
                   src={kitten.imageUrl}
                   alt={kitten.kittenId.toString()}
