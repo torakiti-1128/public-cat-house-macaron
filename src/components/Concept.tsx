@@ -11,6 +11,7 @@ const Concept: React.FC = () => {
           alt="content"
           className="w-full max-h-150 object-contain"
           src={conceptData.image}
+          layout="fill"
         />
       </div>
       <section className="text-gray-800 body-font bg-[#FAF7F5] py-16">

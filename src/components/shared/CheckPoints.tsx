@@ -18,6 +18,7 @@ const CheckPoints: React.FC = () => {
                   className="h-60 w-full object-cover object-center"
                   src={card.image}
                   alt={card.title}
+                  layout="fill"
                 />
                 <div className="p-6 flex-grow">
                   <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
