@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -40,11 +39,6 @@ func NewCommandGetAdoptionCats(adoptionService AdoptionService) *CommandGetAdopt
 	return &CommandGetAdoptionCats{AdoptionService: adoptionService}
 }
 
-// 里親募集中猫詳細取得コンストラクタ
-func NewCommandGetAdoptionCatDetail(adoptionService AdoptionService) *CommandGetAdoptionCatDetail {
-	return &CommandGetAdoptionCatDetail{AdoptionService: adoptionService}
-}
-
 // 里親募集中猫追加コンストラクタ
 func NewCommandPostAdoptionCat(adoptionService AdoptionService) *CommandPostAdoptionCat {
 	return &CommandPostAdoptionCat{AdoptionService: adoptionService}
@@ -70,34 +64,6 @@ func (c *CommandGetAdoptionCats) Execute(w http.ResponseWriter, r *http.Request)
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(adoptionCats); err != nil {
-		http.Error(w, "レスポンスの変換に失敗しました", http.StatusInternalServerError)
-		return
-	}
-}
-
-// 里親募集中猫詳細取得コマンドの実行
-func (c *CommandGetAdoptionCatDetail) Execute(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	adoptionCatIdStr, ok := vars["adoptionCatId"]
-	if !ok {
-		http.Error(w, "adoptionCatIdが必須です", http.StatusBadRequest)
-		return
-	}
-
-	adoptionCatId, err := strconv.Atoi(adoptionCatIdStr)
-	if err != nil {
-		http.Error(w, "adoptionCatIdが有効ではありません", http.StatusBadRequest)
-		return
-	}
-
-	adoptionCatDetail, err := c.AdoptionService.GetAdoptionCatDetail(adoptionCatId)
-	if err != nil {
-		http.Error(w, "里親募集中猫詳細の取得に失敗しました", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(adoptionCatDetail); err != nil {
 		http.Error(w, "レスポンスの変換に失敗しました", http.StatusInternalServerError)
 		return
 	}

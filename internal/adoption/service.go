@@ -11,8 +11,6 @@ import (
 type AdoptionService interface {
 	// 里親募集中猫一覧を取得
 	GetAdoptionCats() ([]AdoptionCatsDTO, error)
-	// 里親募集中猫詳細を取得
-	GetAdoptionCatDetail(adoptionCatId int) (AdoptionCatDetailDTO, error)
 	// 里親募集中猫を追加
 	PostAdoptionCat(dto PostAdoptionCatDTO) (int, error)
 	// 里親募集中猫の写真を更新
@@ -42,16 +40,6 @@ func (s *AdoptionServiceImpl) GetAdoptionCats() ([]AdoptionCatsDTO, error) {
 		return nil, fmt.Errorf("里親募集中猫の一覧取得に失敗しました: %w", err)
 	}
 	return adoptionCats, nil
-}
-
-// 里親募集中猫詳細を取得
-func (s *AdoptionServiceImpl) GetAdoptionCatDetail(adoptionCatId int) (AdoptionCatDetailDTO, error) {
-	adoptionCatDetail, err := s.Repo.GetAdoptionCatDetail(adoptionCatId)
-	if err != nil {
-		fmt.Printf("里親募集中猫詳細の取得に失敗しました: %v\n", err)
-		return AdoptionCatDetailDTO{}, fmt.Errorf("里親募集中猫詳細の取得に失敗しました: %w", err)
-	}
-	return adoptionCatDetail, nil
 }
 
 // 里親募集中猫を追加

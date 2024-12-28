@@ -9,8 +9,6 @@ import (
 type AdoptionRepository interface {
 	// 里親募集中猫一覧をDBから取得
 	GetAdoptionCats() ([]AdoptionCatsDTO, error)
-	// 里親募集中猫詳細をDBから取得
-	GetAdoptionCatDetail(adoptionCatId int) (AdoptionCatDetailDTO, error)
 	// 里親募集中猫をDBに追加
 	PostAdoptionCat(dto PostAdoptionCatDTO) (int, error)
 	// 里親募集中猫の画像をDBに更新
@@ -39,44 +37,10 @@ func (repo *AdoptionRepositoryImpl) GetAdoptionCats() ([]AdoptionCatsDTO, error)
 			ac.name,
 			ac.sex,
 			b.breed_name,
-			ac.age,
-			ac.url
-		FROM 
-			adoption_cats ac
-		JOIN 
-			breeds b
-		ON 
-			ac.breed_id = b.breed_id
-	`
-	rows, err := repo.DB.Query(query)
-	if err != nil {
-		return nil, fmt.Errorf("クエリの実行に失敗しました: %w", err)
-	}
-	defer rows.Close()
-
-	var adoptionCats []AdoptionCatsDTO
-	for rows.Next() {
-		var adoptionCat AdoptionCatsDTO
-		if err := rows.Scan(&adoptionCat.AdoptionCatId, &adoptionCat.Name, &adoptionCat.Sex, &adoptionCat.Breed, &adoptionCat.Age, &adoptionCat.ImageUrl); err != nil {
-			return nil, fmt.Errorf("データのスキャンに失敗しました: %w", err)
-		}
-		adoptionCats = append(adoptionCats, adoptionCat)
-	}
-	return adoptionCats, nil
-}
-
-// 里親募集中猫詳細をDBから取得
-func (repo *AdoptionRepositoryImpl) GetAdoptionCatDetail(adoptionCatId int) (AdoptionCatDetailDTO, error) {
-	query := `
-		SELECT 
-			ac.adoption_cat_id,
-			ac.name,
-			ac.sex,
-			b.breed_name,
 			c.color_name,
 			ac.age,
-			ac.birth_date,
-			ac.description,
+			ac.birth_date, 
+			ac.description, 
 			ac.url
 		FROM 
 			adoption_cats ac
@@ -88,30 +52,22 @@ func (repo *AdoptionRepositoryImpl) GetAdoptionCatDetail(adoptionCatId int) (Ado
 			colors c
 		ON 
 			ac.color_id = c.color_id
-		WHERE 
-			ac.adoption_cat_id = $1
 	`
-
-	var adoptionCatDetail AdoptionCatDetailDTO
-	err := repo.DB.QueryRow(query, adoptionCatId).Scan(
-		&adoptionCatDetail.AdoptionCatId,
-		&adoptionCatDetail.Name,
-		&adoptionCatDetail.Sex,
-		&adoptionCatDetail.Breed,
-		&adoptionCatDetail.Color,
-		&adoptionCatDetail.Age,
-		&adoptionCatDetail.BirthDate,
-		&adoptionCatDetail.Description,
-		&adoptionCatDetail.ImageUrl,
-	)
+	rows, err := repo.DB.Query(query)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return AdoptionCatDetailDTO{}, fmt.Errorf("指定された%dの里親募集中猫が見つかりません", adoptionCatId)
-		}
-		return AdoptionCatDetailDTO{}, fmt.Errorf("クエリの実行に失敗しました: %w", err)
+		return nil, fmt.Errorf("クエリの実行に失敗しました: %w", err)
 	}
+	defer rows.Close()
 
-	return adoptionCatDetail, nil
+	var adoptionCats []AdoptionCatsDTO
+	for rows.Next() {
+		var adoptionCat AdoptionCatsDTO
+		if err := rows.Scan(&adoptionCat.AdoptionCatId, &adoptionCat.Name, &adoptionCat.Sex, &adoptionCat.Breed, &adoptionCat.Color, &adoptionCat.Age, &adoptionCat.BirthDate, &adoptionCat.Description, &adoptionCat.ImageUrl); err != nil {
+			return nil, fmt.Errorf("データのスキャンに失敗しました: %w", err)
+		}
+		adoptionCats = append(adoptionCats, adoptionCat)
+	}
+	return adoptionCats, nil
 }
 
 // 里親募集中猫をDBに追加

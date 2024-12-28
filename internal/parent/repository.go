@@ -39,7 +39,10 @@ func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 			pc.name,
 			pc.sex,
 			b.breed_name,
+			c.color_name,
 			pc.age,
+			pc.birth_date,
+			pc.description,
 			pc.url
 		FROM 
 			parent_cats pc
@@ -47,6 +50,10 @@ func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 			breeds b
 		ON 
 			pc.breed_id = b.breed_id
+		JOIN 
+			colors c
+		ON 
+			pc.color_id = c.color_id
 		`
 	rows, err := repo.DB.Query(query)
 	if err != nil {
@@ -57,7 +64,7 @@ func (repo *ParentRepositoryImpl) GetParentCats() ([]ParentCatsDTO, error) {
 	var parentCats []ParentCatsDTO
 	for rows.Next() {
 		var parentCat ParentCatsDTO
-		if err := rows.Scan(&parentCat.ParentCatId, &parentCat.Name, &parentCat.Sex, &parentCat.Breed, &parentCat.Age, &parentCat.ImageUrl); err != nil {
+		if err := rows.Scan(&parentCat.ParentCatId, &parentCat.Name, &parentCat.Sex, &parentCat.Breed, &parentCat.Color, &parentCat.Age, &parentCat.BirthDate, &parentCat.Description, &parentCat.ImageUrl); err != nil {
 			return nil, fmt.Errorf("データのスキャンに失敗しました: %w", err)
 		}
 		parentCats = append(parentCats, parentCat)

@@ -1,5 +1,12 @@
 package gmail
 
+import (
+	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
+)
+
 type Config struct {
 	SMTPHost string
 	SMTPPort string
@@ -8,11 +15,20 @@ type Config struct {
 }
 
 // Gmailの設定
-func NewConfig() Config {
-	return Config{
-		SMTPHost: "smtp.gmail.com",
-		SMTPPort: "587",
-		Username: "auto.inquiry.1128@gmail.com",
-		Password: "/Dis0151128!",
+func NewConfig(path string) (Config, error) {
+	var config Config
+
+	// .envファイルをロード
+	err := godotenv.Load(path)
+	if err != nil {
+		return config, fmt.Errorf("環境変数の読み込みに失敗しました: %v", err)
 	}
+
+	// 環境変数から値を取得
+	config.SMTPHost = os.Getenv("MAIL_SMTP_HOST")
+	config.SMTPPort = os.Getenv("MAIL_SMTP_PORT")
+	config.Username = os.Getenv("MAIL_USERNAME")
+	config.Password = os.Getenv("MAIL_PASSWORD")
+
+	return config, nil
 }

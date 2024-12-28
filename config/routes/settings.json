@@ -56,11 +56,6 @@
             "httpMethod": "GET"
         },
         {
-            "endPoint": "/adoption/{adoptionCatId}",
-            "command": "CommandGetAdoptionCatDetail",
-            "httpMethod": "GET"
-        },
-        {
             "endPoint": "/adoption",
             "command": "CommandPostAdoptionCat",
             "httpMethod": "POST"

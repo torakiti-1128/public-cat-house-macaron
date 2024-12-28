@@ -6,7 +6,10 @@ type ParentCatsDTO struct {
 	Name        string `json:"name"`
 	Sex         int    `json:"sex"`
 	Breed       string `json:"breed"`
-	Age         string `json:"age"`
+	Color       string `json:"color"`
+	Age         int    `json:"age"`
+	BirthDate   string `json:"birthDate"`
+	Description string `json:"description"`
 	ImageUrl    string `json:"imageUrl"`
 }
 

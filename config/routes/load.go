@@ -16,7 +16,7 @@ type APIConfig struct {
 }
 
 // APIの設定ファイルを取得
-func LoadConfig(filename string) (APIConfig, error) {
+func NewConfig(filename string) (APIConfig, error) {
 	var config APIConfig
 	file, err := os.Open(filename)
 	if err != nil {

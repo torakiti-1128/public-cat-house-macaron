@@ -2,39 +2,45 @@ package database
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 // DBの設定データ
 type Config struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	User     string `json:"user"`
-	Password string `json:"password"`
-	DBName   string `json:"dbname"`
-	SSLMode  string `json:"sslmode"`
+	Host     string
+	Port     int 
+	User     string 
+	Password string
+	DBName   string 
+	SSLMode  string
 }
 
-// DBの設定ファイルを取得
-func LoadConfig(path string) (Config, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return Config{}, fmt.Errorf("failed to open config file: %w", err)
-	}
-	defer file.Close()
-
+// 環境変数から設定を読み込む
+func NewConfig(path string) (Config, error) {
 	var config Config
-	decoder := json.NewDecoder(file)
-	if err := decoder.Decode(&config); err != nil {
-		return Config{}, fmt.Errorf("failed to decode config file: %w", err)
+
+	// .envファイルをロード
+	err := godotenv.Load(path)
+	if err != nil {
+		return config, fmt.Errorf("環境変数の読み込みに失敗しました: %v", err)
 	}
+
+	// 環境変数から値を取得
+	config.Host = os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	fmt.Sscanf(port, "%d", &config.Port)
+	config.User = os.Getenv("DB_USER")
+	config.Password = os.Getenv("DB_PASSWORD")
+	config.DBName = os.Getenv("DB_NAME")
+	config.SSLMode = os.Getenv("DB_SSLMODE")
 
 	return config, nil
 }
+
 
 // DBの接続を作成
 func NewDB(config Config) (*sql.DB, error) {

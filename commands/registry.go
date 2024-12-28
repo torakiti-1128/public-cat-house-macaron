@@ -34,7 +34,6 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 
 		// 里親関連のコマンド
 		"CommandGetAdoptionCats":      func() Command { return adoption.NewCommandGetAdoptionCats(adoptionService) },
-		"CommandGetAdoptionCatDetail": func() Command { return adoption.NewCommandGetAdoptionCatDetail(adoptionService) },
 		"CommandPostAdoptionCat":      func() Command { return adoption.NewCommandPostAdoptionCat(adoptionService) },
 		"CommandUpdateAdoptionCat":    func() Command { return adoption.NewCommandUpdateAdoptionCat(adoptionService) },
 		"CommandDeleteAdoptionCat":    func() Command { return adoption.NewCommandDeleteAdoptionCat(adoptionService) },

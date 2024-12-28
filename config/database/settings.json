@@ -1,8 +1,0 @@
-{
-    "host": "localhost",
-    "port": 5432,
-    "user": "admin1128",
-    "password": "/Dis0151128!",
-    "dbname": "cat_house_macaron_db",
-    "sslmode": "disable"
-}
