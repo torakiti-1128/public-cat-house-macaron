@@ -40,7 +40,6 @@ func NewConfig(path string) (Config, error) {
 	return config, nil
 }
 
-
 // DBの接続を作成
 func NewDB(config Config) (*sql.DB, error) {
 	dsn := fmt.Sprintf(

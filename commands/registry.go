@@ -5,6 +5,7 @@ import (
 	"chm-api/internal/auth"
 	"chm-api/internal/breed"
 	"chm-api/internal/color"
+	"chm-api/internal/health"
 	"chm-api/internal/inquiry"
 	"chm-api/internal/kitten"
 	"chm-api/internal/news"
@@ -59,6 +60,9 @@ func RegisterCommands(kittenService kitten.KittenService, authService auth.AuthS
 		// 問い合わせ関連のコマンド
 		"CommandPostBaseInquiry":       func() Command { return inquiry.NewCommandPostBaseInquiry(inquiryService) },
 		"CommandPostInspectionInquiry": func() Command { return inquiry.NewCommandPostInspectionInquiry(inquiryService) },
+
+		// ヘルスチェックのコマンド
+		"CommandHealthCheck": func() Command { return health.NewCommandHealthCheck() },
 	}
 
 	// コマンド登録

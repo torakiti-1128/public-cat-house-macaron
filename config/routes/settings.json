@@ -149,6 +149,11 @@
             "endPoint": "/inquiry/inspection",
             "command": "CommandPostInspectionInquiry",
             "httpMethod": "POST"
+        },
+        {
+            "endPoint": "/health",
+            "command": "CommandHealthCheck",
+            "httpMethod": "GET"
         }
     ]
 }
