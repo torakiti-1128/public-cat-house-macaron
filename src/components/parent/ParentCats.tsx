@@ -11,7 +11,6 @@ import { ParentCatDetailType, ParentCatsType } from '@/types/types';
 import {
     deleteParentCat,
     fetchParentCatDetail,
-    fetchParentCats,
     postParentCat,
     updateParentCat,
 } from '@/api/parentCatsApi';
@@ -19,8 +18,6 @@ import { ConfirmDialog, FormDialog, FullScreenDialog } from '../ui/Dialog';
 import { Box, CircularProgress, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ParentCatsAddForm from './ParentCatsAddForm';
-import KittensAddForm from '../kittens/KittensAddForm';
-import { postKitten } from '@/api/kittensApi';
 import ParentCatsUpdateForm from './ParentCatsUpdateForm';
 
 interface ParentCatsProps {
@@ -42,7 +39,8 @@ const ParentCats: React.FC<ParentCatsProps> = ({
     const [isFullScreenOpen, setFullScreenOpen] = useState(false);
     const [selectedCatId, setSelectedCatId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false); // ローディング状態
-    const [parentCatDetail, setParentCatDetail] = useState<ParentCatDetailType>();
+    const [parentCatDetail, setParentCatDetail] =
+        useState<ParentCatDetailType>();
 
     const showAlert = (message: string, severity: 'success' | 'error') => {
         setAlertMessage(message);
@@ -59,6 +57,10 @@ const ParentCats: React.FC<ParentCatsProps> = ({
             setUpdateDialogOpen(true);
         } catch (error) {
             console.error('親猫詳細の取得に失敗しました', error);
+            showAlert(
+                '親猫詳細の取得に失敗しました。管理者に問い合わせてください。',
+                'error'
+            );
         }
     };
 
@@ -103,11 +105,10 @@ const ParentCats: React.FC<ParentCatsProps> = ({
             showAlert('親猫を更新しました。', 'success');
         } catch (error) {
             console.error('更新エラー:', error);
-            showAlert('親猫の削除に失敗しました。', 'error');
+            showAlert('親猫の更新に失敗しました。', 'error');
         } finally {
             handleCloseUpdateDialog();
         }
-        
     };
 
     const handleAddParentCat = async (formData: FormData) => {
@@ -126,7 +127,9 @@ const ParentCats: React.FC<ParentCatsProps> = ({
 
     return (
         <div className="container mx-auto pt-20 p-4">
-            <h1 className="text-3xl font-bold mb-6 text-center">親猫管理サイト</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">
+                親猫管理サイト
+            </h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {parentCats.map((cat) => (
                     <Card

@@ -36,7 +36,10 @@ export const updateBreed = async (breedId: number, breedName: string) => {
     try {
         const response = await apiClient.put(
             `/breeds/${breedId}`,
-            new URLSearchParams({ breedId: breedId.toString(), breedName }).toString(),
+            new URLSearchParams({
+                breedId: breedId.toString(),
+                breedName,
+            }).toString(),
             {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

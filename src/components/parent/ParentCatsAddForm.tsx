@@ -21,7 +21,7 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
     const [breedId, setBreedId] = useState<number>(0);
     const [colorId, setColorId] = useState<number>(0);
     const [age, setAge] = useState<number>(0);
-    const [sex, setSex] = useState<number>(0);
+    const [sex, setSex] = useState<number>(2);
     const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
     const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
     const [description, setDescription] = useState('');
@@ -35,6 +35,7 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
         birthDate: false,
         age: false,
         description: false,
+        image: false,
     });
 
     useEffect(() => {
@@ -78,10 +79,11 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
             name: name.trim() === '',
             breedId: breedId === 0,
             colorId: colorId === 0,
-            sex: sex === 0,
+            sex: sex === 2,
             birthDate: birthDate === null,
             age: age === 0,
             description: description.trim() === '',
+            image: uploadedFiles?.length === 0 || uploadedFiles === null, // 画像が1つもない場合
         };
         setErrors(newErrors);
 
@@ -217,6 +219,11 @@ const ParentCatsAddForm: React.FC<ParentCatsAddFormProps> = ({
                             <li key={index}>{file.name}</li>
                         ))}
                     </ul>
+                )}
+                {errors.image && (
+                    <p className="text-red-500 text-sm ml-3">
+                        少なくとも1つの画像をアップロードしてください。
+                    </p>
                 )}
             </div>
             <div className="mt-3">

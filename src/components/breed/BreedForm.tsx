@@ -16,7 +16,10 @@ export default function BreedForm({ onAdd }: Props) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 mb-8 mb-8">
+        <form
+            onSubmit={handleSubmit}
+            className="flex items-center gap-2 mt-8 mb-8"
+        >
             <input
                 type="text"
                 value={breedName}

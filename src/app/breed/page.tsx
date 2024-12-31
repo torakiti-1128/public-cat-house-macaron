@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react';
 import BreedList from '@/components/breed/BreedList';
 import BreedForm from '@/components/breed/BreedForm';
-import { fetchBreeds, postBreed, updateBreed, deleteBreed } from '@/api/breedsApi';
+import {
+    fetchBreeds,
+    postBreed,
+    updateBreed,
+    deleteBreed,
+} from '@/api/breedsApi';
 import Header from '@/components/common/Header';
 import { BreedsType } from '@/types/types';
 

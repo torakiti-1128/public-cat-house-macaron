@@ -101,9 +101,7 @@ const Transition = React.forwardRef(function Transition(
 export const FullScreenDialog: React.FC<FullScreenDialogProps> = ({
     open,
     onClose,
-    onSave,
     title,
-    buttonName,
     children,
 }) => {
     return (

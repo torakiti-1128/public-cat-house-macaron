@@ -36,7 +36,10 @@ export const updateColor = async (colorId: number, colorName: string) => {
     try {
         const response = await apiClient.put(
             `/colors/${colorId}`,
-            new URLSearchParams({ colorId: colorId.toString(), colorName }).toString(),
+            new URLSearchParams({
+                colorId: colorId.toString(),
+                colorName,
+            }).toString(),
             {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

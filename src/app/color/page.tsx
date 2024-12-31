@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react';
 import ColorList from '@/components/color/ColorList';
 import ColorForm from '@/components/color/ColorForm';
-import { fetchColors, postColor, updateColor, deleteColor } from '@/api/colorsApi';
+import {
+    fetchColors,
+    postColor,
+    updateColor,
+    deleteColor,
+} from '@/api/colorsApi';
 import Header from '@/components/common/Header';
 import { ColorsType } from '@/types/types';
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Height } from '@mui/icons-material';
 
 interface FileUploadButtonProps {
     onChange: (files: FileList | null) => void;

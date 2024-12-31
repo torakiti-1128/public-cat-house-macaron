@@ -41,6 +41,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
         description: false,
         price: false,
         tranState: false,
+        images: false,
+        video: false,
     });
 
     useEffect(() => {
@@ -113,6 +115,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
             description: description.trim() === '',
             price: price === '' || price <= 0,
             tranState: tranState.trim() === '',
+            images: uploadedImages.length === 0,
+            video: !uploadedVideo || uploadedVideo.length === 0,
         };
         setErrors(newErrors);
         return !Object.values(newErrors).some((error) => error);
@@ -140,7 +144,7 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
         formData.append('tranState', tranState);
 
         uploadedImages.forEach((file) => {
-            console.log(file)
+            console.log(file);
             formData.append('image', file);
         });
 
@@ -152,7 +156,8 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
     };
 
     const handleAddImages = (files: FileList | null) => {
-        if (files) { // null チェックを追加
+        if (files) {
+            // null チェックを追加
             setUploadedImages((prev) => [...prev, ...Array.from(files)]);
         }
     };
@@ -173,7 +178,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     }))}
                     onChange={(value) => setFatherCatId(value.toString())}
                     error={errors.fatherCatId}
-                    helperText={errors.fatherCatId ? 'パパ猫を選択してください' : ''}
+                    helperText={
+                        errors.fatherCatId ? 'パパ猫を選択してください' : ''
+                    }
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -186,7 +193,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     }))}
                     onChange={(value) => setMotherCatId(value.toString())}
                     error={errors.motherCatId}
-                    helperText={errors.motherCatId ? 'ママ猫を選択してください' : ''}
+                    helperText={
+                        errors.motherCatId ? 'ママ猫を選択してください' : ''
+                    }
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -212,7 +221,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     }))}
                     onChange={(value) => setColorId(value.toString())}
                     error={errors.colorId}
-                    helperText={errors.colorId ? 'カラーを選択してください' : ''}
+                    helperText={
+                        errors.colorId ? 'カラーを選択してください' : ''
+                    }
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -239,7 +250,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     ]}
                     onChange={(value) => setTranState(value)}
                     error={errors.tranState}
-                    helperText={errors.tranState ? '取引状態を選択してください' : ''}
+                    helperText={
+                        errors.tranState ? '取引状態を選択してください' : ''
+                    }
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -252,7 +265,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                             textField: {
                                 fullWidth: true,
                                 error: errors.birthDate,
-                                helperText: errors.birthDate ? '生年月日を選択してください' : '',
+                                helperText: errors.birthDate
+                                    ? '生年月日を選択してください'
+                                    : '',
                             },
                         }}
                     />
@@ -266,7 +281,9 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                     label="説明"
                     variant="outlined"
                     error={errors.description}
-                    helperText={errors.description ? '説明を入力してください' : ''}
+                    helperText={
+                        errors.description ? '説明を入力してください' : ''
+                    }
                 />
             </Box>
             <Box sx={{ minWidth: 120, mt: 2 }}>
@@ -301,6 +318,11 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                         </li>
                     ))}
                 </ul>
+                {errors.images && (
+                    <p className="text-red-500 text-sm ml-3">
+                        少なくとも1つの画像をアップロードしてください。
+                    </p>
+                )}
             </div>
             <div className="mt-3">
                 <FileUploadButton
@@ -313,6 +335,11 @@ const KittensAddForm: React.FC<KittensAddFormProps> = ({ handleAddKitten }) => {
                             <li key={index}>{file.name}</li>
                         ))}
                     </ul>
+                )}
+                {errors.video && (
+                    <p className="text-red-500 text-sm ml-3">
+                        動画をアップロードしてください。
+                    </p>
                 )}
             </div>
             <Button

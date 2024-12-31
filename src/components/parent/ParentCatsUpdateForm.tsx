@@ -8,14 +8,18 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ParentCatsUpdateFormProps {
     handleUpdateParentCat: (parentCatId: number, formData: FormData) => void; // 更新用関数
     initialData?: ParentCatDetailType; // 初期データ
 }
 
-const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({handleUpdateParentCat, initialData,}) => {
+const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({
+    handleUpdateParentCat,
+    initialData,
+}) => {
     const [parentCatId, setParentCatId] = useState<number>(0);
     const [name, setName] = useState<string>('');
     const [breedId, setBreedId] = useState<number>(0);
@@ -24,6 +28,7 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({handleUpdate
     const [sex, setSex] = useState<number>(0);
     const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
     const [description, setDescription] = useState<string>('');
+    const [uploadedImages, setUploadedImages] = useState<FileList | null>(null);
     const [breeds, setBreeds] = useState<BreedsType[]>([]);
     const [colors, setColors] = useState<ColorsType[]>([]);
     const [errors, setErrors] = useState({
@@ -122,12 +127,27 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({handleUpdate
         );
         formData.append('description', description);
 
-        // if (uploadedFiles) {
-        //     formData.append('image', uploadedFiles[0]);
-        // }
+        // 画像の追加
+        if (uploadedImages) {
+            Array.from(uploadedImages).forEach((file, index) => {
+                formData.append(`image_${index}`, file);
+            });
+        }
 
-        console.log("デバック用：" + parentCatId.toString())
         handleUpdateParentCat(parentCatId, formData);
+    };
+
+    const handleRemoveImage = (index: number) => {
+        if (!uploadedImages) return;
+
+        const newFileList = Array.from(uploadedImages).filter(
+            (_, i) => i !== index
+        );
+
+        // 新しい FileList を作成するには DataTransfer を使用
+        const dataTransfer = new DataTransfer();
+        newFileList.forEach((file) => dataTransfer.items.add(file));
+        setUploadedImages(dataTransfer.files);
     };
 
     return (
@@ -221,6 +241,33 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({handleUpdate
                     }
                 />
             </Box>
+            <div className="mt-3">
+                <FileUploadButton
+                    onChange={(files) => setUploadedImages(files)}
+                    buttonName="画像をアップロード"
+                    multiple
+                />
+                <ul>
+                    {uploadedImages &&
+                        Array.from(uploadedImages).map((file, index) => (
+                            <li key={index} className="flex items-center mt-2">
+                                {file.name}
+                                <IconButton
+                                    onClick={() => handleRemoveImage(index)}
+                                    aria-label="delete"
+                                    size="small"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </li>
+                        ))}
+                </ul>
+                {uploadedImages && uploadedImages.length > 1 && (
+                    <p className="text-red-500 text-sm mt-2">
+                        写真は一枚だけ反映されます
+                    </p>
+                )}
+            </div>
             <div className="mt-3">
                 <Button
                     fullWidth

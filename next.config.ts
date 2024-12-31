@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
             bodySizeLimit: '20mb', // ボディサイズ制限を20MBに設定
         },
     },
+    images: {
+        domains: ['stmiseskirombbqtwacm.supabase.co'],
+    },
 };
 
 export default nextConfig;

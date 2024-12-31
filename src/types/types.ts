@@ -7,6 +7,22 @@ export interface KittensType {
     createdAt: string;
 }
 
+// 子猫詳細データ
+export interface KittenDetailType {
+    kittenId: number;
+    fatherCatId: number;
+    motherCatId: number;
+    description: string;
+    breedId: number;
+    colorId: number;
+    sex: number;
+    birthDate: string;
+    price: number;
+    tranState: string;
+    imageUrls: string[];
+    videoUrl: string;
+}
+
 // 親猫一覧データ
 export interface ParentCatsType {
     parentCatId: number;
@@ -30,20 +46,27 @@ export interface ParentCatDetailType {
     imageUrl: string;
 }
 
-// 子猫詳細データ
-export interface KittenDetailType {
-    kittenId: number;
-    fatherCatId: number;
-    motherCatId: number;
-    description: string;
+// 里親募集中の猫一覧データ
+export interface AdoptionCatsType {
+    adoptionCatId: number;
+    name: string;
+    sex: number;
+    breed: string;
+    age: string;
+    imageUrl: string;
+}
+
+// 里親募集中の猫詳細データ
+export interface AdoptionCatDetailType {
+    adoptionCatId: number;
     breedId: number;
     colorId: number;
+    name: string;
     sex: number;
+    age: number;
     birthDate: string;
-    price: number;
-    tranState: string;
-    imageUrls: string[];
-    videoUrl: string;
+    description: string;
+    imageUrl: string;
 }
 
 // 猫色一覧データ

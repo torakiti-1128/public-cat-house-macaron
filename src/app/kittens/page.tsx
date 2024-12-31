@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { KittensType } from '@/types/types';
 import { fetchKittens } from '@/api/kittensApi';
-import Kittens from '@/components/kittens/Kittens'
-import Header from '@/components/common/Header'
+import Kittens from '@/components/kittens/Kittens';
+import Header from '@/components/common/Header';
 
 const KittensPage: React.FC = () => {
     const [kittens, setKittens] = useState<KittensType[]>([]);
@@ -25,11 +25,10 @@ const KittensPage: React.FC = () => {
 
     return (
         <>
-        <Header />
-        <Kittens kittens={kittens} getKittens={getKittens} />
-
-    </>
-    )
+            <Header />
+            <Kittens kittens={kittens} getKittens={getKittens} />
+        </>
+    );
 };
 
 export default KittensPage;

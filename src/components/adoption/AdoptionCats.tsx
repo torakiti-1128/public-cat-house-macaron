@@ -7,25 +7,28 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { KittenDetailType, KittensType } from '@/types/types';
+import { AdoptionCatDetailType, AdoptionCatsType } from '@/types/types';
+import {
+    deleteAdoptionCat,
+    fetchAdoptionCatDetail,
+    postAdoptionCat,
+    updateAdoptionCat,
+} from '@/api/adoptionCatsApi';
 import { ConfirmDialog, FormDialog, FullScreenDialog } from '../ui/Dialog';
 import { Box, CircularProgress, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import KittensAddForm from '../kittens/KittensAddForm';
-import {
-    deleteKitten,
-    fetchKittenDetail,
-    postKitten,
-    updateKitten,
-} from '@/api/kittensApi';
-import KittensUpdateForm from './KittensUpdateForm';
+import AdoptionCatsAddForm from './AdoptionCatsAddForm';
+import AdoptionCatsUpdateForm from './AdoptionCatsUpdateForm';
 
-interface KittensProps {
-    kittens: KittensType[];
-    getKittens: () => Promise<void>;
+interface AdoptionCatsProps {
+    adoptionCats: AdoptionCatsType[];
+    getAdoptionCats: () => Promise<void>;
 }
 
-const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
+const AdoptionCats: React.FC<AdoptionCatsProps> = ({
+    adoptionCats,
+    getAdoptionCats,
+}) => {
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>(
         'success'
@@ -36,7 +39,8 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
     const [isFullScreenOpen, setFullScreenOpen] = useState(false);
     const [selectedCatId, setSelectedCatId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false); // ローディング状態
-    const [kittenDetail, setKittenDetail] = useState<KittenDetailType>();
+    const [adoptionCatDetail, setAdoptionCatDetail] =
+        useState<AdoptionCatDetailType>();
 
     const showAlert = (message: string, severity: 'success' | 'error') => {
         setAlertMessage(message);
@@ -48,13 +52,13 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
 
     const handleOpenUpdateDialog = async (id: number) => {
         try {
-            const response = await fetchKittenDetail(id);
-            setKittenDetail(response);
+            const response = await fetchAdoptionCatDetail(id);
+            setAdoptionCatDetail(response);
             setUpdateDialogOpen(true);
         } catch (error) {
-            console.error('親猫詳細の取得に失敗しました', error);
+            console.error('譲渡猫詳細の取得に失敗しました', error);
             showAlert(
-                '親猫詳細の取得に失敗しました。管理者に問い合わせてください。',
+                '譲渡猫詳細の取得に失敗しました。管理者に問い合わせてください。',
                 'error'
             );
         }
@@ -79,57 +83,57 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
         if (selectedCatId !== null) {
             try {
                 setLoading(true);
-                await deleteKitten(selectedCatId);
+                await deleteAdoptionCat(selectedCatId);
                 setLoading(false);
-                await getKittens();
-                showAlert('子猫を削除しました。', 'success');
+                await getAdoptionCats();
+                showAlert('譲渡猫を削除しました。', 'success');
             } catch (error) {
                 console.error('削除エラー:', error);
-                showAlert('子猫の削除に失敗しました。', 'error');
+                showAlert('譲渡猫の削除に失敗しました。', 'error');
             } finally {
                 handleCloseDeleteDialog();
             }
         }
     };
 
-    const handleUpdate = async (kittenId: number, formData: FormData) => {
+    const handleUpdate = async (adoptionCatId: number, formData: FormData) => {
         try {
             setLoading(true);
-            await updateKitten(kittenId, formData);
+            await updateAdoptionCat(adoptionCatId, formData);
             setLoading(false);
-            await getKittens();
-            showAlert('子猫を更新しました。', 'success');
+            await getAdoptionCats();
+            showAlert('譲渡猫を更新しました。', 'success');
         } catch (error) {
             console.error('更新エラー:', error);
-            showAlert('子猫の更新に失敗しました。', 'error');
+            showAlert('譲渡猫の更新に失敗しました。', 'error');
         } finally {
             handleCloseUpdateDialog();
         }
     };
 
-    const handleAddKitten = async (formData: FormData) => {
+    const handleAddAdoptionCat = async (formData: FormData) => {
         try {
             setLoading(true);
-            await postKitten(formData);
+            await postAdoptionCat(formData);
             setLoading(false);
             setFullScreenOpen(false);
-            await getKittens();
-            showAlert('子猫を追加しました。', 'success');
+            await getAdoptionCats();
+            showAlert('譲渡猫を追加しました。', 'success');
         } catch (error) {
             console.error('追加エラー:', error);
-            showAlert('子猫の追加に失敗しました。', 'error');
+            showAlert('譲渡猫の追加に失敗しました。', 'error');
         }
     };
 
     return (
         <div className="container mx-auto pt-20 p-4">
             <h1 className="text-3xl font-bold mb-6 text-center">
-                子猫管理サイト
+                里親猫管理サイト
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {kittens.map((cat) => (
+                {adoptionCats.map((cat) => (
                     <Card
-                        key={cat.kittenId}
+                        key={cat.adoptionCatId}
                         sx={{
                             maxWidth: 345,
                             margin: '0 auto',
@@ -144,7 +148,7 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
                                 cat.imageUrl ||
                                 '/static/images/cards/contemplative-reptile.jpg'
                             }
-                            alt={cat.imageUrl}
+                            alt={cat.name}
                             sx={{
                                 width: 400,
                                 height: 300,
@@ -157,23 +161,23 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
                                 variant="h5"
                                 component="div"
                             >
-                                お問い合わせ番号：{cat.kittenId}
+                                {cat.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                性別: {cat.sex === 1 ? 'オス' : 'メス'}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 猫種: {cat.breed}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                取引状況: {cat.tranState}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                登録日: {cat.createdAt}
+                                年齢: {cat.age}
                             </Typography>
                         </CardContent>
                         <CardActions>
                             <Button
                                 size="small"
                                 onClick={() =>
-                                    handleOpenUpdateDialog(cat.kittenId)
+                                    handleOpenUpdateDialog(cat.adoptionCatId)
                                 }
                             >
                                 更新
@@ -182,7 +186,7 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
                                 size="small"
                                 color="error"
                                 onClick={() =>
-                                    handleOpenDeleteDialog(cat.kittenId)
+                                    handleOpenDeleteDialog(cat.adoptionCatId)
                                 }
                             >
                                 消去
@@ -232,16 +236,17 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
                 onSave={() => {
                     setFullScreenOpen(false);
                 }}
-                title="子猫追加"
+                title="譲渡猫追加"
                 buttonName="追加"
             >
-                {/* <KittensAddForm handleAddKitten={handleAddKitten} /> */}
-                <KittensAddForm handleAddKitten={handleAddKitten} />
+                <AdoptionCatsAddForm
+                    handleAddAdoptionCat={handleAddAdoptionCat}
+                />
             </FullScreenDialog>
             <ConfirmDialog
                 open={isDeleteDialogOpen}
                 title="削除確認"
-                description="この子猫を削除してもよろしいですか？"
+                description="この譲渡猫を削除してもよろしいですか？"
                 buttonName="消去"
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleConfirmDelete}
@@ -252,13 +257,13 @@ const Kittens: React.FC<KittensProps> = ({ kittens, getKittens }) => {
                 buttonName="更新"
                 onClose={handleCloseUpdateDialog}
             >
-                <KittensUpdateForm
-                    handleUpdateKitten={handleUpdate}
-                    initialData={kittenDetail}
+                <AdoptionCatsUpdateForm
+                    handleUpdateAdoptionCat={handleUpdate}
+                    initialData={adoptionCatDetail}
                 />
             </FormDialog>
         </div>
     );
 };
 
-export default Kittens;
+export default AdoptionCats;

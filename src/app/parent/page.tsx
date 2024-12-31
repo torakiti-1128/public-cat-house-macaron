@@ -24,7 +24,11 @@ const ParentCatsPage: React.FC = () => {
     }, []);
 
     return (
-        <><Header /><ParentCats parentCats={parentCats} getParentCats={getParentCats} /></>);
+        <>
+            <Header />
+            <ParentCats parentCats={parentCats} getParentCats={getParentCats} />
+        </>
+    );
 };
 
 export default ParentCatsPage;
