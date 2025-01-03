@@ -131,7 +131,7 @@ const AdoptionCats: React.FC<AdoptionCatsProps> = ({
                 里親猫管理サイト
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {adoptionCats.map((cat) => (
+                {adoptionCats?.map((cat) => (
                     <Card
                         key={cat.adoptionCatId}
                         sx={{

@@ -164,7 +164,7 @@ const ParentCats: React.FC<ParentCatsProps> = ({
                                 {cat.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                性別: {cat.sex === 1 ? 'オス' : 'メス'}
+                                性別: {cat.sex === 0 ? 'オス' : 'メス'}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 猫種: {cat.breed}
