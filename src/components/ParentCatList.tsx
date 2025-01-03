@@ -72,6 +72,10 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
                     </span>
                   </div>
                   <div className="flex justify-between mb-1">
+                    <span>カラー:</span>
+                    <span className="font-medium">{cat.color}</span>
+                  </div>
+                  <div className="flex justify-between mb-1">
                     <span>生年月日:</span>
                     <span className="font-medium">
                       {formatDateTimeToJapanese(cat.birthDate)}

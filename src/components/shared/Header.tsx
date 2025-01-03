@@ -150,19 +150,29 @@ const Header: React.FC = () => {
                 />
               </svg>
             </button>
-            <ul className="space-y-4">
-              {navigationData.categories.flatMap((category) =>
-                category.links.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="block text-black hover:text-gray-700 transition text-center"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))
-              )}
+            <ul className="space-y-6 max-h-[90vh] overflow-y-auto">
+              {navigationData.categories.map((category, categoryIndex) => (
+                <div key={categoryIndex} className="space-y-3">
+                  {/* タイトル部分 */}
+                  <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
+                    {category.title}
+                  </h1>
+
+                  {/* リンク部分 */}
+                  <ul className="space-y-2 pl-4">
+                    {category.links.map((link, linkIndex) => (
+                      <li key={linkIndex}>
+                        <a
+                          href={link.href}
+                          className="block text-gray-700 hover:text-blue-500 transition-all duration-300 text-left"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </ul>
           </div>
         </div>

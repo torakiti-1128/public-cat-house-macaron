@@ -160,8 +160,8 @@ const Inspection: React.FC<InspectionProps> = ({ onSubmit, kittenId }) => {
         </div>
 
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-            <div className="bg-white rounded-lg sm: mx-5 p-6 max-w-md mx-auto text-left shadow-lg">
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50 overflow-auto">
+            <div className="bg-white rounded-lg sm:mx-10 p-6 max-w-md max-h-[90vh] w-full mx-auto text-left shadow-lg overflow-y-auto">
               <h2 className="text-2xl font-semibold text-center text-[#705C53]">
                 {inspectionData.modal.title}
               </h2>
@@ -195,7 +195,6 @@ const Inspection: React.FC<InspectionProps> = ({ onSubmit, kittenId }) => {
             </div>
           </div>
         )}
-
         <div className="mt-4">
           <button
             type="submit"

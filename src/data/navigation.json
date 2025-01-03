@@ -6,7 +6,8 @@
         { "label": "ホーム", "href": "/" },
         { "label": "Cat House Macaronについて", "href": "/about" },
         { "label": "猫舎の紹介", "href": "/house" },
-        { "label": "お問い合わせ", "href": "/inquiry" }
+        { "label": "お問い合わせ", "href": "/inquiry" },
+        { "label": "ご見学について", "href": "/inspection" }
       ]
     },
     {

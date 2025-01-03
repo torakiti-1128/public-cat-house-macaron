@@ -18,6 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <link rel="icon" href="/favicon.ico" />
       <body className="antialiased">
         <Header />
         <main>{children}</main>
