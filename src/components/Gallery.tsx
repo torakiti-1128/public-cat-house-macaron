@@ -1,10 +1,7 @@
 'use client'
 
-const Gallery: React.FC = ({ }) => {
-    return (
-        <>
-        </>
-    )
+const Gallery: React.FC = ({}) => {
+  return <></>
 }
 
-export default Gallery;
+export default Gallery
