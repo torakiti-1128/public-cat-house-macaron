@@ -132,6 +132,7 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 
 	queryImages := `
 		SELECT 
+			image_id,
 			url
 		FROM 
 			kitten_images
@@ -147,18 +148,19 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 	}
 	defer rows.Close()
 
-	var imageUrls []string
+	var imageUrls []ImageDTO
 	for rows.Next() {
-		var url string
-		if err := rows.Scan(&url); err != nil {
+		var image ImageDTO
+		if err := rows.Scan(&image.ImageId, &image.ImageUrl); err != nil {
 			return KittenDetailDTO{}, fmt.Errorf("子猫画像の読み込みに失敗しました: %w", err)
 		}
-		imageUrls = append(imageUrls, url)
+		imageUrls = append(imageUrls, image)
 	}
 	detail.ImageUrls = imageUrls
 
 	queryVideo := `
 		SELECT 
+			video_id,
 			url
 		FROM 
 			kitten_videos
@@ -166,13 +168,23 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 			kitten_id = $1
 		ORDER BY 
 			created_at DESC
-		LIMIT 1
 	`
 
-	err = repo.DB.QueryRow(queryVideo, kittenID).Scan(&detail.VideoUrl)
-	if err != nil && err != sql.ErrNoRows {
+	rows, err = repo.DB.Query(queryVideo, kittenID)
+	if err != nil {
 		return KittenDetailDTO{}, fmt.Errorf("子猫動画の取得に失敗しました: %w", err)
 	}
+	defer rows.Close()
+
+	var videoUrls []VideoDTO
+	for rows.Next() {
+		var video VideoDTO
+		if err := rows.Scan(&video.VideoId, &video.VideoUrl); err != nil {
+			return KittenDetailDTO{}, fmt.Errorf("子猫動画の読み込みに失敗しました: %w", err)
+		}
+		videoUrls = append(videoUrls, video)
+	}
+	detail.VideoUrls = videoUrls
 
 	return detail, nil
 }
@@ -266,7 +278,7 @@ func (r *KittenRepositoryImpl) DeleteKitten(kittenId int) error {
 	defer func() {
 		if p := recover(); p != nil {
 			tx.Rollback()
-			log.Printf("パニック発生: %v", p)
+			log.Printf("エラー発生: %v", p)
 		} else if err != nil {
 			tx.Rollback()
 			log.Printf("エラーが発生したためロールバックしました: %v", err)

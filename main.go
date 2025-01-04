@@ -27,7 +27,6 @@ import (
 
 // アプリケーションのエントリーポイント
 func main() {
-		
 	// 各設定ファイルを読み込む
 	apiConfig := mustLoadConfig(apiConfig.NewConfig, "config/routes/settings.json", "API")
 	supabaseConfig := mustLoadConfig(supabaseConfig.NewConfig, ".env", "Supabase")
@@ -87,6 +86,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
+// 設定ファイルを読み込む
 func mustLoadConfig[T any](loadFunc func(string) (T, error), path, configName string) T {
 	config, err := loadFunc(path)
 	if err != nil {
