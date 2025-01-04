@@ -10,7 +10,7 @@ import Button from './common/Button'
 
 interface KittenListProps {
   kittens: KittenListType[]
-  status: '募集中' | '商談中' // 表示したい状態を指定
+  status: string[] // 表示したい状態を指定
 }
 
 const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
@@ -28,7 +28,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   useEffect(() => {
     const filteredByStatus = kittens?.filter(
       (kitten) =>
-        kitten.tranState === status &&
+        (kitten.tranState === status[0] || kitten.tranState === status[1]) &&
         (kitten.breed.includes(searchQuery) ||
           kitten.kittenId.toString().includes(searchQuery))
     )

@@ -4,6 +4,7 @@ import Concept from '@/components/Concept'
 import TopPageSlideShow from '@/components/KittensSlideShow'
 import { KittenListType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners'
+// import MacaronCatSlideShow from '@/components/MacaronCatSlideShow'
 
 export default function Home() {
   const [kittens, setKittens] = useState<KittenListType[]>([])
@@ -39,12 +40,13 @@ export default function Home() {
   return (
     <>
       <Concept />
+      {/* <MacaronCatSlideShow /> */}
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <PulseLoader size={15} color="#EDDFE0" />
         </div>
       ) : (
-        <TopPageSlideShow kittens={kittens} status="募集中" />
+        <TopPageSlideShow kittens={kittens} status={['募集中', '商談中']} />
       )}
     </>
   )

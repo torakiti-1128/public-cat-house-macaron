@@ -64,7 +64,7 @@ export default function KittenListPage() {
 
   return (
     <>
-      <KittenList kittens={kittens} status="募集中" />
+      <KittenList kittens={kittens} status={['募集中', '商談中']} />
     </>
   )
 }

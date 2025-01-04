@@ -167,3 +167,18 @@
   border-color: #fff #fff #eddfe0;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide {
+  display: flex;
+  width: 200%; /* 繰り返し用に画像リストの幅を2倍 */
+  animation: slide linear infinite; /* 一定速度で無限にアニメーション */
+}

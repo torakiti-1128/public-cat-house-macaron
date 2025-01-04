@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 
 interface KittensSlideShowProps {
   kittens: KittenListType[]
-  status: '募集中' | '商談中' // 表示したい状態を指定
+  status: string[] // 表示したい状態を指定
 }
 
 const slideSettings = {
@@ -45,7 +45,8 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
   // 状態でフィルタリング
   useEffect(() => {
     const filteredByStatus = kittens?.filter(
-      (kitten) => kitten.tranState === status
+      (kitten) =>
+        kitten.tranState === status[0] || kitten.tranState === status[1]
     )
     setFilteredKittens(filteredByStatus)
   }, [kittens, status])

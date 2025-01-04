@@ -1,0 +1,9 @@
+{
+  "images": [
+    "/images/macaron/macaron-cat1.PNG",
+    "/images/macaron/macaron-cat2.PNG",
+    "/images/macaron/macaron-cat3.PNG",
+    "/images/macaron/macaron-cat4.PNG"
+  ],
+  "animationDuration": 10
+}

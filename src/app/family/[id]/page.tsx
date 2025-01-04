@@ -107,7 +107,7 @@ export default function FamilyKittenDetailPage({
       imageUrls={kittenDetail.imageUrls}
       parentCats={parentCats}
       videoUrl={kittenDetail.videoUrl}
-      tranState="譲渡済"
+      tranState={['譲渡済']}
     />
   )
 }
