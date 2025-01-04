@@ -19,7 +19,7 @@ const PromiseStep: React.FC<{
       {number}
     </div>
     <div className="flex-grow pl-4">
-      <h2 className="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
+      <h2 className="font-bold text-lg mb-1 text-[#705C53] tracking-wider">
         {title}
       </h2>
       <p className="leading-relaxed">{content}</p>

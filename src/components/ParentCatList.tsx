@@ -46,7 +46,7 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
               key={cat.parentCatId}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
             >
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-[480px] flex flex-col">
                 {/* 親猫の画像 */}
                 <img
                   className="h-48 rounded-lg w-full object-cover object-center mb-4"
@@ -64,7 +64,7 @@ const ParentCatList: React.FC<ParentCatListProps> = ({ parentCats }) => {
                   <p className="text-gray-700 text-sm">{cat.description}</p>
                 </div>
                 {/* 詳細情報 */}
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 mt-auto">
                   <div className="flex justify-between mb-1">
                     <span>性別:</span>
                     <span className="font-medium">

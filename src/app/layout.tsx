@@ -4,6 +4,7 @@ import Header from '@/components/shared/Header'
 import CheckPoints from '@/components/shared/CheckPoints'
 import Access from '@/components/shared/Access'
 import Footer from '@/components/shared/Footer'
+import Gallery from '@/components/shared/Gallery'
 
 export const metadata = {
   title: 'Cat House Macaron | 福岡県北九州の海外猫専門ブリーダー',
@@ -24,6 +25,7 @@ export default function RootLayout({
         <main>{children}</main>
         <CheckPoints />
         <Access />
+        <Gallery />
         <Footer />
       </body>
     </html>

@@ -6,6 +6,7 @@ import Title from '@/components/common/Title'
 // import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 import SearchBox from './common/SearchBox'
+import Button from './common/Button'
 
 interface KittenListProps {
   kittens: KittenListType[]
@@ -69,6 +70,9 @@ const FamilyKittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
               </a>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-10 flex justify-center items-center">
+          <Button text={'募集中の子猫を見る'} link={'/kittens'} />
         </div>
       </div>
     </section>

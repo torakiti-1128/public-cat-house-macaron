@@ -8,6 +8,7 @@ import { KittenListType } from '@/types/kitten'
 import Title from './common/Title'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface KittensSlideShowProps {
   kittens: KittenListType[]
@@ -34,7 +35,13 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
   status,
 }) => {
   const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
+  const router = useRouter()
 
+  const handleViewDetails = (kittenId: number) => {
+    router.push(
+      `/kittens/${kittenId}?kittens=${encodeURIComponent(JSON.stringify(kittens))}`
+    )
+  }
   // 状態でフィルタリング
   useEffect(() => {
     const filteredByStatus = kittens?.filter(
@@ -73,7 +80,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
               className="bg-gray-100 rounded-2xl shadow overflow-hidden"
               style={{ height: '500px' }}
             >
-              <a href={`kittens/${kitten.kittenId}`}>
+              <a onClick={() => handleViewDetails(kitten.kittenId)}>
                 <img
                   className="w-full"
                   src={kitten.imageUrl}
@@ -87,7 +94,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
                 />
               </a>
               <div className="p-5">
-                <a href={`kittens/${kitten.kittenId}`}>
+                <a onClick={() => handleViewDetails(kitten.kittenId)}>
                   <h5
                     className="text-[#705C53] mb-2 text-2xl"
                     style={{ fontFamily: 'Paratino, serif' }}

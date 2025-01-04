@@ -5,6 +5,8 @@ import { KittenListType } from '@/types/kitten'
 import Title from '@/components/common/Title'
 import SearchBox from '@/components/common/SearchBox'
 import { formatDateTimeToJapanese } from '@/hooks/datetimeConverter'
+import { useRouter } from 'next/navigation'
+import Button from './common/Button'
 
 interface KittenListProps {
   kittens: KittenListType[]
@@ -14,6 +16,13 @@ interface KittenListProps {
 const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   const [filteredKittens, setFilteredKittens] = useState<KittenListType[]>([])
   const [searchQuery, setSearchQuery] = useState('') // 検索文字列の状態管理
+  const router = useRouter()
+
+  const handleViewDetails = (kittenId: number) => {
+    router.push(
+      `/kittens/${kittenId}?kittens=${encodeURIComponent(JSON.stringify(kittens))}`
+    )
+  }
 
   // 状態と検索文字列でフィルタリング
   useEffect(() => {
@@ -47,7 +56,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
             >
               <a
-                href={`kittens/${kitten.kittenId}`}
+                onClick={() => handleViewDetails(kitten.kittenId)}
                 className="block bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <img
@@ -71,6 +80,9 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
               </a>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-10 flex justify-center items-center">
+          <Button text={'ご家族が決まった子猫を見る'} link={'/family'} />
         </div>
       </div>
     </section>

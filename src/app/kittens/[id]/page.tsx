@@ -2,9 +2,15 @@
 
 import React, { useEffect, useState } from 'react'
 import KittenDetail from '@/components/KittenDetail'
-import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
+import {
+  KittenDetailType,
+  KittenListType,
+  ParentCatKittenDetailType,
+} from '@/types/kitten'
 import { PulseLoader } from 'react-spinners' // スピナーをインポート
 import ErrorContent from '@/components/ErrorContent'
+import { useSearchParams } from 'next/navigation'
+import KittensSlideShow from '@/components/KittensSlideShow'
 
 interface KittenDetailPageProps {
   params: {
@@ -14,7 +20,11 @@ interface KittenDetailPageProps {
 
 export default function KittenDetailPage({ params }: KittenDetailPageProps) {
   const kittenId = Number(params.id) // idを数値型に変換
-
+  const searchParams = useSearchParams() // クエリパラメータ取得
+  const kittensQuery = searchParams.get('kittens') // "kittens" クエリ取得
+  const kittens = kittensQuery
+    ? (JSON.parse(kittensQuery) as KittenListType[]) // JSON をパース
+    : []
   const [kittenDetail, setKittenDetail] = useState<KittenDetailType>()
   const [parentCats, setParentCats] = useState<ParentCatKittenDetailType[]>([])
   const [isLoading, setLoading] = useState(true)
@@ -100,12 +110,15 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
   }
 
   return (
-    <KittenDetail
-      kittenDetail={kittenDetail}
-      imageUrls={kittenDetail.imageUrls}
-      parentCats={parentCats}
-      videoUrl={kittenDetail.videoUrl}
-      tranState="募集中"
-    />
+    <>
+      <KittenDetail
+        kittenDetail={kittenDetail}
+        imageUrls={kittenDetail.imageUrls}
+        parentCats={parentCats}
+        videoUrl={kittenDetail.videoUrl}
+        tranState="募集中"
+      />
+      <KittensSlideShow kittens={kittens} status="募集中" />
+    </>
   )
 }

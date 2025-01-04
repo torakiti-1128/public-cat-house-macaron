@@ -9,7 +9,7 @@ interface KittenDetailProps {
   imageUrls: string[] // 子猫画像URL：基本的には4枚
   parentCats: ParentCatKittenDetailType[] // 親猫の情報
   videoUrl: string // 動画URL
-  tranState: string
+  tranState: string // 取引情報
 }
 
 const KittenDetail: React.FC<KittenDetailProps> = ({
@@ -24,28 +24,37 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
 
   const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false) // ボタン制御用
 
-  // 次のメディアに切り替え
+  // メディア切り替え
   const handleNext = () => {
+    if (isTransitioning) return // すでに遷移中の場合は無視
+
+    setIsTransitioning(true)
     setCurrentMediaIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length)
+
+    // 切り替え完了後に解除
+    setTimeout(() => setIsTransitioning(false), 500) // 300ms は切り替えアニメーションの時間
   }
 
-  // 前のメディアに切り替え
   const handlePrev = () => {
+    if (isTransitioning) return // すでに遷移中の場合は無視
+
+    setIsTransitioning(true)
     setCurrentMediaIndex(
       (prevIndex) => (prevIndex - 1 + mediaUrls.length) % mediaUrls.length
     )
+
+    // 切り替え完了後に解除
+    setTimeout(() => setIsTransitioning(false), 500)
   }
 
   return (
-    <section
-      className="text-gray-600 body-font overflow-hidden px-10 py-8 bg-[#FDF7F2]"
-      style={{ fontFamily: 'Paratino, serif' }}
-    >
-      <Title text="子猫の詳細" />
+    <section className="text-gray-600 body-font overflow-hidden bg-[#FDF7F2]">
       <div className="container px-5 py-8 mx-auto">
+        <Title text="子猫の詳細" />
         {/* 子猫詳細セクション */}
-        <div className="lg:w-4/5 mx-auto flex flex-col lg:flex-row lg:items-stretch">
+        <div className="mx-auto flex flex-col lg:flex-row lg:items-stretch">
           {/* メディアセクション */}
           <div className="w-full lg:w-1/2 relative flex items-center justify-center mb-6 lg:mb-0">
             <div
@@ -68,10 +77,18 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                 />
               )}
               {/* スライドボタン */}
-              <button onClick={handlePrev} className="custom-prev">
+              <button
+                onClick={handlePrev}
+                className="custom-prev"
+                disabled={isTransitioning}
+              >
                 ←
               </button>
-              <button onClick={handleNext} className="custom-next">
+              <button
+                onClick={handleNext}
+                className="custom-next"
+                disabled={isTransitioning}
+              >
                 →
               </button>
               {/* メディア番号 */}
@@ -145,7 +162,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
         </div>
 
         {/* 親猫情報セクション */}
-        <div className="lg:w-5/6 mx-auto mt-12">
+        <div className="mx-auto mt-12">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-8 lg:space-y-0 lg:space-x-8">
             {parentCats.map((cat) => (
               <div
