@@ -116,7 +116,6 @@ export default function KittenDetailPage({ params }: KittenDetailPageProps) {
         imageUrls={kittenDetail.imageUrls}
         parentCats={parentCats}
         videoUrl={kittenDetail.videoUrl}
-        tranState={['募集中', '商談中']}
       />
       <KittensSlideShow kittens={kittens} status={['募集中', '商談中']} />
     </>

@@ -15,8 +15,9 @@ export interface KittenDetailType {
   description: string //説明
   breed: string //猫種
   color: string //カラー
-  sex: number
+  sex: number //性別
   birthDate: string //生年月日
+  tranState: string //取引状況
   price: number //価格
   imageUrls: string[]
   videoUrl: string

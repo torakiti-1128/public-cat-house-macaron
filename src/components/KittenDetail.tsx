@@ -9,7 +9,6 @@ interface KittenDetailProps {
   imageUrls: string[] // 子猫画像URL：基本的には4枚
   parentCats: ParentCatKittenDetailType[] // 親猫の情報
   videoUrl: string // 動画URL
-  tranState: string[] // 取引情報
 }
 
 const KittenDetail: React.FC<KittenDetailProps> = ({
@@ -17,9 +16,8 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
   imageUrls,
   parentCats,
   videoUrl,
-  tranState,
 }) => {
-  const { kittenId, description, breed, color, sex, birthDate, price } =
+  const { kittenId, description, breed, color, sex, birthDate, tranState, price } =
     kittenDetail
 
   const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
@@ -141,7 +139,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
                 ¥{price.toLocaleString()}円
               </p>
             </div>
-            {tranState.includes('商談中') && (
+            {tranState == '商談中' && (
               <div className="flex mb-6">
                 <p className="ml-auto text-sm text-red-500">
                   ※この子猫は現在商談中です。最新の情報でない場合がありますので、希望される方はお問い合わせください。
@@ -149,7 +147,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
               </div>
             )}
             <div>
-              {tranState.includes('譲渡済') ? (
+              {tranState == '譲渡済' ? (
                 <div className="flex">
                   <span className="title-font font-medium text-2xl text-blue-500">
                     ご家族決まりました！
