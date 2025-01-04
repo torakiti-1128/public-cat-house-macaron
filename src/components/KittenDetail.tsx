@@ -17,8 +17,16 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
   parentCats,
   videoUrl,
 }) => {
-  const { kittenId, description, breed, color, sex, birthDate, tranState, price } =
-    kittenDetail
+  const {
+    kittenId,
+    description,
+    breed,
+    color,
+    sex,
+    birthDate,
+    tranState,
+    price,
+  } = kittenDetail
 
   const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)

@@ -64,7 +64,7 @@ export default function FamilyKittenListPage() {
 
   return (
     <>
-      <FamilyKittenList kittens={kittens} status="譲渡済" />
+      <FamilyKittenList kittens={kittens} status={['譲渡済']} />
     </>
   )
 }

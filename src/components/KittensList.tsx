@@ -28,7 +28,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   useEffect(() => {
     const filteredByStatus = kittens?.filter(
       (kitten) =>
-        (kitten.tranState === status[0] || kitten.tranState === status[1]) &&
+        status.includes(kitten.tranState) &&
         (kitten.breed.includes(searchQuery) ||
           kitten.kittenId.toString().includes(searchQuery))
     )

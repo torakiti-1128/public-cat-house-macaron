@@ -44,9 +44,8 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
   }
   // 状態でフィルタリング
   useEffect(() => {
-    const filteredByStatus = kittens?.filter(
-      (kitten) =>
-        kitten.tranState === status[0] || kitten.tranState === status[1]
+    const filteredByStatus = kittens?.filter((kitten) =>
+      status.includes(kitten.tranState)
     )
     setFilteredKittens(filteredByStatus)
   }, [kittens, status])

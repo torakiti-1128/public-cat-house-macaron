@@ -10,7 +10,7 @@ import Button from './common/Button'
 
 interface KittenListProps {
   kittens: KittenListType[]
-  status: '譲渡済'
+  status: string[]
 }
 
 const FamilyKittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
@@ -21,7 +21,7 @@ const FamilyKittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
   useEffect(() => {
     const filteredByStatus = kittens.filter(
       (kitten) =>
-        kitten.tranState === status &&
+        status.includes(kitten.tranState) &&
         (kitten.breed.includes(searchQuery) ||
           kitten.kittenId.toString().includes(searchQuery))
     )
