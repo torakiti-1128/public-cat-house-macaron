@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://www.cat-house-macaron.jp/sitemap.xml
