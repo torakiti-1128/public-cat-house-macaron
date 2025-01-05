@@ -25,6 +25,7 @@ import (
 	"chm-api/routes"
 )
 
+//ToDo：依存関係の整理
 // アプリケーションのエントリーポイント
 func main() {
 	// 各設定ファイルを読み込む

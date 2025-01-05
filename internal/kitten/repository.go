@@ -22,6 +22,10 @@ type KittenRepository interface {
 	UpdateKitten(dto UpdateKittenDTO) error
 	// 子猫の消去をDBへ反映
 	DeleteKitten(kittenId int) error
+	// 子猫の写真の消去をDBへ反映
+	DeleteKittenImage(imageId int) error
+	// 子猫の動画の消去をDBへ反映
+	DeleteKittenVideo(videoId int) error
 }
 
 // 子猫関連のDB実装
@@ -148,10 +152,10 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 	}
 	defer rows.Close()
 
-	var imageUrls []ImageDTO
+	var imageUrls []MediaDTO
 	for rows.Next() {
-		var image ImageDTO
-		if err := rows.Scan(&image.ImageId, &image.ImageUrl); err != nil {
+		var image MediaDTO
+		if err := rows.Scan(&image.Id, &image.Url); err != nil {
 			return KittenDetailDTO{}, fmt.Errorf("子猫画像の読み込みに失敗しました: %w", err)
 		}
 		imageUrls = append(imageUrls, image)
@@ -176,10 +180,10 @@ func (repo *KittenRepositoryImpl) GetKittenDetail(kittenID int) (KittenDetailDTO
 	}
 	defer rows.Close()
 
-	var videoUrls []VideoDTO
+	var videoUrls []MediaDTO
 	for rows.Next() {
-		var video VideoDTO
-		if err := rows.Scan(&video.VideoId, &video.VideoUrl); err != nil {
+		var video MediaDTO
+		if err := rows.Scan(&video.Id, &video.Url); err != nil {
 			return KittenDetailDTO{}, fmt.Errorf("子猫動画の読み込みに失敗しました: %w", err)
 		}
 		videoUrls = append(videoUrls, video)
@@ -321,5 +325,31 @@ func (r *KittenRepositoryImpl) DeleteKitten(kittenId int) error {
 	}
 
 	log.Printf("子猫ID %d の消去が成功しました", kittenId)
+	return nil
+}
+
+// 子猫の写真の消去をDBへ反映
+func (r *KittenRepositoryImpl) DeleteKittenImage(imageId int) error {
+	query := `
+		DELETE FROM kitten_images
+		WHERE image_id = $1;
+	`
+	_, err := r.DB.Exec(query, imageId)
+	if err != nil {
+		return fmt.Errorf("子猫の写真の削除に失敗しました: %w", err)
+	}
+	return nil
+}
+
+// 子猫の動画の消去をDBへ反映
+func (r *KittenRepositoryImpl) DeleteKittenVideo(videoId int) error {
+	query := `
+		DELETE FROM kitten_videos
+		WHERE video_id = $1;
+	`
+	_, err := r.DB.Exec(query, videoId)
+	if err != nil {
+		return fmt.Errorf("子猫の動画の削除に失敗しました: %w", err)
+	}
 	return nil
 }

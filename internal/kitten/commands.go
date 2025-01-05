@@ -3,6 +3,7 @@ package kitten
 import (
 	"chm-api/internal/utils"
 	"encoding/json"
+	"fmt"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -140,40 +141,46 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 画像アップロード処理
-	imageUrls, err := c.KittenService.PostKittenImages(kittenId, imageFiles)
-	if err != nil {
-		http.Error(w, "画像のアップロードに失敗しました", http.StatusInternalServerError)
-		log.Printf("画像アップロードエラー: %v", err)
-		return
-	}
-
-	// 動画ファイルを取得
-	videoFile, _, err := r.FormFile("video")
-	if err != nil {
-		if err != http.ErrMissingFile {
-			log.Printf("動画ファイル取得エラー: %v", err)
-			http.Error(w, "動画ファイルの取得に失敗しました", http.StatusBadRequest)
+	var imageUrls []string
+	if imageFiles != nil {
+		imageUrls, err = c.KittenService.PostKittenImages(kittenId, imageFiles)
+		if err != nil {
+			http.Error(w, "画像のアップロードに失敗しました", http.StatusInternalServerError)
+			log.Printf("画像アップロードエラー: %v", err)
 			return
 		}
-		videoFile = nil // 動画はオプション
+	}
+
+	// "video"に関連するすべてのファイルを取得
+	videoHeaders := r.MultipartForm.File["video"]
+	var videoFiles []multipart.File
+	for _, header := range videoHeaders {
+		file, err := header.Open()
+		if err != nil {
+			log.Printf("動画ファイルのオープンに失敗しました: %v", err)
+			continue
+		}
+		videoFiles = append(videoFiles, file)
 	}
 
 	// 動画アップロード処理
-	if videoFile != nil {
-		err = c.KittenService.PostKittenVideo(kittenId, videoFile)
+	var videoUrls []string
+	if videoFiles != nil {
+		videoUrls, err = c.KittenService.PostKittenVideos(kittenId, videoFiles)
 		if err != nil {
 			http.Error(w, "動画のアップロードに失敗しました", http.StatusInternalServerError)
 			log.Printf("動画アップロードエラー: %v", err)
 			return
 		}
 	}
-
+	
 	// レスポンス
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":   "success",
 		"kittenId": kittenId,
 		"images":   imageUrls,
+		"videos":   videoUrls,
 	})
 }
 
@@ -198,13 +205,65 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		TranState:   r.FormValue("tranState"),
 	}
 
-	// 子猫情報を保存
-	err := c.KittenService.UpdateKitten(dto)
+	// 子猫の情報を更新
+	err := c.KittenService.UpdateKittenInfo(dto)
 	if err != nil {
 		http.Error(w, "子猫情報の更新に失敗しました", http.StatusInternalServerError)
 		log.Printf("子猫情報の更新エラー: %v", err)
 		return
 	}
+
+	// // フォームデータから削除する画像の情報を取得
+	// deleteImages, err := parseMediaDTOs(r.MultipartForm, "deleteImages"); 
+	// if err != nil  {
+	// 	log.Printf("画像の更新はありません: %v", err)
+	// }
+
+	// "image"に関連するすべてのファイルを取得
+	imageHeaders := r.MultipartForm.File["image"]
+	var imageFiles []multipart.File
+	for _, header := range imageHeaders {
+		file, err := header.Open()
+		if err != nil {
+			log.Printf("画像ファイルのオープンに失敗しました: %v", err)
+			continue
+		}
+		imageFiles = append(imageFiles, file)
+	}
+
+	// // 子猫の写真の更新
+	// err = c.KittenService.UpdateKittenImage(dto.KittenId, deleteImages, imageFiles)
+	// if err != nil {
+	// 	http.Error(w, "子猫写真の更新に失敗しました", http.StatusInternalServerError)
+	// 	log.Printf("子猫写真の更新エラー: %v", err)
+	// 	return
+	// }
+
+	// // フォームデータから削除する動画の情報を取得
+	// deleteVideos, err := parseMediaDTOs(r.MultipartForm, "deleteVideos")
+	// if err != nil  {
+	// 	log.Printf("動画の更新はありません: %v", err)
+	// }
+
+	// "video"に関連するすべてのファイルを取得
+	videoHeaders := r.MultipartForm.File["video"]
+	var videoFiles []multipart.File
+	for _, header := range videoHeaders {
+		file, err := header.Open()
+		if err != nil {
+			log.Printf("画像ファイルのオープンに失敗しました: %v", err)
+			continue
+		}
+		videoFiles = append(videoFiles, file)
+	}
+
+	// // 子猫の動画を更新
+	// err = c.KittenService.UpdateKittenVideo(dto.KittenId, deleteVideos, videoFiles)
+	// if err != nil {
+	// 	http.Error(w, "子猫動画の更新に失敗しました", http.StatusInternalServerError)
+	// 	log.Printf("子猫動画の更新エラー: %v", err)
+	// 	return
+	// }
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("子猫情報を更新しました"))
@@ -229,4 +288,22 @@ func (c *CommandDeleteKitten) Execute(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("子猫情報を消去しました"))
+}
+
+// 統一的なメディアデータをパース
+func parseMediaDTOs(form *multipart.Form, key string) ([]MediaDTO, error) {
+	var mediaList []MediaDTO
+	entries, ok := form.Value[key]
+	if !ok {
+		return mediaList, nil
+	}
+
+	for _, entry := range entries {
+		var media MediaDTO
+		if err := json.Unmarshal([]byte(entry), &media); err != nil {
+			return nil, fmt.Errorf("メディアデータのデコードに失敗しました: %w", err)
+		}
+		mediaList = append(mediaList, media)
+	}
+	return mediaList, nil
 }

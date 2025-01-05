@@ -21,23 +21,11 @@ type KittenDetailDTO struct {
 	BirthDate   string      `json:"birthDate"`
 	Price       int         `json:"price"`
 	TranState   string      `json:"tranState"`
-	ImageUrls   []ImageDTO  `json:"imageUrls"`
-	VideoUrls   []VideoDTO  `json:"videoUrls"`
+	ImageUrls   []MediaDTO  `json:"imageUrls"`
+	VideoUrls   []MediaDTO  `json:"videoUrls"`
 }
 
-// 画像データ
-type ImageDTO struct {
-	ImageId  int    `json:"imageId"`
-	ImageUrl string `json:"imageUrl"`
-}
-
-// 動画データ
-type VideoDTO struct {
-	VideoId  int    `json:"videoId"` 
-	VideoUrl string `json:"videoUrl"`
-}
-
-// 　子猫追加データ
+// 子猫追加データ
 type PostKittenDTO struct {
 	FatherCatId int    `json:"fatherCatId"`
 	MotherCatId int    `json:"motherCatId"`
@@ -48,20 +36,24 @@ type PostKittenDTO struct {
 	Description string `json:"description"`
 	Price       int    `json:"price"`
 	TranState   string `json:"tranState"`
-	ImageUrls   []string
-	VideoUrl    string
 }
 
-// 　子猫更新データ
+// 子猫更新データ
 type UpdateKittenDTO struct {
-	KittenId    int    `json:"kittenId"`
-	FatherCatId int    `json:"fatherCatId"`
-	MotherCatId int    `json:"motherCatId"`
-	BreedId     int    `json:"breedId"`
-	ColorId     int    `json:"colorId"`
-	Sex         int    `json:"sex"`
-	BirthDate   string `json:"birthDate"`
-	Description string `json:"description"`
-	Price       int    `json:"price"`
-	TranState   string `json:"tranState"`
+	KittenId     int   		`json:"kittenId"`
+	FatherCatId  int    	`json:"fatherCatId"`
+	MotherCatId  int    	`json:"motherCatId"`
+	BreedId      int    	`json:"breedId"`
+	ColorId      int    	`json:"colorId"`
+	Sex          int    	`json:"sex"`
+	BirthDate    string 	`json:"birthDate"`
+	Description  string 	`json:"description"`
+	Price        int    	`json:"price"`
+	TranState    string 	`json:"tranState"`
+}
+
+// メディア型
+type MediaDTO struct {
+	Id  int    `json:"id"`
+	Url string `json:"url"`
 }
