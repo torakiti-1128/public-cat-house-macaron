@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 // Supabaseの設定
@@ -17,7 +19,7 @@ type SupabaseConfig struct {
 // ストレージのAPIインターフェース
 type StorageRepository interface {
 	UploadFile(bucket, path, filePath string) (string, error)
-	DeleteFile(bucket, path string) error
+	DeleteFile(bucket, pathOrFullURL string) error
 	DeleteFolder(bucket, folderPath string) error
 }
 
@@ -67,8 +69,19 @@ func (r *SupabaseRepositoryImp) UploadFile(bucket, path, filePath string) (strin
 }
 
 // ファイルをSupabaseから削除
-func (r *SupabaseRepositoryImp) DeleteFile(bucket, path string) error {
-	url := fmt.Sprintf("%s/storage/v1/object/%s/%s", r.Config.SupabaseURL, bucket, path)
+func (r *SupabaseRepositoryImp) DeleteFile(bucket, pathOrFullURL string) error {
+	var url string
+
+	// 引数がフルパスか相対パスかを判定
+	if strings.HasPrefix(pathOrFullURL, r.Config.SupabaseURL) {
+		url = strings.Replace(pathOrFullURL, "/public", "", 1)
+	} else {
+		url = fmt.Sprintf("%s/storage/v1/object/%s/%s", r.Config.SupabaseURL, bucket, pathOrFullURL)
+	}
+
+	log.Printf("子猫写真: %v", url)
+	
+	// DELETEリクエストを作成
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
 		return fmt.Errorf("HTTPリクエストの作成に失敗しました: %w", err)
@@ -76,12 +89,14 @@ func (r *SupabaseRepositoryImp) DeleteFile(bucket, path string) error {
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", r.Config.SupabaseAPIKey))
 
+	// リクエスト送信
 	resp, err := r.Client.Do(req)
 	if err != nil {
 		return fmt.Errorf("リクエストの送信に失敗しました (%s): %w", url, err)
 	}
 	defer resp.Body.Close()
 
+	// ステータスコードを確認
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		body, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("削除に失敗しました (ステータスコード: %d, レスポンス: %s)", resp.StatusCode, string(body))

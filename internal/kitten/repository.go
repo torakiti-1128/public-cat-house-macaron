@@ -243,7 +243,7 @@ func (r *KittenRepositoryImpl) UpdateKitten(dto UpdateKittenDTO) error {
 			father_cat_id = $1, 
 			mother_cat_id = $2,
 			breed_id = $3,
-			color_id =  $4,
+			color_id = $4,
 			sex = $5,
 			birth_date = $6,
 			description = $7,

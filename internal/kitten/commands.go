@@ -120,7 +120,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		TranState:   r.FormValue("tranState"),
 	}
 
-	// 子猫情報を保存
+	// 子猫情報を更新
 	kittenId, err := c.KittenService.PostKitten(dto)
 	if err != nil {
 		http.Error(w, "子猫情報の保存に失敗しました", http.StatusInternalServerError)
@@ -176,6 +176,7 @@ func (c *CommandPostKitten) Execute(w http.ResponseWriter, r *http.Request) {
 	
 	// レスポンス
 	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte("子猫を追加しました"))
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":   "success",
 		"kittenId": kittenId,
@@ -213,11 +214,37 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// // フォームデータから削除する画像の情報を取得
-	// deleteImages, err := parseMediaDTOs(r.MultipartForm, "deleteImages"); 
-	// if err != nil  {
-	// 	log.Printf("画像の更新はありません: %v", err)
-	// }
+	// フォームデータから削除する画像の情報を取得
+	deleteImages, err := parseMediaDTOs(r.MultipartForm, "deleteImages"); 
+	if err != nil  {
+		log.Printf("画像の更新はありません: %v", err)
+	}
+
+	// 子猫の写真の消去
+	if deleteImages != nil {
+		err = c.KittenService.DeleteKittenImages(deleteImages)
+		if err != nil {
+			http.Error(w, "子猫写真の消去に失敗しました", http.StatusInternalServerError)
+			log.Printf("子猫写真の消去エラー: %v", err)
+			return
+		}
+	}
+
+	// フォームデータから削除する動画の情報を取得
+	deleteVideos, err := parseMediaDTOs(r.MultipartForm, "deleteVideos")
+	if err != nil  {
+		log.Printf("動画の更新はありません: %v", err)
+	}
+
+	// 子猫の動画の消去
+	if deleteVideos != nil {
+		err = c.KittenService.DeleteKittenVideos(deleteVideos)
+		if err != nil {
+			http.Error(w, "子猫動画の消去に失敗しました", http.StatusInternalServerError)
+			log.Printf("子猫動画の消去エラー: %v", err)
+			return
+		}
+	}
 
 	// "image"に関連するすべてのファイルを取得
 	imageHeaders := r.MultipartForm.File["image"]
@@ -231,19 +258,16 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		imageFiles = append(imageFiles, file)
 	}
 
-	// // 子猫の写真の更新
-	// err = c.KittenService.UpdateKittenImage(dto.KittenId, deleteImages, imageFiles)
-	// if err != nil {
-	// 	http.Error(w, "子猫写真の更新に失敗しました", http.StatusInternalServerError)
-	// 	log.Printf("子猫写真の更新エラー: %v", err)
-	// 	return
-	// }
-
-	// // フォームデータから削除する動画の情報を取得
-	// deleteVideos, err := parseMediaDTOs(r.MultipartForm, "deleteVideos")
-	// if err != nil  {
-	// 	log.Printf("動画の更新はありません: %v", err)
-	// }
+	// 画像アップロード処理
+	var imageUrls []string
+	if imageFiles != nil {
+		imageUrls, err = c.KittenService.PostKittenImages(dto.KittenId, imageFiles)
+		if err != nil {
+			http.Error(w, "画像のアップロードに失敗しました", http.StatusInternalServerError)
+			log.Printf("画像アップロードエラー: %v", err)
+			return
+		}
+	}
 
 	// "video"に関連するすべてのファイルを取得
 	videoHeaders := r.MultipartForm.File["video"]
@@ -257,16 +281,26 @@ func (c *CommandUpdateKitten) Execute(w http.ResponseWriter, r *http.Request) {
 		videoFiles = append(videoFiles, file)
 	}
 
-	// // 子猫の動画を更新
-	// err = c.KittenService.UpdateKittenVideo(dto.KittenId, deleteVideos, videoFiles)
-	// if err != nil {
-	// 	http.Error(w, "子猫動画の更新に失敗しました", http.StatusInternalServerError)
-	// 	log.Printf("子猫動画の更新エラー: %v", err)
-	// 	return
-	// }
+	// 動画アップロード処理
+	var videoUrls []string
+	if videoFiles != nil {
+		videoUrls, err = c.KittenService.PostKittenVideos(dto.KittenId, videoFiles)
+		if err != nil {
+			http.Error(w, "動画のアップロードに失敗しました", http.StatusInternalServerError)
+			log.Printf("動画アップロードエラー: %v", err)
+			return
+		}
+	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("子猫情報を更新しました"))
+	// レスポンス
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte("子猫を更新しました"))
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"status":   "success",
+		"kittenId": dto.KittenId,
+		"images":   imageUrls,
+		"videos":   videoUrls,
+	})
 }
 
 // 子猫消去コマンドの実行
@@ -290,20 +324,19 @@ func (c *CommandDeleteKitten) Execute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("子猫情報を消去しました"))
 }
 
-// 統一的なメディアデータをパース
 func parseMediaDTOs(form *multipart.Form, key string) ([]MediaDTO, error) {
-	var mediaList []MediaDTO
-	entries, ok := form.Value[key]
-	if !ok {
-		return mediaList, nil
-	}
+    values := form.Value[key]
+    if len(values) == 0 {
+        return nil, nil // データが存在しない場合
+    }
 
-	for _, entry := range entries {
-		var media MediaDTO
-		if err := json.Unmarshal([]byte(entry), &media); err != nil {
-			return nil, fmt.Errorf("メディアデータのデコードに失敗しました: %w", err)
-		}
-		mediaList = append(mediaList, media)
-	}
-	return mediaList, nil
+    var mediaList []MediaDTO
+    for _, value := range values {
+        var media []MediaDTO
+        if err := json.Unmarshal([]byte(value), &media); err != nil {
+            return nil, fmt.Errorf("メディアデータのデコードに失敗しました: %w", err)
+        }
+        mediaList = append(mediaList, media...)
+    }
+    return mediaList, nil
 }

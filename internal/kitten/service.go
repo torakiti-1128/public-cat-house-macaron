@@ -210,7 +210,7 @@ func (s *KittenServiceImpl) DeleteKittenImages(deleteImages []MediaDTO) error {
 		}
 
 		// ストレージから画像削除
-		if err := s.StorageService.DeleteFileInStorage("images", image.Url); err != nil {
+		if err := s.StorageService.DeleteFileInStorage("", image.Url); err != nil {
 			deleteErrors = append(deleteErrors, fmt.Errorf("ストレージから画像の削除に失敗しました (ImageUrl: %s): %w", image.Url, err))
 		}
 	}
@@ -234,7 +234,7 @@ func (s *KittenServiceImpl) DeleteKittenVideos(deleteVideos []MediaDTO) error {
 		}
 
 		// ストレージから画像削除
-		if err := s.StorageService.DeleteFileInStorage("videos", video.Url); err != nil {
+		if err := s.StorageService.DeleteFileInStorage("", video.Url); err != nil {
 			deleteErrors = append(deleteErrors, fmt.Errorf("ストレージから動画の削除に失敗しました (VideoUrl: %s): %w", video.Url, err))
 		}
 	}

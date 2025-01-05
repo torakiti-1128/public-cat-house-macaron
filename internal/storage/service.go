@@ -13,7 +13,7 @@ type StorageService interface {
 	// Storageのファイルを更新
 	UpdateFileInStorage(file multipart.File, bucket string, oldPath string, newPath string) (UploadedFileDTO, error)
 	// Storageのファイルを消去
-	DeleteFileInStorage(bucket string, filePath string) error
+	DeleteFileInStorage(bucket string, pathOrFullURL string) error
 	// Storageのフォルダを消去
 	DeleteFolderFromStorage(bucket string, folderPath string) error
 }
@@ -59,10 +59,10 @@ func (s *StorageServiceImpl) UpdateFileInStorage(file multipart.File, bucket str
 }
 
 // Storageのファイルを消去
-func (s *StorageServiceImpl) DeleteFileInStorage(bucket string, filePath string) error {
-	err := s.Repo.DeleteFile(bucket, filePath)
+func (s *StorageServiceImpl) DeleteFileInStorage(bucket string, pathOrFullURL string) error {
+	err := s.Repo.DeleteFile(bucket, pathOrFullURL)
 	if err != nil {
-		return fmt.Errorf("ファイルの消去に失敗しました (%s): %w", filePath, err)
+		return fmt.Errorf("ファイルの消去に失敗しました (%s): %w", pathOrFullURL, err)
 	}
 	return nil
 }
