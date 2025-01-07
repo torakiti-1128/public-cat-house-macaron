@@ -445,8 +445,12 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
                                                 image.url
                                             )
                                         }
-                                        size="small"
-                                        className="absolute top-0 right-0"
+                                        size="large"
+                                        sx={{
+                                            position: 'absolute', 
+                                            top: 0,
+                                            right: 0,
+                                        }}
                                     >
                                         <DeleteIcon />
                                     </IconButton>
@@ -477,7 +481,11 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
                                         )
                                     }
                                     size="large"
-                                    className="absolute top-0 right-0"
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                    }}
                                 >
                                     <DeleteIcon />
                                 </IconButton>
