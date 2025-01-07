@@ -13,8 +13,8 @@ export interface KittenDetailType {
     fatherCatId: number; // お父さん猫番号
     motherCatId: number; // お母さん猫番号
     description: string; // 説明
-    breedId: number; // 猫種
-    colorId: number; // カラー
+    breed: string; // 猫種
+    color: string; // カラー
     sex: number; // 性別
     birthDate: string; // 生年月日
     tranState: string; // 取引状況
@@ -42,8 +42,8 @@ export interface ParentCatsType {
 // 親猫詳細データ
 export interface ParentCatDetailType {
     parentCatId: number;
-    breedId: number;
-    colorId: number;
+    breed: string;
+    color: string;
     name: string;
     sex: number;
     age: number;
@@ -65,8 +65,8 @@ export interface AdoptionCatsType {
 // 里親募集中の猫詳細データ
 export interface AdoptionCatDetailType {
     adoptionCatId: number;
-    breedId: number;
-    colorId: number;
+    breed: string;
+    color: string;
     name: string;
     sex: number;
     age: number;

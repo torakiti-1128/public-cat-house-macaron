@@ -24,6 +24,8 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({
     const [name, setName] = useState<string>('');
     const [breedId, setBreedId] = useState<number>(0);
     const [colorId, setColorId] = useState<number>(0);
+    const [breedName, setBreedName] = useState<string>('');
+    const [colorName, setColorName] = useState<string>('');
     const [age, setAge] = useState<number>(0);
     const [sex, setSex] = useState<number>(0);
     const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
@@ -45,8 +47,8 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({
         if (initialData) {
             setParentCatId(initialData.parentCatId || 0);
             setName(initialData.name || '');
-            setBreedId(initialData.breedId || 0);
-            setColorId(initialData.colorId || 0);
+            setBreedName(initialData.breed || '');
+            setColorName(initialData.color || '');
             setAge(initialData.age || 0);
             setSex(initialData.sex || 0);
             setBirthDate(
@@ -55,6 +57,34 @@ const ParentCatsUpdateForm: React.FC<ParentCatsUpdateFormProps> = ({
             setDescription(initialData.description || '');
         }
     }, [initialData]);
+
+    useEffect(() => {
+        if (breedName !== '' && breeds.length !== 0) {
+            const selectedBreed = breeds.find(
+                (breed) => breed.breedName === breedName
+            );
+            if (selectedBreed) {
+                setBreedId(selectedBreed.breedId);
+            } else {
+                console.error(
+                    '指定された breedName に対応する breedId が見つかりません'
+                );
+            }
+        }
+
+        if (colorName !== '' && colors.length !== 0) {
+            const selectedColor = colors.find(
+                (color) => color.colorName === colorName
+            );
+            if (selectedColor) {
+                setColorId(selectedColor.colorId);
+            } else {
+                console.error(
+                    '指定された colorName に対応する colorId が見つかりません'
+                );
+            }
+        }
+    }, [breedName, colorName, breeds, breeds]);
 
     useEffect(() => {
         const fetchBreeds = async () => {

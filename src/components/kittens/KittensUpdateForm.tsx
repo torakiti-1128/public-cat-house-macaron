@@ -34,6 +34,8 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
     const [motherCatId, setMotherCatId] = useState<number>(0);
     const [breedId, setBreedId] = useState<number>(0);
     const [colorId, setColorId] = useState<number>(0);
+    const [breedName, setBreedName] = useState<string>('');
+    const [colorName, setColorName] = useState<string>('');
     const [sex, setSex] = useState<number>(0);
     const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
     const [description, setDescription] = useState<string>('');
@@ -73,8 +75,8 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
             setKittenId(initialData.kittenId || 0);
             setFatherCatId(initialData.fatherCatId || 0);
             setMotherCatId(initialData.motherCatId || 0);
-            setBreedId(initialData.breedId || 0);
-            setColorId(initialData.colorId || 0);
+            setBreedName(initialData.breed || '');
+            setColorName(initialData.color || '');
             setSex(initialData.sex || 0);
             setBirthDate(
                 initialData.birthDate ? dayjs(initialData.birthDate) : null
@@ -86,6 +88,34 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
             setVideoUrls(initialData.videoUrls);
         }
     }, [initialData]);
+
+    useEffect(() => {
+        if (breedName !== '' && breeds.length !== 0) {
+            const selectedBreed = breeds.find(
+                (breed) => breed.breedName === breedName
+            );
+            if (selectedBreed) {
+                setBreedId(selectedBreed.breedId);
+            } else {
+                console.error(
+                    '指定された breedName に対応する breedId が見つかりません'
+                );
+            }
+        }
+
+        if (colorName !== '' && colors.length !== 0) {
+            const selectedColor = colors.find(
+                (color) => color.colorName === colorName
+            );
+            if (selectedColor) {
+                setColorId(selectedColor.colorId);
+            } else {
+                console.error(
+                    '指定された colorName に対応する colorId が見つかりません'
+                );
+            }
+        }
+    }, [breedName, colorName, breeds, breeds]);
 
     useEffect(() => {
         const fetchParentCats = async () => {
@@ -447,7 +477,7 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
                                         }
                                         size="large"
                                         sx={{
-                                            position: 'absolute', 
+                                            position: 'absolute',
                                             top: 0,
                                             right: 0,
                                         }}
@@ -466,7 +496,10 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
                 <Box sx={{ minWidth: 250, mt: 2 }}>
                     {videoUrls && videoUrls.length !== 0 ? (
                         videoUrls.map((video, index) => (
-                            <div key={index} className="relative w-full h-[400px]">
+                            <div
+                                key={index}
+                                className="relative w-full h-[400px]"
+                            >
                                 <video
                                     src={video.url}
                                     controls
