@@ -25,10 +25,9 @@ export interface KittenDetailType {
 
 // 子猫のメディア詳細
 export interface MediaDTO {
-  id: number; // メディアID
-  url: string; // メディアURL
+  id: number // メディアID
+  url: string // メディアURL
 }
-
 
 //子猫の親猫情報
 export interface ParentCatKittenDetailType {

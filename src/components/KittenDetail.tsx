@@ -33,9 +33,9 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
   } = kittenDetail
 
   const mediaUrls = [
-    ...(imageUrls?.map((image) => image.url) || []), 
+    ...(imageUrls?.map((image) => image.url) || []),
     ...(videoUrls?.map((video) => video.url) || []),
-  ];
+  ]
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false) // ボタン制御用
 
