@@ -289,7 +289,7 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
 
     return (
         <>
-            <form onSubmit={handleFormSubmit} className="mx-2 lg:mx-40">
+            <form onSubmit={handleFormSubmit} className="mx-2">
                 <Box sx={{ minWidth: 250, mt: 2 }}>
                     <CustomSelect
                         label="父猫"
@@ -462,7 +462,7 @@ const KittensUpdateForm: React.FC<KittensUpdateFormProps> = ({
                 <Box sx={{ minWidth: 250, mt: 2 }}>
                     {videoUrls && videoUrls.length !== 0 ? (
                         videoUrls.map((video, index) => (
-                            <div key={index} className="relative h-[300px]">
+                            <div key={index} className="relative w-full h-[400px]">
                                 <video
                                     src={video.url}
                                     controls
