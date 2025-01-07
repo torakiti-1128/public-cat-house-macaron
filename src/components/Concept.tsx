@@ -16,11 +16,11 @@ const Concept: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center md:items-start sm:items-start">
               {/* 左側ロゴ */}
               <div className="sm:w-1/3 lg:w-2/4 text-center sm:pr-8 sm:py-8">
-                <div className="w-40 h-40 rounded-full inline-flex items-center justify-center bg-pink-200 shadow-lg">
+                <div className="w-40 h-40 rounded-full inline-flex items-center justify-center">
                   <img
                     alt="logo"
-                    className="object-contain rounded-full"
-                    src="/images/concept/concept-logo.JPG"
+                    className="object-contain rounded-full shadow-xl"
+                    src={conceptData.logo}
                   />
                 </div>
                 <div className="mt-6">

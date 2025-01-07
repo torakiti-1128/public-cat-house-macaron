@@ -7,21 +7,28 @@ export interface KittenListType {
   createdAt: string //更新日時
 }
 
-//子猫詳細
+// 子猫詳細
 export interface KittenDetailType {
-  kittenId: number //お問い合わせ番号
-  fatherCatId: number //お父さん猫番号
-  motherCatId: number //お母さん猫番号
-  description: string //説明
-  breed: string //猫種
-  color: string //カラー
-  sex: number //性別
-  birthDate: string //生年月日
-  tranState: string //取引状況
-  price: number //価格
-  imageUrls: string[]
-  videoUrl: string
+  kittenId: number // お問い合わせ番号
+  fatherCatId: number // お父さん猫番号
+  motherCatId: number // お母さん猫番号
+  description: string // 説明
+  breed: string // 猫種
+  color: string // カラー
+  sex: number // 性別
+  birthDate: string // 生年月日
+  tranState: string // 取引状況
+  price: number // 価格
+  imageUrls: MediaDTO[] // 画像リスト
+  videoUrls: MediaDTO[] // 動画リスト
 }
+
+// 子猫のメディア詳細
+export interface MediaDTO {
+  id: number; // メディアID
+  url: string; // メディアURL
+}
+
 
 //子猫の親猫情報
 export interface ParentCatKittenDetailType {

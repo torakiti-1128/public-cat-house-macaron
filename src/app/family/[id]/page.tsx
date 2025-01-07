@@ -106,7 +106,7 @@ export default function FamilyKittenDetailPage({
       kittenDetail={kittenDetail}
       imageUrls={kittenDetail.imageUrls}
       parentCats={parentCats}
-      videoUrl={kittenDetail.videoUrl}
+      videoUrls={kittenDetail.videoUrls}
     />
   )
 }

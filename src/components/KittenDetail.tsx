@@ -1,21 +1,25 @@
 import React, { useState } from 'react'
-import { KittenDetailType, ParentCatKittenDetailType } from '@/types/kitten'
+import {
+  KittenDetailType,
+  MediaDTO,
+  ParentCatKittenDetailType,
+} from '@/types/kitten'
 import Button from '@/components/common/Button'
 import Title from '@/components/common/Title'
 import { formatDateToJapanese } from '@/hooks/datetimeConverter'
 
 interface KittenDetailProps {
   kittenDetail: KittenDetailType // 子猫の詳細情報
-  imageUrls: string[] // 子猫画像URL：基本的には4枚
+  imageUrls: MediaDTO[] // 子猫画像URL：基本的には4枚
   parentCats: ParentCatKittenDetailType[] // 親猫の情報
-  videoUrl: string // 動画URL
+  videoUrls: MediaDTO[] // 動画URL
 }
 
 const KittenDetail: React.FC<KittenDetailProps> = ({
   kittenDetail,
   imageUrls,
   parentCats,
-  videoUrl,
+  videoUrls,
 }) => {
   const {
     kittenId,
@@ -28,7 +32,10 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
     price,
   } = kittenDetail
 
-  const mediaUrls = [...imageUrls, videoUrl] // 写真と動画をまとめる
+  const mediaUrls = [
+    ...(imageUrls?.map((image) => image.url) || []), 
+    ...(videoUrls?.map((video) => video.url) || []),
+  ];
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false) // ボタン制御用
 
