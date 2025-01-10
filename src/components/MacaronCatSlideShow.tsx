@@ -7,7 +7,7 @@ export const MacaronCatSlideShow: React.FC = () => {
   const { images, animationDuration } = macaronData
 
   return (
-    <div className="relative overflow-hidden mt-10 w-full h-[300px]">
+    <div className="relative overflow-hidden mt-10 w-full h-[200px]">
       <div
         className="flex w-full h-full animate-slide"
         style={{
@@ -15,7 +15,7 @@ export const MacaronCatSlideShow: React.FC = () => {
         }}
       >
         {/* 繰り返す画像リスト */}
-        {[...images, ...images].map((image, index) => (
+        {[...images, ...images, ...images].map((image, index) => (
           <img
             key={index}
             src={image}
@@ -26,7 +26,7 @@ export const MacaronCatSlideShow: React.FC = () => {
               width: `${100 / images.length}%`, // デフォルトの幅
               height: '100%', // デフォルトの高さ
               maxWidth: '${100 / images.length}%', // 最大幅を700pxに制限 (PC向け)
-              maxHeight: '300px', // 最大高さを500pxに制限 (PC向け)
+              maxHeight: '400px', // 最大高さを500pxに制限 (PC向け)
             }}
           />
         ))}
