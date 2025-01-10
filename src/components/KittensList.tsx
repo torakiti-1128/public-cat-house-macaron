@@ -74,7 +74,7 @@ const KittenList: React.FC<KittenListProps> = ({ kittens, status }) => {
                   取引状態：{kitten.tranState}
                 </p>
                 <p style={{ fontFamily: 'Paratino, serif' }}>
-                  更新日時：
+                  掲載日時：
                   <span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
                 </p>
               </a>

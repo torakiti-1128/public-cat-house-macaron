@@ -19,7 +19,7 @@ const Concept: React.FC = () => {
                 <div className="w-40 h-40 rounded-full inline-flex items-center justify-center">
                   <img
                     alt="logo"
-                    className="object-contain rounded-full shadow-xl"
+                    className="object-contain rounded-full"
                     src={conceptData.logo}
                   />
                 </div>
