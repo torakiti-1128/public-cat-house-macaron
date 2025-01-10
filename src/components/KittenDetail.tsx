@@ -155,7 +155,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
             {tranState == '商談中' && (
               <div className="flex mb-6">
                 <p className="ml-auto text-sm text-red-500">
-                  ※この子猫は現在商談中です。最新の情報でない場合がありますので、希望される方はお問い合わせください。
+                  ※この子猫は現在商談中です。最新の情報ではない場合がありますので、希望される方はお問い合わせください。
                 </p>
               </div>
             )}
