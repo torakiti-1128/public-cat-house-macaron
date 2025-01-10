@@ -21,7 +21,7 @@ const Gallery: React.FC = () => {
     setSelectedImage(null)
   }
   return (
-    <div className="px-5 py-20 lg:px-20 mx-auto">
+    <div className="px-5 pt-28 pt-12 lg:px-20 mx-auto">
       {/* タイトル */}
       <Title text="アルバム" />
 

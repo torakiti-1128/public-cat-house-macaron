@@ -78,7 +78,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
           <SwiperSlide key={index}>
             <div
               className="bg-gray-100 rounded-2xl shadow overflow-hidden"
-              style={{ height: '500px' }}
+              style={{ height: '510px' }}
             >
               <a onClick={() => handleViewDetails(kitten.kittenId)}>
                 <img
@@ -108,7 +108,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
                 <p style={{ fontFamily: 'Paratino, serif' }}>
                   取引状態：{kitten.tranState}
                 </p>
-                <p style={{ fontFamily: 'Paratino, serif' }}>
+                <p className="pb-10" style={{ fontFamily: 'Paratino, serif' }}>
                   掲載日時：
                   <span>{formatDateTimeToJapanese(kitten.createdAt)}</span>
                 </p>
