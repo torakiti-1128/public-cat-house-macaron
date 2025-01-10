@@ -4,6 +4,7 @@ import Concept from '@/components/Concept'
 import TopPageSlideShow from '@/components/KittensSlideShow'
 import { KittenListType } from '@/types/kitten'
 import { PulseLoader } from 'react-spinners'
+import MacaronCatSlideShow from '@/components/MacaronCatSlideShow'
 // import MacaronCatSlideShow from '@/components/MacaronCatSlideShow'
 
 export default function Home() {
@@ -40,7 +41,7 @@ export default function Home() {
   return (
     <>
       <Concept />
-      {/* <MacaronCatSlideShow /> */}
+      <MacaronCatSlideShow />
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <PulseLoader size={15} color="#EDDFE0" />

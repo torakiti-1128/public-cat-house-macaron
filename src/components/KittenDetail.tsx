@@ -144,9 +144,7 @@ const KittenDetail: React.FC<KittenDetailProps> = ({
             </div>
             <div className="flex border-t border-b border-gray-200 py-2">
               <span className="text-gray-500">取引状況</span>
-              <span className="ml-auto text-gray-900">
-                {tranState}
-              </span>
+              <span className="ml-auto text-gray-900">{tranState}</span>
             </div>
             <div className="flex mt-5 mb-6 border-gray-200 py-2">
               <span className="text-2xl text-gray-900">生体価格：</span>
