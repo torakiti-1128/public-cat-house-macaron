@@ -78,7 +78,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
           <SwiperSlide key={index}>
             <div
               className="bg-gray-100 rounded-2xl shadow overflow-hidden"
-              style={{ height: '510px' }}
+              style={{ height: '610px' }}
             >
               <a onClick={() => handleViewDetails(kitten.kittenId)}>
                 <img
@@ -86,7 +86,7 @@ export const KittensSlideShow: React.FC<KittensSlideShowProps> = ({
                   src={kitten.imageUrl}
                   alt={kitten.kittenId.toString()}
                   style={{
-                    height: '350px',
+                    height: '450px',
                     objectFit: 'cover',
                     borderTopLeftRadius: '16px',
                     borderTopRightRadius: '16px',
