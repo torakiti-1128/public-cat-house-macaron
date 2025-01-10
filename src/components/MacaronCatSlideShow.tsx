@@ -4,33 +4,50 @@ import React from 'react'
 import macaronData from '../data/macaron.json'
 
 export const MacaronCatSlideShow: React.FC = () => {
-  const { images, animationDuration } = macaronData
+  const { images } = macaronData
 
   return (
-    <div className="relative overflow-hidden mt-10 w-full h-[200px]">
-      <div
-        className="flex w-full h-full animate-slide"
-        style={{
-          animationDuration: `${animationDuration}s`,
-        }}
-      >
-        {/* 繰り返す画像リスト */}
-        {[...images, ...images, ...images].map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Macaron Cat ${index + 1}`}
-            className="flex-shrink-0 mx-12 object-contain"
-            style={{
-              // PC時に画像サイズを制限するためのスタイル
-              width: `${100 / images.length}%`, // デフォルトの幅
-              height: '100%', // デフォルトの高さ
-              maxWidth: '${100 / images.length}%', // 最大幅を700pxに制限 (PC向け)
-              maxHeight: '400px', // 最大高さを500pxに制限 (PC向け)
-            }}
-          />
+    <div className="relative overflow-hidden w-full mt-10 h-[300px]">
+      <div className="slide-track">
+        {/* 画像リストを2倍にして無限ループを実現 */}
+        {[...images, ...images].map((image, index) => (
+          <div className="slide" key={index}>
+            <img
+              src={image}
+              alt={`Macaron Cat ${index + 1}`}
+              className="object-contain"
+              style={{
+                maxWidth: '400px',
+                maxHeight: '300px',
+              }}
+            />
+          </div>
         ))}
       </div>
+
+      {/* CSSスタイル */}
+      <style jsx>{`
+        .slide-track {
+          display: flex;
+          animation: scroll 60s linear infinite;
+          width: calc(400px * ${images.length * 2});
+        }
+
+        .slide {
+          flex: 0 0 auto; /* 各画像が均等に表示されるように */
+          width: 400px;
+          margin-right: 10px; /* 画像間のスペース */
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-400px * ${images.length}));
+          }
+        }
+      `}</style>
     </div>
   )
 }
