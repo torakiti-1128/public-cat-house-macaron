@@ -24,7 +24,7 @@ const Reservation: React.FC = () => {
                   {item.list.map((listItem, idx) => (
                     <li key={idx}>
                       {listItem}
-                      {listItem === "クレジットカード" && (
+                      {listItem === 'クレジットカード' && (
                         <span className="text-sm text-[#FF0000] ml-2">
                           （※決済手数料 0.3% 頂戴いたします）
                         </span>
