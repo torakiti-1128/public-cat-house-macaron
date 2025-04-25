@@ -2,11 +2,11 @@ package notification
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/smtp"
-	"strings"
 )
 
 // Gmailの設定
@@ -92,26 +92,25 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 
 // 問い合わせをLineに送信（Message API版）
 func (r *LineRepositoryImpl) SendChat(message string) error {
-	// JSONボディの作成
-	payload := fmt.Sprintf(`{
-		"to": "%s",
-		"messages": [
-			{
-				"type": "text",
-				"text": "%s"
-			}
-		]
-	}`, r.Config.LineUserId, message)
+	payload := LineMessage{
+		To: r.Config.LineUserId,
+		Messages: []TextMessage{
+			{Type: "text", Text: message},
+		},
+	}
 
-	// HTTPリクエスト作成
-	req, err := http.NewRequest("POST", r.Config.LineApiUrl, strings.NewReader(payload))
+	jsonBody, err := json.Marshal(payload)
+	if err != nil {
+		return fmt.Errorf("JSON変換失敗: %w", err)
+	}
+
+	req, err := http.NewRequest("POST", r.Config.LineApiUrl, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		return fmt.Errorf("リクエスト作成失敗: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+r.Config.ChannelAccessToken)
 
-	// リクエスト送信
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -119,7 +118,6 @@ func (r *LineRepositoryImpl) SendChat(message string) error {
 	}
 	defer resp.Body.Close()
 
-	// レスポンス確認
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("送信失敗: ステータスコード %d, レスポンス: %s", resp.StatusCode, string(body))
