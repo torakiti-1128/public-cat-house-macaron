@@ -19,8 +19,9 @@ type GmailConfig struct {
 
 // Lineの設定
 type LineConfig struct {
-	LineAPI         string
-	LineNotifyToken string
+	LineApiUrl         string
+	LineUserId         string
+	ChannelAccessToken string
 }
 
 // メール関連のAPIインターフェース
@@ -89,31 +90,39 @@ func (r *GmailRepositoryImpl) SendMail(to, subject, body string) error {
 	return nil
 }
 
-// 問い合わせをLineに送信
+// 問い合わせをLineに送信（Message API版）
 func (r *LineRepositoryImpl) SendChat(message string) error {
-	// メッセージ内容
-	formData := fmt.Sprintf("message=%s", message)
+	// JSONボディの作成
+	payload := fmt.Sprintf(`{
+		"to": "%s",
+		"messages": [
+			{
+				"type": "text",
+				"text": "%s"
+			}
+		]
+	}`, r.Config.LineUserId, message)
 
-	// HTTPリクエストの作成
-	req, err := http.NewRequest("POST", "https://notify-api.line.me/api/notify", strings.NewReader(formData))
+	// HTTPリクエスト作成
+	req, err := http.NewRequest("POST", r.Config.LineApiUrl, strings.NewReader(payload))
 	if err != nil {
-		return fmt.Errorf("HTTPリクエストの作成に失敗しました: %w", err)
+		return fmt.Errorf("リクエスト作成失敗: %w", err)
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Authorization", "Bearer "+r.Config.LineNotifyToken)
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+r.Config.ChannelAccessToken)
 
 	// リクエスト送信
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("通知送信中にエラーが発生しました: %w", err)
+		return fmt.Errorf("送信中にエラー発生: %w", err)
 	}
 	defer resp.Body.Close()
 
-	// レスポンスの確認
+	// レスポンス確認
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("LINE Notifyの送信に失敗しました: ステータスコード %d, レスポンス: %s", resp.StatusCode, string(body))
+		return fmt.Errorf("送信失敗: ステータスコード %d, レスポンス: %s", resp.StatusCode, string(body))
 	}
 
 	return nil
