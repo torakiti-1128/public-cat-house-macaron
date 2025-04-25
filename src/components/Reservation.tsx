@@ -28,7 +28,7 @@ const Reservation: React.FC = () => {
                         <>
                           <br />
                           <span className="text-sm text-[#FF0000] ml-2">
-                          ※クレジットカードの場合、決済手数料を「0.3%」頂戴いたします。
+                            ※クレジットカードの場合、決済手数料を「0.3%」頂戴いたします。
                           </span>
                         </>
                       )}
