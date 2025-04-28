@@ -20,21 +20,17 @@ const Reservation: React.FC = () => {
                 <p className="leading-relaxed mb-4">{item.content}</p>
               )}
               {item.list && (
-                <ul className="list-disc pl-6 space-y-2">
-                  {item.list.map((listItem, idx) => (
-                    <li key={idx}>
-                      {listItem}
-                      {listItem === 'クレジットカード' && (
-                        <>
-                          <br />
-                          <span className="text-sm text-[#FF0000] ml-2">
-                            ※クレジットカードの場合、決済手数料を「3%」頂戴いたします。
-                          </span>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <ul className="list-disc pl-6 space-y-2">
+                    {item.list.map((listItem, idx) => (
+                      <li key={idx}>
+                        {listItem}
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-sm text-[#FF0000] mt-4">※クレジットカードの場合、決済手数料を「3%」頂戴いたします。</p>
+                </>
               )}
               {item.note && (
                 <p className="text-sm text-[#FF0000]">{item.note}</p>
