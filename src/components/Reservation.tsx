@@ -24,7 +24,6 @@ const Reservation: React.FC = () => {
                   {item.list.map((listItem, idx) => (
                     <li key={idx}>
                       {listItem}
-                      )}
                     </li>
                   ))}
                 </ul>
