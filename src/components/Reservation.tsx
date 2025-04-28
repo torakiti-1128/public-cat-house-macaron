@@ -22,9 +22,7 @@ const Reservation: React.FC = () => {
               {item.list && (
                 <ul className="list-disc pl-6 space-y-2">
                   {item.list.map((listItem, idx) => (
-                    <li key={idx}>
-                      {listItem}
-                    </li>
+                    <li key={idx}>{listItem}</li>
                   ))}
                 </ul>
               )}
