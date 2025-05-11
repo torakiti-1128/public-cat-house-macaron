@@ -11,6 +11,8 @@ import { KittenDetailType, KittensType } from '@/types/types';
 import { ConfirmDialog, FormDialog, FullScreenDialog } from '../ui/Dialog';
 import { Box, CircularProgress, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { format } from 'date-fns';
+import ja from 'date-fns/locale/ja';
 import KittensAddForm from '../kittens/KittensAddForm';
 import {
     deleteKitten,
