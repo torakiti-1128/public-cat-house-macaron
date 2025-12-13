@@ -120,20 +120,32 @@ const Header: React.FC = () => {
           <p className="text-gray-400 text-sm">Life with a cat</p>
         </div>
       </div>
-
-      {/* モバイルメニュー */}
-      {isMenuOpen && (
+      {/* モバイルメニュー (スライド式) */}
+      <div
+        className={`fixed inset-0 z-50 flex transition-visibility duration-300 ${
+          isMenuOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+        }`}
+      >
+        {/* 背景の黒透かし (フェードイン・アウト) */}
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className={`absolute inset-0 bg-black transition-opacity duration-300 ease-in-out ${
+            isMenuOpen ? 'opacity-50' : 'opacity-0'
+          }`}
           onClick={toggleMenu}
+        />
+
+        {/* 左から出てくるメニュー本体 (スライドイン・アウト) */}
+        <div
+          className={`relative bg-white h-full w-3/4 max-w-sm shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out ${
+            isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-sm"
-            onClick={(e) => e.stopPropagation()}
-          >
+          {/* 閉じるボタン */}
+          <div className="flex justify-end p-4">
             <button
               onClick={toggleMenu}
-              className="absolute top-4 right-4 text-black focus:outline-none"
+              className="text-black focus:outline-none hover:bg-gray-100 rounded-full p-2 transition"
             >
               <svg
                 className="w-6 h-6"
@@ -150,34 +162,52 @@ const Header: React.FC = () => {
                 />
               </svg>
             </button>
-            <ul className="space-y-6 max-h-[90vh] overflow-y-auto">
-              {navigationData.categories.map((category, categoryIndex) => (
-                <div key={categoryIndex} className="space-y-3">
-                  {/* タイトル部分 */}
-                  <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
-                    {category.title}
-                  </h1>
+          </div>
 
-                  {/* リンク部分 */}
-                  <ul className="space-y-2 pl-4">
-                    {category.links.map((link, linkIndex) => (
-                      <li key={linkIndex}>
-                        <a
-                          href={link.href}
-                          className="block text-gray-700 hover:text-blue-500 transition-all duration-300 text-left"
-                        >
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </ul>
+          {/* メニューリスト (スクロール可能エリア) */}
+          <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-6">
+            
+            {/* モバイル用ホームリンク (追加推奨) */}
+            <div className="space-y-3">
+              <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
+                Main
+              </h1>
+              <ul className="space-y-2 pl-4">
+                <li>
+                  <a
+                    href="/"
+                    className="block text-gray-700 hover:text-blue-500 transition-all duration-300 text-left"
+                  >
+                    ホーム
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* カテゴリー別リンク */}
+            {navigationData.categories.map((category, categoryIndex) => (
+              <div key={categoryIndex} className="space-y-3">
+                <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
+                  {category.title}
+                </h1>
+                <ul className="space-y-2 pl-4">
+                  {category.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <a
+                        href={link.href}
+                        className="block text-gray-700 hover:text-blue-500 transition-all duration-300 text-left"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
-      )}
-    </header>
+      </div>
+      </header>
   )
 }
 
