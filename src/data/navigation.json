@@ -3,7 +3,6 @@
     {
       "title": "猫舎情報",
       "links": [
-        { "label": "ホーム", "href": "/" },
         { "label": "Cat House Macaronについて", "href": "/about" },
         { "label": "猫舎の紹介", "href": "/house" },
         { "label": "お問い合わせ", "href": "/inquiry" },
