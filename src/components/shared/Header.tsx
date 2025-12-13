@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import navigationData from '@/data/navigation.json' // JSONファイルをインポート
+import navigationData from '@/data/navigation.json'
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -14,14 +14,14 @@ const Header: React.FC = () => {
 
   const handleMouseEnter = (index: number) => {
     if (timeoutId) {
-      clearTimeout(timeoutId) // 既存のタイムアウトをキャンセル
+      clearTimeout(timeoutId)
     }
     setOpenIndex(index)
   }
 
   const handleMouseLeave = () => {
     const id = setTimeout(() => {
-      setOpenIndex(null) // 2秒後に閉じる
+      setOpenIndex(null)
     }, 1000)
     setTimeoutId(id)
   }
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
         </nav>
       </div>
 
-      {/* モバイル画面 */}
+      {/* モバイル画面ヘッダー */}
       <div className="md:hidden flex items-center justify-between w-full mt-5 mb-6 px-4">
         <button
           onClick={toggleMenu}
@@ -120,13 +120,16 @@ const Header: React.FC = () => {
           <p className="text-gray-400 text-sm">Life with a cat</p>
         </div>
       </div>
+
       {/* モバイルメニュー (スライド式) */}
       <div
         className={`fixed inset-0 z-50 flex transition-visibility duration-300 ${
-          isMenuOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+          isMenuOpen
+            ? 'visible pointer-events-auto'
+            : 'invisible pointer-events-none'
         }`}
       >
-        {/* 背景の黒透かし (フェードイン・アウト) */}
+        {/* 背景の黒透かし */}
         <div
           className={`absolute inset-0 bg-black transition-opacity duration-300 ease-in-out ${
             isMenuOpen ? 'opacity-50' : 'opacity-0'
@@ -134,7 +137,7 @@ const Header: React.FC = () => {
           onClick={toggleMenu}
         />
 
-        {/* 左から出てくるメニュー本体 (スライドイン・アウト) */}
+        {/* 左から出てくるメニュー本体 */}
         <div
           className={`relative bg-white h-full w-3/4 max-w-sm shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out ${
             isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -164,10 +167,8 @@ const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* メニューリスト (スクロール可能エリア) */}
+          {/* メニューリスト */}
           <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-6">
-            
-            {/* モバイル用ホームリンク (追加推奨) */}
             <div className="space-y-3">
               <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
                 Main
@@ -184,7 +185,6 @@ const Header: React.FC = () => {
               </ul>
             </div>
 
-            {/* カテゴリー別リンク */}
             {navigationData.categories.map((category, categoryIndex) => (
               <div key={categoryIndex} className="space-y-3">
                 <h1 className="text-lg font-semibold text-black border-b border-gray-300 pb-2">
@@ -207,7 +207,7 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
-      </header>
+    </header>
   )
 }
 
