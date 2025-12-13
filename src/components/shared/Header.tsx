@@ -171,7 +171,7 @@ const Header: React.FC = () => {
           <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-6">
             <div className="space-y-3">
               <h1 className="text-2xl font-semibold text-black border-b border-gray-300 pb-2">
-                メニュー
+                Menu
               </h1>
               <ul className="space-y-2 pl-4">
                 <li>
