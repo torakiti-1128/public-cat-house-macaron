@@ -9,11 +9,9 @@ func CORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// オリジンを取得
 		origin := r.Header.Get("Origin")
-		if 
-		origin == "https://cat-house-macaron.jp" || 
-		origin == "https://www.cat-house-macaron.jp" || 
-		origin == "https://cat-house-macaron-management.vercel.app" ||
-		origin == "http://localhost:3000" {
+		if
+		 origin == "https://cat-house-macaron.vercel.app" ||
+		 origin == "http://localhost:3000" {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 		}
 
